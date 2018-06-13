@@ -10,10 +10,10 @@
 
   <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
 
-    <c:if test="${ not empty user }">
+    <c:if test="${ empty user }">
       <div>
         <form id="form-nav" action="user-login" method="post" class="form-inline">
-          <input type="email" name="id" class="form-control form-control-sm" placeholder="メールアドレス">
+          <input type="email" name="id" class="form-control form-control-sm" placeholder="ログインID">
           <input type="password" name="password" class="form-control form-control-sm" placeholder="パスワード">
           <input type="hidden" name="uri" value="${ requestScope.uri }">
           <button type="submit" class="btn btn-outline-primary btn-sm">ログイン</button>
@@ -21,7 +21,7 @@
       </div>
     </c:if>
 
-    <c:if test="${ empty user }">
+    <c:if test="${ not empty user }">
         <div class="navbar-text small mr-3 text-danger"><c:out value="${ navbarMessage }" /></div>
 
         <div class="dropdown">
