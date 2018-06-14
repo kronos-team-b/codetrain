@@ -4,7 +4,7 @@ public class CourseDto {
 
 	private int courseId;
 	
-    private String courseName;
+	private String courseName;
 	
 	private String overview;
 	
