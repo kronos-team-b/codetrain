@@ -6,16 +6,6 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <title>初期パスワード変更</title>
   <%@ include file="header.jsp"%>
-  <style type="text/css">
-    .success-or-failure {
-      border-radius: 30px;
-      padding: 3px 9px;
-      font-size: 15px;
-    }
-    .form-center {
-      text-align: center;
-    }
-  </style>
 </head>
 <body>
   <%@ include file="user-navbar.jsp"%>
