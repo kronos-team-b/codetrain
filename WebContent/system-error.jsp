@@ -8,7 +8,7 @@
     <%@ include file="WEB-INF/header.jsp"%>
   </head>
   <body>
-    <%@ include file="WEB-INF/navbar.jsp"%>
+    <%@ include file="WEB-INF/user-navbar.jsp"%>
     <div class="container">
       <div class="row">
         <div class="col-sm-2"></div>
