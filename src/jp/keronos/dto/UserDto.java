@@ -1,87 +1,97 @@
 package jp.keronos.dto;
 
 public class UserDto {
-	
-	private int userId;
-	
-	private String password;
-	
-	private String lastName;
-	
-	private String firstName;
-	
-	private int activeFlg;
-	
-	private int corporateId;
-	
-	private int updateNumber;
-	
-	private int deleteFlg;
-	
-	public int getUserId() {
-		return userId;
-	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
+    private int userNo;
 
-	public String getPassword() {
-		return password;
-	}
+    private String userId;
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    private String password;
 
-	public String getLastName() {
-		return lastName;
-	}
+    private String lastName;
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    private String firstName;
 
-	public String getFirstName() {
-		return firstName;
-	}
+    private int activeFlg;
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    private int corporateId;
 
-	public int getActiveFlg() {
-		return activeFlg;
-	}
+    private int updateNumber;
 
-	public void setActiveFlg(int activeFlg) {
-		this.activeFlg = activeFlg;
-	}
+    private int deleteFlg;
 
-	public int getCorporateId() {
-		return corporateId;
-	}
+    public int getUserNo() {
+        return userNo;
+    }
 
-	public void setCorporateId(int corporateId) {
-		this.corporateId = corporateId;
-	}
+    public void setUserNo(int userNo) {
+        this.userNo = userNo;
+    }
 
-	public int getUpdateNumber() {
-		return updateNumber;
-	}
+    public String getUserId() {
+        return userId;
+    }
 
-	public void setUpdateNumber(int updateNumber) {
-		this.updateNumber = updateNumber;
-	}
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
-	public int getDeleteFlg() {
-		return deleteFlg;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public void setDeleteFlg(int deleteFlg) {
-		this.deleteFlg = deleteFlg;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public int getActiveFlg() {
+        return activeFlg;
+    }
+
+    public void setActiveFlg(int activeFlg) {
+        this.activeFlg = activeFlg;
+    }
+
+    public int getCorporateId() {
+        return corporateId;
+    }
+
+    public void setCorporateId(int corporateId) {
+        this.corporateId = corporateId;
+    }
+
+    public int getUpdateNumber() {
+        return updateNumber;
+    }
+
+    public void setUpdateNumber(int updateNumber) {
+        this.updateNumber = updateNumber;
+    }
+
+    public int getDeleteFlg() {
+        return deleteFlg;
+    }
+
+    public void setDeleteFlg(int deleteFlg) {
+        this.deleteFlg = deleteFlg;
+    }
+
+
 
 }

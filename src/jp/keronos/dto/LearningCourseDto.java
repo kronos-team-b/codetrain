@@ -4,54 +4,53 @@ import java.sql.Timestamp;
 
 public class LearningCourseDto {
 
-	private int courseId;
-	
-	private String userId;
-	
-	private int learnigType;
-	
-	private int passFlg;
-	
-	private Timestamp updateAt;
+    private int courseId;
 
-	public int getCourseId() {
-		return courseId;
-	}
+    private int userNo;
 
-	public void setCourseId(int courseId) {
-		this.courseId = courseId;
-	}
+    private int learnigType;
 
-	public String getUserId() {
-		return userId;
-	}
+    private int passFlg;
 
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
+    private Timestamp updateAt;
 
-	public int getLearnigType() {
-		return learnigType;
-	}
+    public int getCourseId() {
+        return courseId;
+    }
 
-	public void setLearnigType(int learnigType) {
-		this.learnigType = learnigType;
-	}
+    public void setCourseId(int courseId) {
+        this.courseId = courseId;
+    }
 
-	public int getPassFlg() {
-		return passFlg;
-	}
+    public int getUserNo() {
+        return userNo;
+    }
 
-	public void setPassFlg(int passFlg) {
-		this.passFlg = passFlg;
-	}
+    public void setUserNo(int userNo) {
+        this.userNo = userNo;
+    }
 
-	public Timestamp getUpdateAt() {
-		return updateAt;
-	}
+    public int getLearnigType() {
+        return learnigType;
+    }
 
-	public void setUpdateAt(Timestamp updateAt) {
-		this.updateAt = updateAt;
-	}
-	
+    public void setLearnigType(int learnigType) {
+        this.learnigType = learnigType;
+    }
+
+    public int getPassFlg() {
+        return passFlg;
+    }
+
+    public void setPassFlg(int passFlg) {
+        this.passFlg = passFlg;
+    }
+
+    public Timestamp getUpdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(Timestamp updateAt) {
+        this.updateAt = updateAt;
+    }
 }

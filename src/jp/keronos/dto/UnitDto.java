@@ -1,75 +1,74 @@
 package jp.keronos.dto;
 
 public class UnitDto {
-	
-	private int unitId;
-	
-	private String unitTitle;
-	
-	private String unitText;
-	
-	private int courseId;
-	
-	private int updateNumber;
-	
-	private String manageId;
-	
-	private int deleteFlg;
 
-	public int getUnitId() {
-		return unitId;
-	}
+    private int unitId;
 
-	public void setUnitId(int unitId) {
-		this.unitId = unitId;
-	}
+    private String unitTitle;
 
-	public String getUnitTitle() {
-		return unitTitle;
-	}
+    private String unitText;
 
-	public void setUnitTitle(String unitTitle) {
-		this.unitTitle = unitTitle;
-	}
+    private int courseId;
 
-	public String getUnitText() {
-		return unitText;
-	}
+    private int updateNumber;
 
-	public void setUnitText(String unitText) {
-		this.unitText = unitText;
-	}
+    private int manageNo;
 
-	public int getCourseId() {
-		return courseId;
-	}
+    private int deleteFlg;
 
-	public void setCourseId(int courseId) {
-		this.courseId = courseId;
-	}
+    public int getUnitId() {
+        return unitId;
+    }
 
-	public int getUpdateNumber() {
-		return updateNumber;
-	}
+    public void setUnitId(int unitId) {
+        this.unitId = unitId;
+    }
 
-	public void setUpdateNumber(int updateNumber) {
-		this.updateNumber = updateNumber;
-	}
+    public String getUnitTitle() {
+        return unitTitle;
+    }
 
-	public String getManageId() {
-		return manageId;
-	}
+    public void setUnitTitle(String unitTitle) {
+        this.unitTitle = unitTitle;
+    }
 
-	public void setManageId(String manageId) {
-		this.manageId = manageId;
-	}
+    public String getUnitText() {
+        return unitText;
+    }
 
-	public int getDeleteFlg() {
-		return deleteFlg;
-	}
+    public void setUnitText(String unitText) {
+        this.unitText = unitText;
+    }
 
-	public void setDeleteFlg(int deleteFlg) {
-		this.deleteFlg = deleteFlg;
-	}
+    public int getCourseId() {
+        return courseId;
+    }
 
+    public void setCourseId(int courseId) {
+        this.courseId = courseId;
+    }
+
+    public int getUpdateNumber() {
+        return updateNumber;
+    }
+
+    public void setUpdateNumber(int updateNumber) {
+        this.updateNumber = updateNumber;
+    }
+
+    public int getManageNo() {
+        return manageNo;
+    }
+
+    public void setManageNo(int manageNo) {
+        this.manageNo = manageNo;
+    }
+
+    public int getDeleteFlg() {
+        return deleteFlg;
+    }
+
+    public void setDeleteFlg(int deleteFlg) {
+        this.deleteFlg = deleteFlg;
+    }
 }

@@ -2,54 +2,53 @@ package jp.keronos.dto;
 
 public class UserUnitTestAnswerDto {
 
-	private int userCourseTestAnswerId;
-	
-	private int userId;
-	
-	private String answer;
-	
-	private int testID;
-	
-	private int courseId;
+    private int userUnitTestAnswerId;
 
-	public int getUserCourseTestAnswerId() {
-		return userCourseTestAnswerId;
-	}
+    private int userNo;
 
-	public void setUserCourseTestAnswerId(int userCourseTestAnswerId) {
-		this.userCourseTestAnswerId = userCourseTestAnswerId;
-	}
+    private String userAnswer;
 
-	public int getUserId() {
-		return userId;
-	}
+    private int testId;
 
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
+    private int unitId;
 
-	public String getAnswer() {
-		return answer;
-	}
+    public int getUserUnitTestAnswerId() {
+        return userUnitTestAnswerId;
+    }
 
-	public void setAnswer(String answer) {
-		this.answer = answer;
-	}
+    public void setUserUnitTestAnswerId(int userUnitTestAnswerId) {
+        this.userUnitTestAnswerId = userUnitTestAnswerId;
+    }
 
-	public int getTestID() {
-		return testID;
-	}
+    public int getUserNo() {
+        return userNo;
+    }
 
-	public void setTestID(int testID) {
-		this.testID = testID;
-	}
+    public void setUserNo(int userNo) {
+        this.userNo = userNo;
+    }
 
-	public int getCourseId() {
-		return courseId;
-	}
+    public String getUserAnswer() {
+        return userAnswer;
+    }
 
-	public void setCourseId(int courseId) {
-		this.courseId = courseId;
-	}
-	
+    public void setUserAnswer(String userAnswer) {
+        this.userAnswer = userAnswer;
+    }
+
+    public int getTestId() {
+        return testId;
+    }
+
+    public void setTestId(int testId) {
+        this.testId = testId;
+    }
+
+    public int getUnitId() {
+        return unitId;
+    }
+
+    public void setUnitId(int unitId) {
+        this.unitId = unitId;
+    }
 }
