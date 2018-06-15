@@ -1,101 +1,104 @@
 package jp.keronos.dto;
 
 public class UnitTestDto {
-	
-	private int testId;
-	
-	private String testTitle;
-	
-	private int answerTypeFlg;
-	
-	private String testContent;
-	
-	private String modelAnswer;
-	
-	private int unitId;
-	
-	private int courseId;
-	
-	private int updateNumber;
-	
-	private String manageId;
-	
-	private int deleteFlg;
 
-	public int getTestId() {
-		return testId;
-	}
+    private int testId;
 
-	public void setTestId(int testId) {
-		this.testId = testId;
-	}
+    private String testTitle;
 
-	public String getTestContent() {
-		return testContent;
-	}
+    private int answerTypeFlg;
 
-	public void setTestContent(String testContent) {
-		this.testContent = testContent;
-	}
+    private String testContent;
 
-	public String getModelAnswer() {
-		return modelAnswer;
-	}
+    private String modelAnswer;
 
-	public void setModelAnswer(String modelAnswer) {
-		this.modelAnswer = modelAnswer;
-	}
+    private int unitId;
 
-	public int getUnitId() {
-		return unitId;
-	}
+    private int courseId;
 
-	public void setUnitId(int unitId) {
-		this.unitId = unitId;
-	}
+    private int updateNumber;
 
-	public int getCourseId() {
-		return courseId;
-	}
+    private int manageNo;
 
-	public void setCourseId(int courseId) {
-		this.courseId = courseId;
-	}
+    private int deleteFlg;
 
-	public int getUpdateNumber() {
-		return updateNumber;
-	}
+    public int getTestId() {
+        return testId;
+    }
 
-	public void setUpdateNumber(int updateNumber) {
-		this.updateNumber = updateNumber;
-	}
+    public void setTestId(int testId) {
+        this.testId = testId;
+    }
 
-	public int getDeleteFlg() {
-		return deleteFlg;
-	}
+    public String getTestTitle() {
+        return testTitle;
+    }
 
-	public void setDeleteFlg(int deleteFlg) {
-		this.deleteFlg = deleteFlg;
-	}
+    public void setTestTitle(String testTitle) {
+        this.testTitle = testTitle;
+    }
 
-	public String getTestTitle() {
-		return testTitle;
-	}
+    public int getAnswerTypeFlg() {
+        return answerTypeFlg;
+    }
 
-	public void setTestTitle(String testTitle) {
-		this.testTitle = testTitle;
-	}
+    public void setAnswerTypeFlg(int answerTypeFlg) {
+        this.answerTypeFlg = answerTypeFlg;
+    }
 
-	public int getAnswerTypeFlg() {
-		return answerTypeFlg;
-	}
+    public String getTestContent() {
+        return testContent;
+    }
 
-	public void setAnswerTypeFlg(int answerTypeFlg) {
-		this.answerTypeFlg = answerTypeFlg;
-	}
+    public void setTestContent(String testContent) {
+        this.testContent = testContent;
+    }
 
-	public void setManageId(String manageId) {
-		this.manageId = manageId;
-	}
-	
+    public String getModelAnswer() {
+        return modelAnswer;
+    }
+
+    public void setModelAnswer(String modelAnswer) {
+        this.modelAnswer = modelAnswer;
+    }
+
+    public int getUnitId() {
+        return unitId;
+    }
+
+    public void setUnitId(int unitId) {
+        this.unitId = unitId;
+    }
+
+    public int getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(int courseId) {
+        this.courseId = courseId;
+    }
+
+    public int getUpdateNumber() {
+        return updateNumber;
+    }
+
+    public void setUpdateNumber(int updateNumber) {
+        this.updateNumber = updateNumber;
+    }
+
+    public int getManageNo() {
+        return manageNo;
+    }
+
+    public void setManageNo(int manageNo) {
+        this.manageNo = manageNo;
+    }
+
+    public int getDeleteFlg() {
+        return deleteFlg;
+    }
+
+    public void setDeleteFlg(int deleteFlg) {
+        this.deleteFlg = deleteFlg;
+    }
 }

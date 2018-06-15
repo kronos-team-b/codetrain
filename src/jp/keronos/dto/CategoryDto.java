@@ -2,25 +2,23 @@ package jp.keronos.dto;
 
 public class CategoryDto {
 
-	private int category;
-	
-	private String categoryName;
-	
-	public int getCategory() {
-		return category;
-	}
+    private int categoryId;
 
-	public void setCategory(int category) {
-		this.category = category;
-	}
+    private String categoryName;
 
-	public String getCategoryName() {
-		return categoryName;
-	}
+    public int getCategoryId() {
+        return categoryId;
+    }
 
-	public void setCategoryName(String categoryName) {
-		this.categoryName = categoryName;
-	}
-	
-	
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
 }

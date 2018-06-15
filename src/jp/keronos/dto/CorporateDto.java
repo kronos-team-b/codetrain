@@ -2,124 +2,134 @@ package jp.keronos.dto;
 
 public class CorporateDto {
 
-	private int corporateId;
-	
-	private String passsword;
-	
-	private String corporateName; 
-	
-	private String firstName;
-	
-	private String lastName;
-	
-	private String position;
-	
-	private String department;
-	
-	private String postalCode;
-	
-	private String address;
-	
-	private String email;
-	
-	private String domain;
-	
-	private int manageId;
+    private int corporateNo;
 
-	public int getCorporateId() {
-		return corporateId;
-	}
+    private String corporateId;
 
-	public void setCorporateId(int corporateId) {
-		this.corporateId = corporateId;
-	}
+    private String passsword;
 
-	public String getPasssword() {
-		return passsword;
-	}
+    private String corporateName;
 
-	public void setPasssword(String passsword) {
-		this.passsword = passsword;
-	}
+    private String firstName;
 
-	public String getCorporateName() {
-		return corporateName;
-	}
+    private String lastName;
 
-	public void setCorporateName(String corporateName) {
-		this.corporateName = corporateName;
-	}
+    private String position;
 
-	public String getFirstName() {
-		return firstName;
-	}
+    private String department;
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    private String postalCode;
 
-	public String getLastName() {
-		return lastName;
-	}
+    private String address;
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    private String email;
 
-	public String getPosition() {
-		return position;
-	}
+    private String domain;
 
-	public void setPosition(String position) {
-		this.position = position;
-	}
+    private int manageId;
 
-	public String getDepartment() {
-		return department;
-	}
+    public int getCorporateNo() {
+        return corporateNo;
+    }
 
-	public void setDepartment(String department) {
-		this.department = department;
-	}
+    public void setCorporateNo(int corporateNo) {
+        this.corporateNo = corporateNo;
+    }
 
-	public String getPostalCode() {
-		return postalCode;
-	}
+    public String getCorporateId() {
+        return corporateId;
+    }
 
-	public void setPostalCode(String postalCode) {
-		this.postalCode = postalCode;
-	}
+    public void setCorporateId(String corporateId) {
+        this.corporateId = corporateId;
+    }
 
-	public String getAddress() {
-		return address;
-	}
+    public String getPasssword() {
+        return passsword;
+    }
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
+    public void setPasssword(String passsword) {
+        this.passsword = passsword;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public String getCorporateName() {
+        return corporateName;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setCorporateName(String corporateName) {
+        this.corporateName = corporateName;
+    }
 
-	public String getDomain() {
-		return domain;
-	}
+    public String getFirstName() {
+        return firstName;
+    }
 
-	public void setDomain(String domain) {
-		this.domain = domain;
-	}
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-	public int getManageId() {
-		return manageId;
-	}
+    public String getLastName() {
+        return lastName;
+    }
 
-	public void setManageId(int manageId) {
-		this.manageId = manageId;
-	}
-	
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getDomain() {
+        return domain;
+    }
+
+    public void setDomain(String domain) {
+        this.domain = domain;
+    }
+
+    public int getManageId() {
+        return manageId;
+    }
+
+    public void setManageId(int manageId) {
+        this.manageId = manageId;
+    }
+
 }
