@@ -42,7 +42,6 @@ public class ContactDao {
         sb.append("         ,CONTACT_AT");
         sb.append("         ,REQUEST_OR_RESPONSE_FLG");
         sb.append("         ,MANAGE_NO");
-        sb.append("         ,USER_NO");
         sb.append("     from CONTACT_DETAIL");
         sb.append("    where CONTACT_ID = ?");
         sb.append(" order by CONTACT_DETAIL_ID");
@@ -64,11 +63,9 @@ public class ContactDao {
                 dto.setContactAt(rs.getTimestamp("CONTACT_AT"));
                 dto.setRequestOrResponseFlg(rs.getInt("REQUEST_OR_RESPONSE_FLG"));
                 dto.setManageNo(rs.getInt("MANAGE_NO"));
-                dto.setUserNo(rs.getInt("USER_NO"));
                 list.add(dto);
             }
             return list;
         }
     }
-
 }

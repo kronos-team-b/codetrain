@@ -67,7 +67,9 @@ public class ViewRequestServlet extends HttpServlet {
         // フォームのデータを取得する
         ContactDto dto = new ContactDto();
         request.setCharacterEncoding("UTF-8");
+
         int contactId = Integer.parseInt(request.getParameter("contactId"));
+
         dto.setContactId(contactId);
         dto.setUserNo(user.getUserNo());
 
@@ -87,7 +89,7 @@ public class ViewRequestServlet extends HttpServlet {
             request.setAttribute("uri", request.getRequestURI());
 
             // コンタクト詳細表に遷移する
-            request.getRequestDispatcher("view-request-detail.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/view-request-detail.jsp").forward(request, response);
 
         } catch (SQLException | NamingException e) {
 
@@ -96,6 +98,5 @@ public class ViewRequestServlet extends HttpServlet {
             // システムエラー画面に遷移する
             request.getRequestDispatcher("system-error.jsp").forward(request, response);
         }
-
     }
 }

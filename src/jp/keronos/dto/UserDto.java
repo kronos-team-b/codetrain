@@ -91,7 +91,4 @@ public class UserDto {
     public void setDeleteFlg(int deleteFlg) {
         this.deleteFlg = deleteFlg;
     }
-
-
-
 }
