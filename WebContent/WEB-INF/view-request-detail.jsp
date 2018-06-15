@@ -13,10 +13,10 @@
     <script type="text/javascript" src="jquery.highlight-5.js"></script>
     <!-- BootstrapのJS読み込み -->
     <script src="js/bootstrap.min.js"></script>
-    <%@ include file="/header.jsp"%>
+    <%@ include file="header.jsp"%>
   </head>
   <body>
-    <%@ include file="/user-navbar.jsp"%>
+    <%@ include file="user-navbar.jsp"%>
     <div class="container">
       <div class="row">
         <div class="mx-auto text-primary">&nbsp;<c:out value="${ message }" /></div>
@@ -26,19 +26,18 @@
         <div class="col-12">
           <p class="h4 mt-3 mb-5 p-3 text-info border-bottom">リクエスト詳細</p>
           <c:forEach items="${ contactDetailList }" var="dto" varStatus="status">
-          <div class="panel panel-info" style="padding: 10px; margin-bottom: 10px; border: 1px
-             dotted #333333; border-radius: 5px; background-color: #ffffff;">
-                <div class="panel-heading ">
-                  <c:if test="${ dto.RequestOrResponseFlg eq 0}">
-                      <h5>お客様</h5>
-                  </c:if>
+            <div class="panel panel-info" style="padding: 10px; margin-bottom: 10px; border: 1px">
+              <div class="panel-heading ">
+                <c:if test="${ dto.RequestOrResponseFlg eq 0}">
+                  <h5>お客様</h5>
+                </c:if>
                   <c:if test="${ dto.RequestOrResponseFlg eq 1}">
-                      <h5>運営</h5>
+                    <h5>運営</h5>
                   </c:if>
                 </div>
-                <div class="panel-body">
-                    <c:out value="${ dto.contactDetail}" />
-                </div>
+              <div class="panel-body">
+                <c:out value="${ dto.contactDetail}" />
+              </div>
             </div>
           </c:forEach>
         </div>
