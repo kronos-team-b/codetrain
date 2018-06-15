@@ -31,9 +31,9 @@
                 <c:if test="${ dto.RequestOrResponseFlg eq 0}">
                   <h5>お客様</h5>
                 </c:if>
-                  <c:if test="${ dto.RequestOrResponseFlg eq 1}">
-                    <h5>運営</h5>
-                  </c:if>
+                <c:if test="${ dto.RequestOrResponseFlg eq 1}">
+                  <h5>運営</h5>
+                </c:if>
                 </div>
               <div class="panel-body">
                 <c:out value="${ dto.contactDetail}" />
