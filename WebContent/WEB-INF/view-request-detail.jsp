@@ -13,10 +13,10 @@
     <script type="text/javascript" src="jquery.highlight-5.js"></script>
     <!-- BootstrapのJS読み込み -->
     <script src="js/bootstrap.min.js"></script>
-    <%@ include file="/WEB-INF/header.jsp"%>
+    <%@ include file="/header.jsp"%>
   </head>
   <body>
-    <%@ include file="/WEB-INF/user-navbar.jsp"%>
+    <%@ include file="/user-navbar.jsp"%>
     <div class="container">
       <div class="row">
         <div class="mx-auto text-primary">&nbsp;<c:out value="${ message }" /></div>
@@ -24,16 +24,16 @@
 
       <div class="row">
         <div class="col-12">
-          <p class="h4 mt-3 p-3 bg-light text-info rounded">ナレッジ一覧</p>
+          <p class="h4 mt-3 mb-5 p-3 text-info border-bottom">リクエスト詳細</p>
           <c:forEach items="${ contactDetailList }" var="dto" varStatus="status">
           <div class="panel panel-info" style="padding: 10px; margin-bottom: 10px; border: 1px
-             dotted #333333; border-radius: 5px; background-color: #f9f9ff;">
+             dotted #333333; border-radius: 5px; background-color: #ffffff;">
                 <div class="panel-heading ">
                   <c:if test="${ dto.RequestOrResponseFlg eq 0}">
-                      お客様
+                      <h5>お客様</h5>
                   </c:if>
                   <c:if test="${ dto.RequestOrResponseFlg eq 1}">
-                      運営
+                      <h5>運営</h5>
                   </c:if>
                 </div>
                 <div class="panel-body">
@@ -43,10 +43,8 @@
           </c:forEach>
         </div>
       </div>
-
       <div class="row">
         <div class="col-12">
-          <p class="h4 mt-3 mb-5 p-3 text-info border-bottom">リクエスト詳細</p>
           <div class="col-sm-8 offset-sm-2">
             <form acrion="add-request" method="post">
               <div class="form-group row">
