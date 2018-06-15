@@ -27,10 +27,10 @@ public class UserDao {
      * @return 利用者情報
      * @throws SQLException SQL例外
      */
-    public UserDto findByNoAndPassword(int no, String password) throws SQLException {
+    public UserDto findByIdAndPassword(String id, String password) throws SQLException {
 
         //SQL文を作成する
-           StringBuffer sb = new StringBuffer();
+        StringBuffer sb = new StringBuffer();
         sb.append(" select");
         sb.append("        USER_NO");
         sb.append("        USER_ID");
@@ -42,14 +42,14 @@ public class UserDao {
         sb.append("       ,UPDATE_NUMBER");
         sb.append("       ,DELETE_FLG");
         sb.append("   from USER");
-        sb.append("  where USER_NO = ?");
+        sb.append("  where USER_ID = ?");
         sb.append("    and PASSWORD = sha2(?, 256)");
         sb.append("    and DELETE_FLG = 0");
 
         // ステートメントオブジェクトを作成する
         try (PreparedStatement ps = conn.prepareStatement(sb.toString())) {
             // プレースホルダーに値をセットする
-            ps.setInt(1, no);
+            ps.setString(1, id);
             ps.setString(2, password);
 
             // SQLを実行する
