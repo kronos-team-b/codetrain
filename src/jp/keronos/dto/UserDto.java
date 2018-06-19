@@ -14,7 +14,7 @@ public class UserDto {
 
     private int activeFlg;
 
-    private int corporateId;
+    private int corporate;
 
     private int updateNumber;
 
@@ -68,12 +68,12 @@ public class UserDto {
         this.activeFlg = activeFlg;
     }
 
-    public int getCorporateId() {
-        return corporateId;
+    public int getCorporateNo() {
+        return corporateNo;
     }
 
-    public void setCorporateId(int corporateId) {
-        this.corporateId = corporateId;
+    public void setCorporateNo(int corporateNo) {
+        this.corporateNo = corporateNo;
     }
 
     public int getUpdateNumber() {
