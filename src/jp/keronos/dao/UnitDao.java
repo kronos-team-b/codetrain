@@ -29,14 +29,13 @@ public class UnitDao {
         sb.append("         UNIT_ID");
         sb.append("        ,UNIT_TITLE");
         sb.append("        ,UNIT_TEXT");
-        sb.append("        ,UNIT.COURSE_ID");
-        sb.append("        ,UNIT.UPDATE_NUMBER");
-        sb.append("        ,UNIT.MANAGE_NO");
-        sb.append("        ,UNIT.DELETE_FLG");
+        sb.append("        ,COURSE_ID");
+        sb.append("        ,UPDATE_NUMBER");
+        sb.append("        ,MANAGE_NO");
+        sb.append("        ,DELETE_FLG");
         sb.append("        ,COURSE_NAME");
         sb.append("    from");
-        sb.append("         UNIT LEFT JOIN COURSE");
-        sb.append("     on UNIT.COURSE_ID = COURSE.COURSE_ID");
+        sb.append("         UNIT");
         sb.append("   where");
         sb.append("         UNIT_ID = ?");
         sb.append("    and  UNIT.DELETE_FLG = 0;");
@@ -54,7 +53,6 @@ public class UnitDao {
                 dto.setUnitTitle(rs.getString("UNIT_TITILE"));
                 dto.setUnitText(rs.getString("UNIT_TEXT"));
                 dto.setCourseId(rs.getInt("COURSE_ID"));
-                dto.setCourseName(rs.getString("COURSE_NAME"));
                 dto.setUpdateNumber(rs.getInt("UPDATE_NUMBER"));
                 dto.setManageNo(rs.getInt("MANAGE_NO"));
                 dto.setDeleteFlg(rs.getInt("DELETE_FLG"));

@@ -10,11 +10,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import jp.keronos.dao.CourseDao;
 import jp.keronos.dao.UnitDao;
+import jp.keronos.dto.CourseDto;
 import jp.keronos.dto.UnitDto;
 import jp.keronos.DataSourceManager;
 
@@ -46,18 +49,33 @@ public class ViewUnitServlet extends HttpServlet {
         logger.info("start:{}", Thread.currentThread().getStackTrace()[1].getMethodName());
 
         // フォームのデータ（カリキュラムID）を取得する
-        UnitDto dto = new UnitDto();
+        UnitDto unitDto = new UnitDto();
+        CourseDto courseDto = new CourseDto();
         request.setCharacterEncoding("UTF-8");
-        dto.setUnitId(Integer.parseInt(request.getParameter("knowledgeId")));
+        unitDto.setUnitId(Integer.parseInt(request.getParameter("unitId")));
 
         // コネクションを取得する
         try (Connection conn = DataSourceManager.getConnection()) {
 
             //カリキュラムIDに紐づくカリキュラム情報リストを取得すし、リクエストスコープにナレッジ情報リストを保持する
             UnitDao dao = new UnitDao(conn);
-            dto = dao.selectByUnitId(dto);
+            unitDto = dao.selectByUnitId(unitDto);
 
-            request.setAttribute("data", dto);
+            request.setAttribute("unitData", unitDto);
+
+            // セッションを取得する
+            HttpSession session2 = request.getSession(true);
+            session2.removeAttribute("queries");
+
+            // コース一覧を取得する
+            CourseDao dao2 = new CourseDao(conn);
+            courseDto = dao2.selectByCourseId(courseDto);
+
+            // チャンネル一覧データをリクエストに保持する
+            request.setAttribute("courseData", courseDto);
+
+            // URIをリクエストに保持する
+            request.setAttribute("uri", request.getRequestURI());
         } catch (SQLException | NamingException e) {
 
             logger.error("{} {}", e.getClass(), e.getMessage());
@@ -68,6 +86,6 @@ public class ViewUnitServlet extends HttpServlet {
         }
 
         // view-knowledge.jspに転送する
-        request.getRequestDispatcher("WEB-INF/view-unit.jsp").forward(request, response);
+        request.getRequestDispatcher("view-unit.jsp").forward(request, response);
     }
 }
