@@ -14,7 +14,7 @@ public class UserDto {
 
     private int inactiveFlg;
 
-    private int corporate;
+    private int corporateNo;
 
     private int updateNumber;
 
