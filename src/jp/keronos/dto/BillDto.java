@@ -1,6 +1,6 @@
 package jp.keronos.dto;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 
 public class BillDto {
 
@@ -9,7 +9,7 @@ public class BillDto {
     /**/
     private int corporateNo;
     /**/
-    private Timestamp billingData;
+    private Date billingDate;
     /**/
     private int PriceId;
     /**/
@@ -29,11 +29,11 @@ public class BillDto {
     public void setCorporateNo(int corporateNo) {
         this.corporateNo = corporateNo;
     }
-    public Timestamp getBillingData() {
-        return billingData;
+    public Date getBillingDate() {
+        return billingDate;
     }
-    public void setBillingData(Timestamp billingData) {
-        this.billingData = billingData;
+    public void setBillingDate(Date billingDate) {
+        this.billingDate = billingDate;
     }
     public int getPriceId() {
         return PriceId;
