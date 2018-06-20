@@ -7,6 +7,7 @@
     <title>
       <c:out value="${ unitDto.unitTitle }" />
     </title>
+    <%@ include file="header.jsp"%>
   </head>
   <body>
     <%@ include file="user-navbar.jsp"%>
@@ -22,13 +23,17 @@
               </div>
             <p class="h4 mt-3 mb-3 p-3 text-info border-bottom">
                 <c:out value="${ unitDto.unitTitle }" /></p>
-            <c:out value="${ unitDto.unitText }" />
+            <p class ="mb='20'"><c:out value="${ unitDto.unitText }" /></p>
+          <div class="form-group row">
+          <div class="mx-auto">
           <form action="form-unit-test" method="post" >
             <button type="submit" class="btn btn-primary">テスト開始</button>
           </form>
           <form action="list-course" method="post" >
             <button type="submit" class="btn btn-danger">中断</button>
           </form>
+          </div>
+        </div>
         </div>
       </div>
       </div>
