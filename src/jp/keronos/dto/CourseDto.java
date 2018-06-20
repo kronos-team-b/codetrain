@@ -121,5 +121,4 @@ public class CourseDto {
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
-
 }
