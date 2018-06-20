@@ -28,10 +28,10 @@
           <c:forEach items="${ contactDetailList }" var="dto" varStatus="status">
             <div class="panel panel-info" style="padding: 10px; margin-bottom: 10px; border: 1px">
               <div class="panel-heading ">
-                <c:if test="${ dto.RequestOrResponseFlg eq 0}">
+                <c:if test="${ dto.requestOrResponseFlg eq 0}">
                   <h5>お客様</h5>
                 </c:if>
-                <c:if test="${ dto.RequestOrResponseFlg eq 1}">
+                <c:if test="${ dto.requestOrResponseFlg eq 1}">
                   <h5>運営</h5>
                 </c:if>
                 </div>

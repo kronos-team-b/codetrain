@@ -7,12 +7,14 @@
     <span class="navbar-toggler-icon"></span>
   </button>
 
+  <div class="navbar-text small mr-3 text-danger"><c:out value="${ navbarMessage }" /></div>
+  <div class="navbar-text small mr-3 text-secondary"><c:out value="${ not empty user.lastName ? user.lastName += ' ' += user.firstName += 'さん、こんにちは' : '' }" /></div>
   <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
 
     <c:if test="${ empty user }">
       <div>
-        <form id="form-nav" action="user-login" method="post" class="form-inline">
-          <input type="email" name="id" class="form-control form-control-sm" placeholder="ログインID">
+        <form id="form-nav" action="login-user" method="post" class="form-inline">
+          <input type="text" name="id" class="form-control form-control-sm" placeholder="ログインID">
           <input type="password" name="password" class="form-control form-control-sm" placeholder="パスワード">
           <input type="hidden" name="uri" value="${ requestScope.uri }">
           <button type="submit" class="btn btn-outline-primary btn-sm">ログイン</button>
@@ -31,11 +33,11 @@
             <a class="dropdown-item" href="#">コース一覧</a>
             <a class="dropdown-item" href="#">リクエスト</a>
             <a class="dropdown-item" href="#">リクエスト履歴</a>
-            <a class="dropdown-item" href="#">パスワード変更</a>
+            <a class="dropdown-item" href="/codetrain/form-change-password">パスワード変更</a>
           </div>
         </div>
 
-        <form action="user-logout" method="post" class="form-inline">
+        <form action="logout-user" method="post" class="form-inline">
           <button type="submit" class="btn btn-outline-danger btn-sm">ログアウト</button>
         </form>
     </c:if>
