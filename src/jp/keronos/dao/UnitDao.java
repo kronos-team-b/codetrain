@@ -25,7 +25,7 @@ public class UnitDao {
 
         // SQL文を作成する
         StringBuffer sb = new StringBuffer();
-        sb.append("   select");
+        sb.append("  select");
         sb.append("         UNIT_ID");
         sb.append("        ,UNIT_TITLE");
         sb.append("        ,UNIT_TEXT");
@@ -33,12 +33,10 @@ public class UnitDao {
         sb.append("        ,UPDATE_NUMBER");
         sb.append("        ,MANAGE_NO");
         sb.append("        ,DELETE_FLG");
-        sb.append("        ,COURSE_NAME");
         sb.append("    from");
         sb.append("         UNIT");
-        sb.append("   where");
-        sb.append("         UNIT_ID = ?");
-        sb.append("    and  UNIT.DELETE_FLG = 0;");
+        sb.append("   where UNIT_ID = ?");
+        sb.append("     and DELETE_FLG = 0");
 
         // ステートメントオブジェクトを作成する
         try (PreparedStatement ps = conn.prepareStatement(sb.toString())) {
@@ -50,7 +48,7 @@ public class UnitDao {
             if (rs.next()) {
                 dto = new UnitDto();
                 dto.setUnitId(rs.getInt("UNIT_ID"));
-                dto.setUnitTitle(rs.getString("UNIT_TITILE"));
+                dto.setUnitTitle(rs.getString("UNIT_TITLE"));
                 dto.setUnitText(rs.getString("UNIT_TEXT"));
                 dto.setCourseId(rs.getInt("COURSE_ID"));
                 dto.setUpdateNumber(rs.getInt("UPDATE_NUMBER"));

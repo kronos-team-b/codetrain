@@ -52,27 +52,34 @@ public class ViewUnitServlet extends HttpServlet {
         UnitDto unitDto = new UnitDto();
         CourseDto courseDto = new CourseDto();
         request.setCharacterEncoding("UTF-8");
-        unitDto.setUnitId(Integer.parseInt(request.getParameter("unitId")));
+        //テストのためにコメントアウト
+        //unitDto.setUnitId(Integer.parseInt(request.getParameter("unitId")));
+        //ここまで
+
+        //テストのためについか
+        unitDto.setUnitId(2);
+        //ここまで
 
         // コネクションを取得する
         try (Connection conn = DataSourceManager.getConnection()) {
 
             //カリキュラムIDに紐づくカリキュラム情報リストを取得すし、リクエストスコープにナレッジ情報リストを保持する
-            UnitDao dao = new UnitDao(conn);
-            unitDto = dao.selectByUnitId(unitDto);
+            UnitDao unitDao = new UnitDao(conn);
+            unitDto = unitDao.selectByUnitId(unitDto);
 
-            request.setAttribute("unitData", unitDto);
+            request.setAttribute("unitDto", unitDto);
 
             // セッションを取得する
             HttpSession session2 = request.getSession(true);
             session2.removeAttribute("queries");
 
-            // コース一覧を取得する
-            CourseDao dao2 = new CourseDao(conn);
-            courseDto = dao2.selectByCourseId(courseDto);
+            // コース情報を取得する
+            courseDto.setCourseId(unitDto.getCourseId());
+            CourseDao courseDao = new CourseDao(conn);
+            courseDto = courseDao.selectByCourseId(courseDto);
 
             // チャンネル一覧データをリクエストに保持する
-            request.setAttribute("courseData", courseDto);
+            request.setAttribute("courseDto", courseDto);
 
             // URIをリクエストに保持する
             request.setAttribute("uri", request.getRequestURI());
@@ -85,7 +92,7 @@ public class ViewUnitServlet extends HttpServlet {
             return;
         }
 
-        // view-knowledge.jspに転送する
-        request.getRequestDispatcher("view-unit.jsp").forward(request, response);
+        // view-unit.jspに転送する
+        request.getRequestDispatcher("/WEB-INF/view-unit.jsp").forward(request, response);
     }
 }

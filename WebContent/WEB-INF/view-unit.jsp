@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>
-      <c:out value="${ unitDto.UnitName }" />
+      <c:out value="${ unitDto.unitTitle }" />
     </title>
   </head>
   <body>
@@ -17,12 +17,12 @@
       <div class="row">
         <div class="col-12">
           <p class="h1 mt-3 mb-3 p-3 text-info">
-              <c:out value="${ courseDto.CourseName }" />
+              <c:out value="${ courseDto.courseName }" />
               <div>
               </div>
             <p class="h4 mt-3 mb-3 p-3 text-info border-bottom">
-                <c:out value="${ unitDto.UnitTitle }" /></p>
-            <c:out value="${ unitdto.UnitText }" />
+                <c:out value="${ unitDto.unitTitle }" /></p>
+            <c:out value="${ unitDto.unitText }" />
           <form action="form-unit-test" method="post" >
             <button type="submit" class="btn btn-primary">テスト開始</button>
           </form>
