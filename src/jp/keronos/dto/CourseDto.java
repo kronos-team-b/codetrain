@@ -2,114 +2,124 @@ package jp.keronos.dto;
 
 public class CourseDto {
 
-	private int courseId;
-	
-	private String courseName;
-	
-	private String overview;
-	
-	private int requiredTime;
-	
-	private String precondition;
-	
-	private String goal;
-	
-	private int isFreeFlg;
+    private int courseId;
 
-	private int categoryId; 
-	
-	private int updateNumber;
-	
-	private int manageId;
-	
-	private int deleteFlg;
-	
-	public int getCourseId() {
-		return courseId;
-	}
+    private String courseName;
 
-	public void setCourseId(int courseId) {
-		this.courseId = courseId;
-	}
+    private String overview;
 
-	public String getCourseName() {
-		return courseName;
-	}
+    private int requiredTime;
 
-	public void setCourseName(String courseName) {
-		this.courseName = courseName;
-	}
+    private String precondition;
 
-	public String getOverview() {
-		return overview;
-	}
+    private String goal;
 
-	public void setOverview(String overview) {
-		this.overview = overview;
-	}
+    private int isFreeFlg;
 
-	public int getRequiredTime() {
-		return requiredTime;
-	}
+    private int categoryId;
 
-	public void setRequiredTime(int requiredTime) {
-		this.requiredTime = requiredTime;
-	}
+    private String categoryName;
 
-	public String getPrecondition() {
-		return precondition;
-	}
+    private int updateNumber;
 
-	public void setPrecondition(String precondition) {
-		this.precondition = precondition;
-	}
+    private int manageId;
 
-	public String getGoal() {
-		return goal;
-	}
+    private int deleteFlg;
 
-	public void setGoal(String goal) {
-		this.goal = goal;
-	}
+    public int getCourseId() {
+        return courseId;
+    }
 
-	public int getIsFreeFlg() {
-		return isFreeFlg;
-	}
+    public void setCourseId(int courseId) {
+        this.courseId = courseId;
+    }
 
-	public void setIsFreeFlg(int isFreeFlg) {
-		this.isFreeFlg = isFreeFlg;
-	}
+    public String getCourseName() {
+        return courseName;
+    }
 
-	public int getCategoryId() {
-		return categoryId;
-	}
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
 
-	public void setCategoryId(int categoryId) {
-		this.categoryId = categoryId;
-	}
+    public String getOverview() {
+        return overview;
+    }
 
-	public int getUpdateNumber() {
-		return updateNumber;
-	}
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
 
-	public void setUpdateNumber(int updateNumber) {
-		this.updateNumber = updateNumber;
-	}
+    public int getRequiredTime() {
+        return requiredTime;
+    }
 
-	public int getManageId() {
-		return manageId;
-	}
+    public void setRequiredTime(int requiredTime) {
+        this.requiredTime = requiredTime;
+    }
 
-	public void setManageId(int manageId) {
-		this.manageId = manageId;
-	}
+    public String getPrecondition() {
+        return precondition;
+    }
 
-	public int getDeleteFlg() {
-		return deleteFlg;
-	}
+    public void setPrecondition(String precondition) {
+        this.precondition = precondition;
+    }
 
-	public void setDeleteFlg(int deleteFlg) {
-		this.deleteFlg = deleteFlg;
-	}
+    public String getGoal() {
+        return goal;
+    }
+
+    public void setGoal(String goal) {
+        this.goal = goal;
+    }
+
+    public int getIsFreeFlg() {
+        return isFreeFlg;
+    }
+
+    public void setIsFreeFlg(int isFreeFlg) {
+        this.isFreeFlg = isFreeFlg;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public int getUpdateNumber() {
+        return updateNumber;
+    }
+
+    public void setUpdateNumber(int updateNumber) {
+        this.updateNumber = updateNumber;
+    }
+
+    public int getManageId() {
+        return manageId;
+    }
+
+    public void setManageId(int manageId) {
+        this.manageId = manageId;
+    }
+
+    public int getDeleteFlg() {
+        return deleteFlg;
+    }
+
+    public void setDeleteFlg(int deleteFlg) {
+        this.deleteFlg = deleteFlg;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
 
 }

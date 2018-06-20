@@ -39,26 +39,38 @@
               <th>概要</th>
               <th>目安時間</th>
               <th>プラン</th>
-<!--          TODO: ログイン/ログアウト時で表示の変更 -->
-              <th>進捗</th>
-              <th>合否</th>
-
+              <c:if test="${ not empty user }">
+                <th>進捗</th>
+                <th>合否</th>
+              </c:if>
             </tr>
           </thead>
           <tbody>
-<!--          TODO: コース数の分だけ表示 -->
+            <c:set var="i" value="0" />
+            <c:forEach items="${ list }" var="dto" varStatus="status">
               <tr>
-                <td>カテゴリ</td>
-                <td><a href="#">コース名</a></td>
-                <td>概要概要概要概要概要概要概要概要概要概要概要概要概要</td>
-                <td>1時間</td>
-                <td><span class="text-warning">Premium</span></td>
-<!--            TODO: ログイン/ログアウト時で表示の変更 -->
-                <td><span class="text-primary">100%</span></td>
-                <td><span class="text-white bg-success success-or-failure">合格</span></td>
-
+                <td>${ list.get(i)[0]["categoryName"] }</td>
+                <td><a href="#">${ list.get(i)[0]["courseName"] }</a></td>
+                <td>${ list.get(i)[0]["overview"] }</td>
+                <td>${ list.get(i)[0]["requiredTime"] }時間</td>
+                <c:if test="${ list.get(i)[0]['isFreeFlg'] eq 1 }">
+                  <td><span class="text-success">Free</span></td>
+                </c:if>
+                <c:if test="${ list.get(i)[0]['isFreeFlg'] eq 0 }">
+                  <td><span class="text-warning">Premium</span></td>
+                </c:if>
+                <c:if test="${ not empty user }">
+                  <td><span class="text-primary">${ list.get(i)[1] }</span></td>
+                  <c:if test="${ list.get(i)[2][0]['passFlg'] eq 0 }">
+                    <td><span class="text-white bg-success success-or-failure">不合格</span></td>
+                  </c:if>
+                  <c:if test="${ list.get(i)[2][0]['passFlg'] eq 1 }">
+                    <td><span class="text-white bg-success success-or-failure">合格</span></td>
+                  </c:if>
+                </c:if>
               </tr>
-
+              <c:set var="i" value="${i + 1}" />
+            </c:forEach>
           </tbody>
         </table>
       </div>
