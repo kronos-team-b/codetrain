@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,44 +16,35 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jp.keronos.dto.CourseDto;
-import jp.keronos.dto.UnitDto;
 import jp.keronos.DataSourceManager;
 import jp.keronos.dao.CourseDao;
 import jp.keronos.dao.UnitDao;
+import jp.keronos.dao.UnitTestChoicesDao;
+import jp.keronos.dao.UnitTestDao;
+import jp.keronos.dto.CourseDto;
+import jp.keronos.dto.SystemManageDto;
+import jp.keronos.dto.UnitDto;
+import jp.keronos.dto.UnitTestChoicesDto;
+import jp.keronos.dto.UnitTestDto;
 
 
 /**
- * テスト作成機能
- * @author Hiroki Nishio
+ * Servlet implementation class ViewKnowledge
  */
-
-/**
- * Servlet implementation class FormTestManagelServlet
- */
-@WebServlet("/form-test-manage")
-public class FormTestManageServlet extends HttpServlet {
+@WebServlet("/view-test-manage")
+public class ViewTestManageServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    private Logger logger = LoggerFactory.getLogger(FormTestManageServlet.class);
+    private Logger logger = LoggerFactory.getLogger(ViewTestManageServlet.class);
+
 
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        logger.info("start:{} {}", Thread.currentThread().getStackTrace()[1].getMethodName(), request.getRemoteAddr());
 
-        // トップページに遷移する
-        response.sendRedirect("index.jsp");
-    }
-
-    /**
-     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-     */
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        logger.info("start:{}", Thread.currentThread().getStackTrace()[1].getMethodName());
-
-        // セッションを取得する
+     // セッションを取得する
         //テストのためにコメントアウト
         //HttpSession session = request.getSession(false);
         //ここまで
@@ -72,17 +62,37 @@ public class FormTestManageServlet extends HttpServlet {
         //ここまで
             logger.warn("セッションタイムアウト {}", request.getRemoteAddr());
 
-            // トップページに遷移する
-            //TODO トプページのURLを代入する
+            // トップ画面に遷移する
             request.getRequestDispatcher("index.jsp").forward(request, response);
             return;
         }
 
-        // すべてのコースID＆コース名、単元ID＆単元名を取得する
+        // ログインユーザ情報を取得する
+         SystemManageDto manage = (SystemManageDto)session.getAttribute("manage");
+
+        // フォームのデータを取得する
+        UnitTestDto unitTestDto = new UnitTestDto();
+        UnitTestChoicesDto choicesDto = new UnitTestChoicesDto();
+        request.setCharacterEncoding("UTF-8");
+        int testId = Integer.parseInt(request.getParameter("testId"));
+        unitTestDto.setTestId(testId);
+        //テストのためにコメントアウト
+        //unitTestDto.setManageNo(manage.getManageNo());
+        //ここまで
+        choicesDto.setTestId(testId);
+
         // コネクションを取得する
         try (Connection conn = DataSourceManager.getConnection()) {
-            // セッションを取得する
-            session.removeAttribute("queries");
+
+            // テスト情報を取得する
+             UnitTestDao unitTestDao = new UnitTestDao(conn);
+             UnitTestChoicesDao choicesDao = new UnitTestChoicesDao(conn);
+
+             unitTestDto = unitTestDao.selectByTestId(unitTestDto);
+             choicesDto = choicesDao.selectByTestId(choicesDto);
+
+             request.setAttribute("testData", unitTestDto);
+             request.setAttribute("choicesData", choicesDto);
 
             // コース情報を取得する
             CourseDao courseDao = new CourseDao(conn);
@@ -100,19 +110,23 @@ public class FormTestManageServlet extends HttpServlet {
             //単元一覧をリクエストに保持する
             request.setAttribute("unitList", arrayUnitList);
 
-            // URIをリクエストに保持する
-            request.setAttribute("uri", request.getRequestURI());
-
-            request.setAttribute("isAdd", true);
-
         } catch (SQLException | NamingException e) {
 
             logger.error("{} {}", e.getClass(), e.getMessage());
 
             // システムエラー画面に遷移する
             request.getRequestDispatcher("system-error.jsp").forward(request, response);
+            return;
         }
-        // テスト作成画面に遷移する
-        request.getRequestDispatcher("/WEB-INF/view-test-manage.jsp").forward(request, response);
+
+        // テスト編集画面に遷移する
+        request.getRequestDispatcher("WEB-INF/view-test-manage.jsp").forward(request, response);
+    }
+
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doGet(request, response);
     }
 }
