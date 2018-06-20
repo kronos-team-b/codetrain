@@ -87,16 +87,14 @@ public class UserDao {
         sb.append("    set");
         sb.append("        PASSWORD = sha2(?, 256)");
         sb.append("       ,UPDATE_NUMBER = UPDATE_NUMBER + 1");
-        sb.append("  where USER_NO = ?");
-        sb.append("    and UPDATE_NUMBER = ?");
+        sb.append("  where USER_ID = ?");
 
         // ステートメントオブジェクトを作成する
         try (PreparedStatement ps = conn.prepareStatement(sb.toString())) {
 
             // プレースホルダーに値をセットする
             ps.setString(1, dto.getPassword());
-            ps.setInt(2, dto.getUserNo());
-            ps.setInt(3, dto.getUpdateNumber());
+            ps.setString(2, dto.getUserId());
 
             // SQLを実行する
             return ps.executeUpdate();
