@@ -1,18 +1,13 @@
 package jp.keronos.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
 import jp.keronos.dto.UnitDto;
-
-
-/**
- * 単元表のDataAccessObject
- * @author Hiroki Nishio
- */
 
 
 public class UnitDao {
@@ -28,6 +23,29 @@ public class UnitDao {
     public UnitDao(Connection conn) {
         this.conn = conn;
     }
+
+    public int count(int courseId) throws SQLException {
+
+        StringBuffer sb = new StringBuffer();
+        sb.append("select");
+        sb.append("       COUNT(*) AS RECORD_COUNT");
+        sb.append("  from UNIT");
+        sb.append(" where COURSE_ID = ?");
+
+        int count = 0;
+
+        try (PreparedStatement preparedStatement = conn.prepareStatement(sb.toString())) {
+
+            preparedStatement.setInt(1, courseId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                count = resultSet.getInt("RECORD_COUNT");
+            }
+        }
+        return count;
+    }
+
+
 
     /**
      * 単元情報リストを取得する

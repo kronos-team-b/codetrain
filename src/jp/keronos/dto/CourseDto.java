@@ -18,6 +18,8 @@ public class CourseDto {
 
     private int categoryId;
 
+    private String categoryName;
+
     private int updateNumber;
 
     private int manageNo;
@@ -112,4 +114,11 @@ public class CourseDto {
         this.deleteFlg = deleteFlg;
     }
 
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
 }
