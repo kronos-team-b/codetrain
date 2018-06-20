@@ -15,7 +15,7 @@
           <div class="mx-auto text-danger">&nbsp;<c:out value="${ errorMessage }" /></div>
         </div>
         <div class="row">
-          <div class="col-sm-8 offset-sm-2">
+          <div class="col-sm-8 offset-2">
             <form action="/login-admin" method="post">
               <div class="form-group row">
                 <label for="">ログインID</label>
