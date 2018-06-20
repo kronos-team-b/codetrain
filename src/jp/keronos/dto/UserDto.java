@@ -12,7 +12,7 @@ public class UserDto {
 
     private String firstName;
 
-    private int activeFlg;
+    private int inactiveFlg;
 
     private int corporate;
 
@@ -60,12 +60,12 @@ public class UserDto {
         this.firstName = firstName;
     }
 
-    public int getActiveFlg() {
-        return activeFlg;
+    public int getInactiveFlg() {
+        return inactiveFlg;
     }
 
-    public void setActiveFlg(int activeFlg) {
-        this.activeFlg = activeFlg;
+    public void setInactiveFlg(int inactiveFlg) {
+        this.inactiveFlg = inactiveFlg;
     }
 
     public int getCorporateNo() {
