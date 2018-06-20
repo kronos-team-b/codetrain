@@ -50,7 +50,17 @@
             <c:forEach items="${ list }" var="dto" varStatus="status">
               <tr>
                 <td>${ list.get(i)[0]["categoryName"] }</td>
-                <td><a href="#">${ list.get(i)[0]["courseName"] }</a></td>
+                <c:if test="${ list.get(i)[0]['isFreeFlg'] eq 1 }">
+                  <td><a href="course-detail?courseId=${ list.get(i)[0]['courseId'] }">${ list.get(i)[0]["courseName"] }</a></td>
+                </c:if>
+                <c:if test="${ list.get(i)[0]['isFreeFlg'] eq 0 }">
+                  <c:if test="${ not empty user }">
+                    <td><a href="course-detail?courseId=${ list.get(i)[0]['courseId'] }">${ list.get(i)[0]["courseName"] }</a></td>
+                  </c:if>
+                  <c:if test="${ empty user }">
+                    <td>${ list.get(i)[0]["courseName"] }</td>
+                  </c:if>
+                </c:if>
                 <td>${ list.get(i)[0]["overview"] }</td>
                 <td>${ list.get(i)[0]["requiredTime"] }時間</td>
                 <c:if test="${ list.get(i)[0]['isFreeFlg'] eq 1 }">
