@@ -2,18 +2,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="index.jsp"><img src="img/CodeTrain.png" height="30" width="50"/></a>
+  <a class="navbar-brand" href="index.jsp"><img src="img/CodeTrain.png" height="40" width="70"/></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
   <div class="navbar-text small mr-3 text-danger"><c:out value="${ navbarMessage }" /></div>
-  <div class="navbar-text small mr-3 text-secondary"><c:out value="${ not empty user.lastName ? user.lastName += ' ' += user.firstName += 'さん、こんにちは' : '' }" /></div>
   <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
 
     <c:if test="${ empty user }">
       <div>
-        <form id="form-nav" action="login-user" method="post" class="form-inline">
+        <form id="form-nav" action="login-user" method="post" class="form-inline mb-0">
           <input type="text" name="id" class="form-control form-control-sm" placeholder="ログインID">
           <input type="password" name="password" class="form-control form-control-sm" placeholder="パスワード">
           <input type="hidden" name="uri" value="${ requestScope.uri }">
@@ -37,7 +36,7 @@
           </div>
         </div>
 
-        <form action="logout-user" method="post" class="form-inline">
+        <form action="logout-user" method="post" class="form-inline mb-0">
           <button type="submit" class="btn btn-outline-danger btn-sm">ログアウト</button>
         </form>
     </c:if>
