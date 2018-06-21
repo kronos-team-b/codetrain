@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import jp.keronos.dto.UnitDto;
+import jp.keronos.dto.UserCourseTestAnswerDto;
 
 public class UserCourseTestAnswerDao {
 
@@ -17,6 +18,13 @@ public class UserCourseTestAnswerDao {
         this.connection = connection;
     }
 
+    /**
+     * 不正解のカリキュラムリストを取得する
+     * @param userNo
+     * @param courseId
+     * @return 不正解のカリキュラムリスト
+     * @throws SQLException
+     */
     public ArrayList<UnitDto> selectTestResultsDecisionListByUserNoAndCourseId(int userNo, int courseId) throws SQLException {
 
         StringBuffer sb = new StringBuffer();
@@ -54,4 +62,39 @@ public class UserCourseTestAnswerDao {
         return null;
     }
 
+    /**
+     * 回答をテーブルに追加
+     * @param list
+     * @return 追加した行数
+     * @throws SQLException
+     */
+    public int insert(ArrayList<UserCourseTestAnswerDto> list) throws SQLException {
+
+        connection.setAutoCommit(false);
+
+        StringBuffer sb = new StringBuffer();
+        sb.append("insert into USER_COURSE_TEST_ANSWER (");
+        sb.append("            USER_NO,");
+        sb.append("            USER_ANSWER,");
+        sb.append("            TEST_ID,");
+        sb.append("            COURSE_ID");
+        sb.append(") ");
+        sb.append("     values (");
+        sb.append("            ?,?,?,?");
+        sb.append(")");
+
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sb.toString())) {
+
+            for (UserCourseTestAnswerDto dto : list) {
+                preparedStatement.setInt(1, dto.getUserNo());
+                preparedStatement.setString(2, dto.getUserAnswer());
+                preparedStatement.setInt(3, dto.getTestId());
+                preparedStatement.setInt(4, dto.getCourseId());
+            }
+            preparedStatement.addBatch();
+            connection.commit();
+
+            return preparedStatement.executeUpdate();
+        }
+    }
 }
