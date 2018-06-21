@@ -83,6 +83,10 @@ public class ListCourseServlet extends HttpServlet {
             }
 
             request.setAttribute("list", list);
+
+            // URIをリクエストに保持する
+            request.setAttribute("uri", request.getRequestURI());
+
             request.getRequestDispatcher("WEB-INF/list-course.jsp").forward(request, response);
 
         } catch (SQLException | NamingException e) {
@@ -140,3 +144,4 @@ public class ListCourseServlet extends HttpServlet {
 
     }
 }
+

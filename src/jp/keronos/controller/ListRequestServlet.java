@@ -36,26 +36,11 @@ public class ListRequestServlet extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        // トップページに遷移する
-        response.sendRedirect("index.jsp");
-    }
-    /**
-     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-     */
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         logger.info("start:{}", Thread.currentThread().getStackTrace()[1].getMethodName());
 
-        // セッションを取得する
-        // テストのためにコメントアウト
-        //HttpSession session = request.getSession(false);
-        //if (session == null || session.getAttribute("user") == null) {
-        //ここまで
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("user") == null) {
 
-        //テストのためについか
-        HttpSession session = request.getSession(true);
-        if (session == null) {
-        //ここまで
             logger.warn("セッションタイムアウト {}", request.getRemoteAddr());
 
             // トップページに遷移する
@@ -63,15 +48,9 @@ public class ListRequestServlet extends HttpServlet {
             return;
         }
 
-        //テストのためにコメントアウト
         // ログインユーザ情報を取得する
-        //UserDto user = (UserDto)session.getAttribute("user");
-        //ここまで
+        UserDto user = (UserDto)session.getAttribute("user");
 
-        //テストのために追加
-        UserDto user = new UserDto();
-        user.setUserId("nobunaga_oda");
-        //ここまで
 
         // コネクションを取得する
         try (Connection conn = DataSourceManager.getConnection()) {
@@ -82,22 +61,16 @@ public class ListRequestServlet extends HttpServlet {
 
             // フォームのデータを取得する
             ContactDao contactDao = new ContactDao(conn);
-            ContactDto contactDto = new ContactDto();
-            ArrayList<ContactDto> list = contactDao.selectLatestByUserNo(userNo);
+            ArrayList<ContactDto> list = contactDao.selectLatestByUserNo(user.getUserNo());
 
-            
-            contactDao.insertRequest(contactDto);
+            // リクエスト一覧データをリクエストに保持する
+            request.setAttribute("list", list);
 
             // URIをリクエストに保持する
             request.setAttribute("uri", request.getRequestURI());
 
-            // コンタクトIDを保持する
-            request.setAttribute("contactId", contactDto.getContactId());
-
-
-
-            // リクエスト詳細画面に遷移する
-            request.getRequestDispatcher("view-request").forward(request, response);
+            // チャンネル一覧画面に遷移する
+            request.getRequestDispatcher("WEB-INF/list-request.jsp").forward(request, response);
         } catch (SQLException | NamingException e) {
 
             logger.error("{} {}", e.getClass(), e.getMessage());
@@ -105,6 +78,13 @@ public class ListRequestServlet extends HttpServlet {
             // システムエラー画面に遷移する
             request.getRequestDispatcher("system-error.jsp").forward(request, response);
         }
+    }
+
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doGet(request, response);
     }
 
 }

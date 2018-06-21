@@ -55,44 +55,25 @@ public class AddContactServlet extends HttpServlet {
         logger.info("start:{}", Thread.currentThread().getStackTrace()[1].getMethodName());
 
         // セッションを取得する
-        //テストのためにコメントアウト
-        //HttpSession session = request.getSession(false);
-        //ここまで
+        HttpSession session = request.getSession(false);
 
-        //テストのために代入
-        HttpSession session = request.getSession(true);
-        //ここまで
+        if (session == null || session.getAttribute("user") == null) {
 
-        //テストのためにコメントアウト
-        //if (session == null || session.getAttribute("manage") == null) {
-        //ここまで
-
-        //テストのために代入
-        if (session == null ) {
-        //ここまで
             logger.warn("セッションタイムアウト {}", request.getRemoteAddr());
 
             // トップページに遷移する
-            //TODO トップページのURLを代入する
             request.getRequestDispatcher("index.jsp").forward(request, response);
             return;
         }
 
-        //テストのためにコメントアウト
-        // ログインユーザ情報を取得する
-        //UserDto user = (UserDto)session.getAttribute("user");
-        //ここまで
+        UserDto userDto = (UserDto)session.getAttribute("user");
 
-        //テストのために追加
-        UserDto user = new UserDto();
-        user.setUserId("nobunaga_oda");
-        //ここまで
 
         // コネクションを取得する
         try (Connection conn = DataSourceManager.getConnection()) {
             //ログインユーザのIDをゲットする
             UserDao userDao = new UserDao(conn);
-            user = userDao.findById(user.getUserId());
+            userDto = userDao.findById(userDto.getUserId());
 
             // フォームのデータを取得する
             ContactDto contactDto = new ContactDto();
@@ -109,11 +90,11 @@ public class AddContactServlet extends HttpServlet {
 
             // コンタクトIDを保持する
             request.setAttribute("contactId", contactDto.getContactId());
-
-
+            request.setAttribute("message", "リクエストを送信しました。");
 
             // リクエスト詳細画面に遷移する
-            request.getRequestDispatcher("view-request").forward(request, response);
+            //request.getRequestDispatcher("view-request").forward(request, response);
+            request.getRequestDispatcher("index.jsp").forward(request, response);
         } catch (SQLException | NamingException e) {
 
             logger.error("{} {}", e.getClass(), e.getMessage());

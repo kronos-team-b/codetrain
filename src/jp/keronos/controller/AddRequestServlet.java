@@ -52,15 +52,9 @@ public class AddRequestServlet extends HttpServlet  {
         logger.info("start:{}", Thread.currentThread().getStackTrace()[1].getMethodName());
 
         // セッションを取得する
-        // テストのためにコメントアウト
-        //HttpSession session = request.getSession(false);
-        //if (session == null || session.getAttribute("user") == null) {
-        //ここまで
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("user") == null) {
 
-        //テストのためについか
-        HttpSession session = request.getSession(true);
-        if (session == null) {
-        //ここまで
             logger.warn("セッションタイムアウト {}", request.getRemoteAddr());
 
             // トップページに遷移する
@@ -68,16 +62,8 @@ public class AddRequestServlet extends HttpServlet  {
             return;
         }
 
-        //テストのためにコメントアウト
         // ログインユーザ情報を取得する
-        //UserDto user = (UserDto)session.getAttribute("user");
-        //ここまで
-
-        //テストのために追加
-        UserDto user = new UserDto();
-        user.setUserId("nobunaga_oda");
-        //ここまで
-
+        UserDto user = (UserDto)session.getAttribute("user");
 
         // コネクションを取得する
         try (Connection conn = DataSourceManager.getConnection()) {
@@ -101,8 +87,6 @@ public class AddRequestServlet extends HttpServlet  {
 
             // コンタクトIDを保持する
             request.setAttribute("contactId", contactDto.getContactId());
-
-
 
             // リクエスト詳細画面に遷移する
             request.getRequestDispatcher("view-request").forward(request, response);

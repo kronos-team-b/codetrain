@@ -15,11 +15,11 @@ import org.slf4j.LoggerFactory;
 /**
  * Servlet implementation class FormContactServlet
  */
-@WebServlet("/form-contact")
-public class FormContactServlet extends HttpServlet {
+@WebServlet("/form-change-manage-password")
+public class FormChangeManagePasswordServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    private Logger logger = LoggerFactory.getLogger(FormContactServlet.class);
+    private Logger logger = LoggerFactory.getLogger(FormChangeManagePasswordServlet.class);
 
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -27,18 +27,17 @@ public class FormContactServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         // セッションを取得する
-
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("user") == null) {
             logger.warn("セッションタイムアウト {}", request.getRemoteAddr());
 
-            // コース一覧画面に遷移する
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            // ログインページに遷移する
+            request.getRequestDispatcher("index-test-contact.jsp").forward(request, response);
             return;
         }
 
-        // リクエスト作成画面に遷移する
-        request.getRequestDispatcher("WEB-INF/view-contact.jsp").forward(request, response);
+        // パスワード変更画面に遷移する
+        request.getRequestDispatcher("WEB-INF/change-manage-password.jsp").forward(request, response);
     }
 
     /**

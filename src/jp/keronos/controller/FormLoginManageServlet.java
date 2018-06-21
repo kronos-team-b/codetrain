@@ -6,7 +6,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,30 +14,19 @@ import org.slf4j.LoggerFactory;
 /**
  * Servlet implementation class FormContactServlet
  */
-@WebServlet("/form-contact")
-public class FormContactServlet extends HttpServlet {
+@WebServlet("/form-login-manage")
+public class FormLoginManageServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    private Logger logger = LoggerFactory.getLogger(FormContactServlet.class);
+    private Logger logger = LoggerFactory.getLogger(FormLoginManageServlet.class);
 
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        // セッションを取得する
-
-        HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("user") == null) {
-            logger.warn("セッションタイムアウト {}", request.getRemoteAddr());
-
-            // コース一覧画面に遷移する
-            request.getRequestDispatcher("index.jsp").forward(request, response);
-            return;
-        }
-
-        // リクエスト作成画面に遷移する
-        request.getRequestDispatcher("WEB-INF/view-contact.jsp").forward(request, response);
+        // ログイン画面に遷移する
+        request.getRequestDispatcher("WEB-INF/login-manage.jsp").forward(request, response);
     }
 
     /**

@@ -30,10 +30,10 @@
             <c:out value="${ not empty user.lastName ? user.lastName += ' ' += user.firstName += 'さん' : '' }" />
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" href="#">コース一覧</a>
-            <a class="dropdown-item" href="#">リクエスト</a>
-            <a class="dropdown-item" href="#">リクエスト履歴</a>
-            <a class="dropdown-item" href="/codetrain/form-change-password">パスワード変更</a>
+            <a class="dropdown-item" href="list-course">コース一覧</a>
+            <a class="dropdown-item" href="form-contact">リクエスト</a>
+            <a class="dropdown-item" href="list-request">リクエスト履歴</a>
+            <a class="dropdown-item" href="form-change-password">パスワード変更</a>
           </div>
         </div>
 
@@ -41,7 +41,6 @@
           <button type="submit" class="btn btn-outline-danger btn-sm">ログアウト</button>
         </form>
     </c:if>
-
   </div>
 
 </nav>

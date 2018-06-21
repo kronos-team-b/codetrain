@@ -27,7 +27,7 @@ import jp.keronos.dto.ContactDto;
  */
 
 /**
- * Servlet implementation class FormChannelServlet
+ * Servlet implementation class ViewRequestServlet
  */
 @WebServlet("/view-request")
 public class ViewRequestServlet extends HttpServlet {
@@ -51,9 +51,9 @@ public class ViewRequestServlet extends HttpServlet {
 
         logger.info("start:{}", Thread.currentThread().getStackTrace()[1].getMethodName());
 
-        // セッションを取得する
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("user") == null) {
+
             logger.warn("セッションタイムアウト {}", request.getRemoteAddr());
 
             // トップページに遷移する
@@ -62,7 +62,7 @@ public class ViewRequestServlet extends HttpServlet {
         }
 
         // ログインユーザ情報を取得する
-        UserDto user = (UserDto)session.getAttribute("user");
+        UserDto userDto = (UserDto)session.getAttribute("user");
 
         // フォームのデータを取得する
         ContactDto dto = new ContactDto();
@@ -70,8 +70,9 @@ public class ViewRequestServlet extends HttpServlet {
 
         int contactId = Integer.parseInt(request.getParameter("contactId"));
 
+
         dto.setContactId(contactId);
-        dto.setUserNo(user.getUserNo());
+        dto.setUserNo(userDto.getUserNo());
 
         // コネクションを取得する
         try (Connection conn = DataSourceManager.getConnection()) {
@@ -84,6 +85,9 @@ public class ViewRequestServlet extends HttpServlet {
 
             // コンタクト一覧データをリクエストに保持する
             request.setAttribute("contactDetailList", arrayContactList);
+
+            // コンタクトIDをリクエストに保持する
+            request.setAttribute("contactId", dto.getContactId());
 
             // URIをリクエストに保持する
             request.setAttribute("uri", request.getRequestURI());
