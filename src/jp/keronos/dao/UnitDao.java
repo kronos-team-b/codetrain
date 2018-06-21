@@ -54,7 +54,6 @@ public class UnitDao {
                 dto.setUpdateNumber(rs.getInt("UPDATE_NUMBER"));
                 dto.setManageNo(rs.getInt("MANAGE_NO"));
                 dto.setDeleteFlg(rs.getInt("DELETE_FLG"));
-
             }
             return dto;
         }
