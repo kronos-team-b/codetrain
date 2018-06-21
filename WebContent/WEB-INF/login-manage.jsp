@@ -3,14 +3,17 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <%@ include file="header.jsp"%>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>ログイン</title>
+    <script type="text/javascript">
+    </script>
+    <%@ include file="header.jsp"%>
   </head>
   <body>
+    <%@ include file="manage-navbar.jsp"%>
     <div class="container">
       <div class="col-12">
-        <p class="h4 mt-3 mb-5 p-3 text-info border-bottom">ログイン</p>
+        <p class="h4 mt-3 mb-5 p-3 text-info border-bottom">運営担当者ログイン</p>
         <div class="row">
           <div class="mx-auto text-danger">&nbsp;<c:out value="${ errorMessage }" /></div>
         </div>
@@ -18,19 +21,19 @@
           <div class="col-sm-8 offset-2">
             <form action="/login-manage" method="post">
               <div class="form-group row">
-                <label for="longinId">ログインID</label>
-                  <input  type="text" id="loginId" name="longinId" class="form-control" maxlength="30" value="${ data.longinId }" />
+                <label class="col-form-label" for="loginId">ログインID</label>
+                <input  type="text" id="loginId" name="longinId" class="form-control" maxlength="30" required value=""  />
               </div>
               <div class="form-group row">
-                <label for="password">パスワード</label>
-                  <input type="text" id="password" name="password" class="form-control" maxlength="30" value="${ data.password }" />
+                <label class="col-form-label" for="password">パスワード</label>
+                <input type="password" id="password" name="password" class="form-control" maxlength="30" required value=""  />
+              </div>
+              <div class="form-group row">
+                <div class="mx-auto">
+                  <button type="submit" class="btn btn-primary">ログイン</button>
+                </div>
               </div>
             </form>
-            <div class="form-group row">
-              <div class="mx-auto">
-                <button type="submit" class="btn btn-primary">ログイン</button>
-              </div>
-            </div>
           </div>
         </div>
       </div>

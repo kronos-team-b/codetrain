@@ -22,7 +22,7 @@ public class CourseDto {
 
     private int updateNumber;
 
-    private int manageId;
+    private int manageNo;
 
     private int deleteFlg;
 
@@ -98,12 +98,12 @@ public class CourseDto {
         this.updateNumber = updateNumber;
     }
 
-    public int getManageId() {
-        return manageId;
+    public int getManageNo() {
+        return manageNo;
     }
 
-    public void setManageId(int manageId) {
-        this.manageId = manageId;
+    public void setManageNo(int manageNo) {
+        this.manageNo = manageNo;
     }
 
     public int getDeleteFlg() {

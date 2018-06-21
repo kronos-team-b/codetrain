@@ -23,7 +23,6 @@
     <div class="row">
       <div class="col-12">
         <p class="h4 mt-3 mb-3 p-3 text-info border-bottom">コース一覧</p>
-
         <div class="dropdown text-right">
           <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">カテゴリ</button>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
