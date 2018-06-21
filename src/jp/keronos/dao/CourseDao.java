@@ -12,15 +12,15 @@ import jp.keronos.dto.CourseDto;
 public class CourseDao {
 
     /** コネクション */
-    protected Connection conn;
+    protected Connection connection;
 
     /**
      * コンストラクタ
      * コネクションをフィールドに設定する
-     * @param conn コネクション
+     * @param connection コネクション
      */
-    public CourseDao(Connection conn) {
-        this.conn = conn;
+    public CourseDao(Connection connection) {
+        this.connection = connection;
     }
 
     public ArrayList<Object> selectCourseList() throws SQLException {
@@ -39,7 +39,7 @@ public class CourseDao {
 
         ArrayList<Object> list = new ArrayList<>();
 
-        try(PreparedStatement preparedStatement = conn.prepareStatement(sb.toString())) {
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sb.toString())) {
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -71,7 +71,7 @@ public class CourseDao {
 
         ArrayList<Integer> list = new ArrayList<>();
 
-        try(PreparedStatement preparedStatement = conn.prepareStatement(sb.toString())) {
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sb.toString())) {
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -112,7 +112,7 @@ public class CourseDao {
         ArrayList<CourseDto> list = new ArrayList<CourseDto>();
 
         // ステートメントオブジェクトを作成する
-        try (Statement stmt = conn.createStatement()) {
+        try (Statement stmt = connection.createStatement()) {
 
             // SQL文を実行する
             ResultSet rs = stmt.executeQuery(sb.toString());
