@@ -13,15 +13,15 @@ import jp.keronos.dto.UnitDto;
 public class UnitDao {
 
     /** コネクション */
-    protected Connection conn;
+    protected Connection connection;
 
     /**
      * コンストラクタ
      * コネクションをフィールドに設定する
-     * @param conn コネクション
+     * @param connection コネクション
      */
-    public UnitDao(Connection conn) {
-        this.conn = conn;
+    public UnitDao(Connection connection) {
+        this.connection = connection;
     }
 
     /**
@@ -40,7 +40,7 @@ public class UnitDao {
 
         int count = 0;
 
-        try (PreparedStatement preparedStatement = conn.prepareStatement(sb.toString())) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sb.toString())) {
 
             preparedStatement.setInt(1, courseId);
 
@@ -75,7 +75,7 @@ public class UnitDao {
         ArrayList<UnitDto> list = new ArrayList<UnitDto>();
 
         // ステートメントオブジェクトを作成する
-        try (Statement stmt = conn.createStatement()) {
+        try (Statement stmt = connection.createStatement()) {
 
             // SQL文を実行する
             ResultSet rs = stmt.executeQuery(sb.toString());
