@@ -39,7 +39,7 @@ public class ViewCourseServlet extends HttpServlet {
         HttpSession session = request.getSession(false);
 
         int courseId = Integer.parseInt(request.getParameter("courseId"));
-        int userNo = 1;
+        int userNo = 0;
 
         if (session != null && session.getAttribute("user") != null) {
 
