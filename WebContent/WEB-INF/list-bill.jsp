@@ -28,8 +28,10 @@
             <c:forEach items="${ list }" var="dto">
             <tr>
               <th><c:out value="${ dto.billingDate }"></c:out></th>
-
-              <th><button type="submit" class="btn btn-success">詳細</button></th>
+              <th><c:out value="${ dto.getTotalPrice() }"></c:out></th>
+              <th><form action="list-bill-detail" method="post">
+                <button type="submit" class="btn btn-success">詳細</button>
+              </form></th>
              </tr>
             </c:forEach>
           </table>

@@ -17,6 +17,30 @@ public class BillDto {
     /**/
     private int numberOfInactiveAccount;
 
+    private int price;
+
+    private double tax;
+
+    private int totalPrice;
+
+    public int getTotalPrice() {
+        return totalPrice;
+    }
+    public void setTotalPrice(int totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+    public int getPrice() {
+        return price;
+    }
+    public void setPrice(int price) {
+        this.price = price;
+    }
+    public double getTax() {
+        return tax;
+    }
+    public void setTax(double tax) {
+        this.tax = tax;
+    }
     public int getBillingId() {
         return billingId;
     }

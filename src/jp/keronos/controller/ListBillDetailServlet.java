@@ -3,7 +3,6 @@ package jp.keronos.controller;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.List;
 
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
@@ -17,25 +16,21 @@ import org.slf4j.LoggerFactory;
 
 import jp.keronos.DataSourceManager;
 import jp.keronos.dao.BillDao;
-import jp.keronos.dao.CorporateDao;
 import jp.keronos.dto.BillDto;
-import jp.keronos.dto.CorporateDto;
 
 /**
- * Servlet implementation class ListBillServlet
+ * Servlet implementation class ListBillDetailServlet
  */
-@WebServlet("/list-bill")
-public class ListBillServlet extends HttpServlet {
+@WebServlet("/list-bill-detail")
+public class ListBillDetailServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    private Logger logger = LoggerFactory.getLogger(ListBillServlet.class);
+    private Logger logger = LoggerFactory.getLogger(ListBillDetailServlet.class);
 
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        logger.info("start:{} {}", Thread.currentThread().getStackTrace()[1].getMethodName(), request.getRemoteAddr());
 
         // セッションを取得する
         /*HttpSession session = request.getSession(false);
@@ -46,36 +41,41 @@ public class ListBillServlet extends HttpServlet {
             return;
         }*/
 
-        //セッションのログイン情報を取得する
-        /*CorporateDto login_dto = (CorporateDto) session.getAttribute("admin");
-        String corporate_id = login_dto.getCorporateId();
-*/
-        // コネクションを取得する
         try (Connection conn = DataSourceManager.getConnection()) {
 
-            //会社IDに該当する会社NOを取得する
-            CorporateDto corporateDto = new CorporateDto();
-            /**テストのためにコメントアウト
-            *corporateDto.setCorporateId(corporate_id);
-            **/
-            //テストのためにコメントイン
-            corporateDto.setCorporateId("park");
-            //後で消すよ
+            //請求IDを取得する
+            int billingId = Integer.parseInt(request.getParameter("billingId"));
 
-            CorporateDao corporateDao = new CorporateDao(conn);
-            corporateDto = corporateDao.selectByCorporateId(corporateDto);
-            int corporate_no = corporateDto.getCorporateNo();
-
-            //会社NOに該当する請求情報リストを取得し、リクエストスコープに保持する
+            //請求IDに該当する請求情報を取得する
             BillDto billDto = new BillDto();
-            billDto.setCorporateNo(corporate_no);
+            billDto.setBillingId(billingId);
 
             BillDao billDao = new BillDao(conn);
-            List<BillDto> list = billDao.selectByCorporateNo(corporate_no);
+            billDto = billDao.selectByBillingId(billDto);
 
-            request.setAttribute("list", list);
+            request.setAttribute("billDto", billDto);
 
-            // URIをリクエストに保持する
+            //請求額を算出する
+            int price = billDto.getPrice();
+            int inactive_price = price / 2;
+            double tax = billDto.getTax();
+            int number_of_active_acount = billDto.getNumberOfActiveAccount();
+            int number_of_inactive_acount = billDto.getNumberOfInactiveAccount();
+
+            double tax_for_active_price = price * number_of_active_acount * tax;
+            double tax_for_inactive_price = price / 2 * number_of_inactive_acount * tax;
+            double total_price_with_tax = (price * number_of_active_acount + price / 2 * number_of_inactive_acount) * (1 + tax);
+
+            request.setAttribute("price", price);
+            request.setAttribute("inactive_price", inactive_price);
+            request.setAttribute("tax", tax);
+            request.setAttribute("number_of_active_acount", number_of_active_acount);
+            request.setAttribute("number_of_inactive_acount", number_of_inactive_acount);
+            request.setAttribute("tax_for_active_price", tax_for_active_price);
+            request.setAttribute("tax_for_inactive_price", tax_for_inactive_price);
+            request.setAttribute("total_price_with_tax", total_price_with_tax);
+
+         // URIをリクエストに保持する
             request.setAttribute("uri", request.getRequestURI());
 
             //list-bill.jspに転送する
@@ -93,6 +93,7 @@ public class ListBillServlet extends HttpServlet {
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // TODO Auto-generated method stub
         doGet(request, response);
     }
 
