@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import jp.keronos.DataSourceManager;
 import jp.keronos.dao.BillDao;
 import jp.keronos.dto.BillDto;
+import jp.keronos.dto.CorporateDto;
 
 /**
  * Servlet implementation class ListBillServlet
@@ -36,23 +37,39 @@ public class ListBillServlet extends HttpServlet {
 
         logger.info("start:{} {}", Thread.currentThread().getStackTrace()[1].getMethodName(), request.getRemoteAddr());
 
+        // セッションを取得する
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("admin") == null) {
+            logger.warn("セッションタイムアウト {}", request.getRemoteAddr());
+            // トップページに遷移する
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+            return;
+        }
+
+        //セッションのログイン情報を取得する
+        CorporateDto login_dto = (CorporateDto) session.getAttribute("admin");
+        String admin_id = login_dto.getCorporateId();
+
+        //テストのためにコメントアウト
+        //フォームのデータ（会社NO）を取得する
+        request.setCharacterEncoding("UTF-8");
+        BillDto dto = new BillDto();
+        dto.setCorporateNo(Integer.parseInt(request.getParameter("corporateNo")));
+
         // コネクションを取得する
         try (Connection conn = DataSourceManager.getConnection()) {
             // セッションを取得する
-            HttpSession session = request.getSession(true);
-            session.removeAttribute("queries");
-
-            //テストのためにコメントアウト
-            //会社NOを取得する
-   //         int corporateNo = Integer.parseInt(request.getParameter("coporateNo"));
+            HttpSession session2 = request.getSession(true);
+            session2.removeAttribute("queries");
 
             //会社NOに該当する請求情報リストを取得する
-            BillDao dao = new BillDao(conn);
+            BillDao billDao = new BillDao(conn);
    //         List<BillDto> list = dao.selectByCorporateNo(corporateNo);
             //ここまで
 
             //テストのためにコメントイン
-            List<BillDto> list = dao.selectByCorporateNo(1);
+            List<BillDto> list = billDao.selectByCorporateNo(1);
+            //後で消すよ
 
             //リクエストスコープにナレッジ情報リストを保持する
             request.setAttribute("list", list);

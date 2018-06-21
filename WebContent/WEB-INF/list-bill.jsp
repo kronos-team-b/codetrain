@@ -15,7 +15,9 @@
       </div>
      <div class="row">
         <div class="col-12">
+         <div class="offset-2 col-8">
           <p class="h4 mt-3 p-3 text-info border-bottom mb-5">請求明細一覧</p>
+          <div class="col-10">
           <table class="table">
             <thead>
             <tr>
@@ -31,6 +33,8 @@
              </tr>
             </c:forEach>
           </table>
+          </div>
+        </div>
         </div>
       </div>
     </div>
