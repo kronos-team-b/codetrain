@@ -78,5 +78,43 @@ public class CourseDao {
 
     }
 
+    public CourseDto selectByCourseId(int courseId) throws SQLException {
+
+        StringBuffer sb = new StringBuffer();
+        sb.append(" select");
+        sb.append("        COURSE_ID,");
+        sb.append("        COURSE_NAME,");
+        sb.append("        OVERVIEW,");
+        sb.append("        REQUIRED_TIME,");
+        sb.append("        PRECONDITION,");
+        sb.append("        GOAL,");
+        sb.append("        CATEGORY_ID");
+        sb.append("   from COURSE");
+        sb.append("  where COURSE_ID = ?");
+
+        CourseDto courseDto = null;
+
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sb.toString())) {
+
+            preparedStatement.setInt(1, courseId);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if(resultSet.next()) {
+
+                courseDto = new CourseDto();
+                courseDto.setCourseId(resultSet.getInt("COURSE_ID"));
+                courseDto.setCourseName(resultSet.getString("COURSE_NAME"));
+                courseDto.setOverview(resultSet.getString("OVERVIEW"));
+                courseDto.setRequiredTime(resultSet.getInt("REQUIRED_TIME"));
+                courseDto.setPrecondition(resultSet.getString("PRECONDITION"));
+                courseDto.setGoal(resultSet.getString("GOAL"));
+                courseDto.setCategoryId(resultSet.getInt("CATEGORY_ID"));
+            }
+        }
+
+        return courseDto;
+    }
+
 
 }
