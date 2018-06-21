@@ -23,6 +23,12 @@ public class BillDao {
         this.conn = conn;
     }
 
+    /**
+     * 会社NOに該当する請求情報を取得する
+     * @param coporateNo
+     * @return 請求一覧情報
+     * @throws SQLException
+     */
     public List<BillDto> selectByCorporateNo(int coporateNo) throws SQLException {
 
         // SQL文を作成する
@@ -38,7 +44,7 @@ public class BillDao {
         sb.append("        BILL");
         sb.append("   where");
         sb.append("        CORPORATE_NO = ?");
-        sb.append("order by BILLING_DATE DESC");
+  //      sb.append("order by BILLING_DATE DESC");
 
         // ステートメントオブジェクトを作成する
         try (PreparedStatement ps = conn.prepareStatement(sb.toString())) {
