@@ -52,13 +52,8 @@ public class ViewUnitServlet extends HttpServlet {
         UnitDto unitDto = new UnitDto();
         CourseDto courseDto = new CourseDto();
         request.setCharacterEncoding("UTF-8");
-        //テストのためにコメントアウト
-        //unitDto.setUnitId(Integer.parseInt(request.getParameter("unitId")));
-        //ここまで
 
-        //テストのためについか
-        unitDto.setUnitId(2);
-        //ここまで
+        unitDto.setUnitId(Integer.parseInt(request.getParameter("unitId")));
 
         // コネクションを取得する
         try (Connection conn = DataSourceManager.getConnection()) {

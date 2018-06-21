@@ -111,5 +111,4 @@ public class CourseDto {
     public void setDeleteFlg(int deleteFlg) {
         this.deleteFlg = deleteFlg;
     }
-
 }
