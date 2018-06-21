@@ -3,6 +3,7 @@ package jp.keronos.controller;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
@@ -15,7 +16,11 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import jp.keronos.dao.CourseDao;
+import jp.keronos.dao.UnitDao;
 import jp.keronos.dao.UserDao;
+import jp.keronos.dto.CourseDto;
+import jp.keronos.dto.UnitDto;
 import jp.keronos.dto.UserDto;
 import jp.keronos.DataSourceManager;
 /**
@@ -25,7 +30,7 @@ import jp.keronos.DataSourceManager;
 public class ChangeUserPasswordServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    private Logger logger = LoggerFactory.getLogger(LoginUserServlet.class);
+    private Logger logger = LoggerFactory.getLogger(ChangeUserPasswordServlet.class);
 
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -60,44 +65,63 @@ public class ChangeUserPasswordServlet extends HttpServlet {
         // フォームのデータを取得する
         request.setCharacterEncoding("UTF-8");
         UserDto dto = new UserDto();
-        dto.setUserNo(Integer.parseInt(request.getParameter("userNo")));
+        dto.setUserId(user_id);
         String existpass = request.getParameter("existing-password");
         String changepass = request.getParameter("change-password");
         dto.setPassword(request.getParameter("confirm-password"));
-        dto.setUpdateNumber(Integer.parseInt(request.getParameter("updateNumber")));
 
         // コネクションを取得する
         try (Connection conn = DataSourceManager.getConnection()) {
-            // 既存パスワードは正ししいかを確認する
-            UserDao dao = new UserDao(conn);
-            dao.findByIdAndPassword(user_id, existpass);
-        } catch (SQLException | NamingException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
+            // パスワードチェック
+            UserDao loginDao = new UserDao(conn);
+            UserDto userDto = loginDao.findByIdAndPassword(user_id, existpass);
+
+            session.setAttribute("user", userDto);
+            session.removeAttribute("errorMessage");
+
+            // パスワードがおかしいとき
+            if (userDto == null) {
+                logger.warn("ログイン失敗 {} mail={} pass={}", request.getRemoteAddr(), user_id, existpass);
+                session.setAttribute("errorMessage", "メールアドレスまたはパスワードが間違っています");
+            }
+        } catch (SQLException | NamingException e) {
+            logger.error("{} {}", e.getClass(), e.getMessage());
+
+            // システムエラーに遷移する
+            request.getRequestDispatcher("system-error.jsp").forward(request, response);}
 
         //入力チェック
         if("".equals(existpass) | "".equals(changepass) | "".equals(dto.getPassword())) {
 
-            request.setAttribute("message", "パスワードを入力してください");
+            request.setAttribute("errorMessage", "パスワードを入力してください");
         }
 
         if(existpass.length() > 30 | changepass.length() > 30) {
-            request.setAttribute("message", "パスワードを30文字以内で入力してください");
+            request.setAttribute("errorMessage", "パスワードを30文字以内で入力してください");
         }
 
         if(!(changepass.equals(dto.getPassword()))) {
-            request.setAttribute("message", "確認パスワードと変更パスワードは一致していません");
+            request.setAttribute("errorMessage", "確認パスワードと変更パスワードは一致していません");
         }
 
-        // 更新メッセージをリクエストスコープに保持する
-        request.setAttribute("message", "パスワードを更新しました");
+        // エラーメッセージがある場合に実行
+        if (request.getAttribute("errorMessage") != null) {
 
-     // コネクションを取得する
+            request.getRequestDispatcher("WEB-INF/change-user-password.jsp").forward(request, response);
+            return;
+        }
+
+        // コネクションを取得する
         try (Connection conn2 = DataSourceManager.getConnection()) {
             // パスワードを更新する
             UserDao dao2 = new UserDao(conn2);
             dao2.updatePassword(dto);
+
+            // 更新メッセージをリクエストスコープに保持する
+            request.setAttribute("message", "パスワードを更新しました");
+
+            // トップページに遷移する
+            request.getRequestDispatcher("list-course").forward(request, response);
 
         } catch (SQLException | NamingException e) {
             logger.error("{} {}", e.getClass(), e.getMessage());
@@ -105,8 +129,5 @@ public class ChangeUserPasswordServlet extends HttpServlet {
             // システムエラーに遷移する
             request.getRequestDispatcher("system-error.jsp").forward(request, response);
         }
-
-        // 利用者一覧画面に遷移する
-        request.getRequestDispatcher("/list-user").forward(request, response);
     }
 }
