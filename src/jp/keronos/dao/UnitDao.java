@@ -24,6 +24,12 @@ public class UnitDao {
         this.conn = conn;
     }
 
+    /**
+     * カリキュラムテストの数を取得
+     * @param courseId
+     * @return カリキュラムテストの数
+     * @throws SQLException
+     */
     public int count(int courseId) throws SQLException {
 
         StringBuffer sb = new StringBuffer();
@@ -37,6 +43,7 @@ public class UnitDao {
         try (PreparedStatement preparedStatement = conn.prepareStatement(sb.toString())) {
 
             preparedStatement.setInt(1, courseId);
+
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 count = resultSet.getInt("RECORD_COUNT");
@@ -44,8 +51,6 @@ public class UnitDao {
         }
         return count;
     }
-
-
 
     /**
      * 単元情報リストを取得する
@@ -88,4 +93,40 @@ public class UnitDao {
             return list;
         }
     }
+
+  public ArrayList<UnitDto> selectByCourseId(int courseId) throws SQLException {
+
+        StringBuffer sb = new StringBuffer();
+        sb.append("select ");
+        sb.append("       UNIT_ID,");
+        sb.append("       UNIT_TITLE,");
+        sb.append("       UNIT_TEXT,");
+        sb.append("       COURSE_ID");
+        sb.append("  from UNIT");
+        sb.append(" where COURSE_ID = ?");
+
+        ArrayList<UnitDto> list = new ArrayList<>();
+        UnitDto unitDto = null;
+
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sb.toString())) {
+
+            preparedStatement.setInt(1, courseId);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next()) {
+
+                unitDto = new UnitDto();
+                unitDto.setUnitId(resultSet.getInt("UNIT_ID"));
+                unitDto.setUnitTitle(resultSet.getString("UNIT_TITLE"));
+                unitDto.setUnitText(resultSet.getString("UNIT_TEXT"));
+                unitDto.setCourseId(resultSet.getInt("COURSE_ID"));
+
+                list.add(unitDto);
+            }
+        }
+
+        return list;
+    }
+
 }

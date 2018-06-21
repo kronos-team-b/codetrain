@@ -50,11 +50,11 @@
               <tr>
                 <td>${ list.get(i)[0]["categoryName"] }</td>
                 <c:if test="${ list.get(i)[0]['isFreeFlg'] eq 1 }">
-                  <td><a href="course-detail?courseId=${ list.get(i)[0]['courseId'] }">${ list.get(i)[0]["courseName"] }</a></td>
+                  <td><a href="view-course?courseId=${ list.get(i)[0]['courseId'] }">${ list.get(i)[0]["courseName"] }</a></td>
                 </c:if>
                 <c:if test="${ list.get(i)[0]['isFreeFlg'] eq 0 }">
                   <c:if test="${ not empty user }">
-                    <td><a href="course-detail?courseId=${ list.get(i)[0]['courseId'] }">${ list.get(i)[0]["courseName"] }</a></td>
+                    <td><a href="view-course?courseId=${ list.get(i)[0]['courseId'] }">${ list.get(i)[0]["courseName"] }</a></td>
                   </c:if>
                   <c:if test="${ empty user }">
                     <td>${ list.get(i)[0]["courseName"] }</td>
