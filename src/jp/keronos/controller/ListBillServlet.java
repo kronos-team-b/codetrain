@@ -48,13 +48,7 @@ public class ListBillServlet extends HttpServlet {
 
         //セッションのログイン情報を取得する
         CorporateDto login_dto = (CorporateDto) session.getAttribute("admin");
-        String admin_id = login_dto.getCorporateId();
-
-        //テストのためにコメントアウト
-        //フォームのデータ（会社NO）を取得する
-        request.setCharacterEncoding("UTF-8");
-        BillDto dto = new BillDto();
-        dto.setCorporateNo(Integer.parseInt(request.getParameter("corporateNo")));
+        int corporateNo = login_dto.getCorporateNo();
 
         // コネクションを取得する
         try (Connection conn = DataSourceManager.getConnection()) {
