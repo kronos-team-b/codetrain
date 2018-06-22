@@ -19,12 +19,12 @@
            <div class="mb-4">
               <p class="font-weight-bold">問<c:out value="${unitTestStatus.count}" /> <c:out value="${ unitTest.testTitle }" /></p>
               <c:if test="${ unitTest.answerTypeFlg eq 0 }">
-                <input type="text" name="answer[]" class="form-control ml-3" required>
+                <input type="text" name="answer[]" class="form-control ml-2" required>
               </c:if>
               <c:if test="${ unitTest.answerTypeFlg eq 1 }">
                 <c:forEach items="${ choicesList }" var="choice" varStatus="choiceStatus">
                   <c:if test="${ unitTest.testId eq choice.testId }">
-                    <div class="ml-3">
+                    <div class="ml-2">
                       <div class="form-check">
                         <input type="radio" id="radioTest1" name="answer[]" value="1" class="form-check-input" required>
                         <label for="radioTest1">${ choice.choice1 }</label>
@@ -47,8 +47,8 @@
               </c:if>
            </div>
           </c:forEach>
-          <div class="mt-4">
-            <button type="submit" class="btn btn-primary">送信</button>
+          <div class="mt-5">
+            <button type="submit" class="btn btn-primary pl-5 pr-5">送信</button>
           </div>
         </form>
       </div>

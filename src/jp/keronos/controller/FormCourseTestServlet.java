@@ -32,27 +32,19 @@ public class FormCourseTestServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public FormCourseTestServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
-    /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         HttpSession session = request.getSession(false);
 
-//        if (session == null || session.getAttribute("user") == null) {
-//
-//            request.getRequestDispatcher("index.jsp").forward(request, response);
-//            return;
-//        }
+        if (session == null || session.getAttribute("user") == null) {
 
-        int courseId = 1;
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+            return;
+        }
+
+        int courseId = Integer.parseInt(request.getParameter("courseId"));
 
         try(Connection connection = DataSourceManager.getConnection()) {
 
@@ -119,6 +111,14 @@ public class FormCourseTestServlet extends HttpServlet {
         }
     }
 
+    /**
+     * 回答データをリストに格納する
+     * @param courseId
+     * @param answers
+     * @param testIds
+     * @param userNo
+     * @return リスト形式の回答データ
+     */
     private ArrayList<UserCourseTestAnswerDto> setTestData(int courseId, String[] answers, int[] testIds, int userNo) {
 
         ArrayList<UserCourseTestAnswerDto> list = new ArrayList<>();
