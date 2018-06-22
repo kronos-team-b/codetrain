@@ -10,11 +10,12 @@
     <%@ include file="header.jsp"%>
   </head>
   <body>
-    <%@ include file="user-navbar.jsp"%>
+    <%@ include file="manage-navbar.jsp"%>
     <div class="container">
       <div class="row">
         <div class="mx-auto text-primary">&nbsp;<c:out value="${ message }" /></div>
       </div>
+      <a href="list-response">リクエスト一覧に戻る</a>
       <div class="row">
         <div class="col-12">
           <p class="h4 mt-3 p-3 bg-light text-info rounded">リクエスト詳細</p>
@@ -38,9 +39,9 @@
       <div class="row">
         <div class="col-12">
           <div class="col-sm-8 offset-sm-2">
-            <form action="add-request" method="post">
+            <form action="add-response" method="post">
               <div class="form-group row">
-                <label class="col-form-label" for="request">返信内容</label>
+                <label class="col-form-label" for="response">返信内容</label>
                 <textarea rows="15" cols="50" id="response" class="form-control" name="response" maxlength="65535" required></textarea>
               </div>
               <div class="form-group row pt-3">

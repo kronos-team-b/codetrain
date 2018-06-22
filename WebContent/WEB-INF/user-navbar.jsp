@@ -8,7 +8,6 @@
   </button>
 
   <div class="navbar-text small mr-3 text-danger"><c:out value="${ navbarMessage }" /></div>
-  <div class="navbar-text small mr-3 text-secondary"><c:out value="${ not empty user.lastName ? user.lastName += ' ' += user.firstName += 'さん、こんにちは' : '' }" /></div>
   <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
 
     <c:if test="${ empty user }">
@@ -42,5 +41,4 @@
         </form>
     </c:if>
   </div>
-
 </nav>

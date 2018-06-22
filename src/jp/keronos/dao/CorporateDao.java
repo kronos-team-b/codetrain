@@ -32,7 +32,7 @@ public class CorporateDao {
         StringBuffer sb = new StringBuffer();
         sb.append(" select");
         sb.append("        CORPORATE_NO");
-        sb.append("        CORPORATE_ID");
+        sb.append("       ,CORPORATE_ID");
 //      sb.append("       ,PASSWORD");
         sb.append("       ,CORPORATE_NAME");
         sb.append("       ,FIRST_NAME");
@@ -41,8 +41,8 @@ public class CorporateDao {
         sb.append("       ,DEPARTMENT");
         sb.append("       ,POSTAL_CODE");
         sb.append("       ,PREFECTURE_ID");
-        sb.append("       ,ADRESS_LINE_1");
-        sb.append("       ,ADRESS_LINE_2");
+        sb.append("       ,ADDRESS_LINE_1");
+        sb.append("       ,ADDRESS_LINE_2");
         sb.append("       ,EMAIL");
         sb.append("       ,DOMAIN");
         sb.append("       ,MANAGE_NO");
@@ -64,7 +64,7 @@ public class CorporateDao {
                 CorporateDto corporate = new CorporateDto();
                 corporate.setCorporateNo(rs.getInt("CORPORATE_NO"));
                 corporate.setCorporateId(rs.getString("CORPORATE_Id"));
-//              user.setPassword(rs.getString("PASSWORD"));
+//              corporate.setPassword(rs.getString("PASSWORD"));
                 corporate.setCorporateName(rs.getString("CORPORATE_NAME"));
                 corporate.setFirstName(rs.getString("FIRST_NAME"));
                 corporate.setLastName(rs.getString("LAST_NAME"));
@@ -72,8 +72,8 @@ public class CorporateDao {
                 corporate.setDepartment(rs.getString("DEPARTMENT"));
                 corporate.setPostalCode(rs.getString("POSTAL_CODE"));
                 corporate.setPrefectureId(rs.getInt("PREFECTURE_ID"));
-                corporate.setAddressLine1(rs.getString("ADRESS_LINE_1"));
-                corporate.setAddressLine2(rs.getString("ADRESS_LINE_2"));
+                corporate.setAddressLine1(rs.getString("ADDRESS_LINE_1"));
+                corporate.setAddressLine2(rs.getString("ADDRESS_LINE_2"));
                 corporate.setEmail(rs.getString("EMAIL"));
                 corporate.setDomain(rs.getString("DOMAIN"));
                 corporate.setManageNo(rs.getInt("MANAGE_NO"));

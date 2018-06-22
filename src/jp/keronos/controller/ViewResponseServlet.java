@@ -18,33 +18,31 @@ import org.slf4j.LoggerFactory;
 
 import jp.keronos.DataSourceManager;
 import jp.keronos.dao.ContactDao;
-import jp.keronos.dao.UserDao;
 import jp.keronos.dto.UserDto;
 import jp.keronos.dto.ContactDto;
+import jp.keronos.dto.SystemManageDto;
 
 /**
- * コンタクトの追加
+ * レスポンス詳細確認および返信機能
  * @author Hiroki Nishio
  */
 
 /**
- * Servlet implementation class FormChannelServlet
+ * Servlet implementation class ViewResponseServlet
  */
-@WebServlet("/add-contact")
-public class AddContactServlet extends HttpServlet {
+@WebServlet("/view-response")
+public class ViewResponseServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    private Logger logger = LoggerFactory.getLogger(AddContactServlet.class);
+    private Logger logger = LoggerFactory.getLogger(ViewResponseServlet.class);
 
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        logger.info("start:{}", Thread.currentThread().getStackTrace()[1].getMethodName());
-
         // トップページに遷移する
-        response.sendRedirect("index.jsp");
+        response.sendRedirect("index-manage.jsp");
     }
 
     /**
@@ -54,48 +52,50 @@ public class AddContactServlet extends HttpServlet {
 
         logger.info("start:{}", Thread.currentThread().getStackTrace()[1].getMethodName());
 
-        // セッションを取得する
         HttpSession session = request.getSession(false);
-
-        if (session == null || session.getAttribute("user") == null) {
+        if (session == null || session.getAttribute("manage") == null) {
 
             logger.warn("セッションタイムアウト {}", request.getRemoteAddr());
 
             // トップページに遷移する
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            request.getRequestDispatcher("index-manage.jsp").forward(request, response);
             return;
         }
 
-        UserDto userDto = (UserDto)session.getAttribute("user");
+        // ログインユーザ情報を取得する
+        SystemManageDto manageDto = (SystemManageDto)session.getAttribute("manage");
 
+        // フォームのデータを取得する
+        ContactDto dto = new ContactDto();
+        request.setCharacterEncoding("UTF-8");
+
+        int contactId = Integer.parseInt(request.getParameter("contactId"));
+
+
+        dto.setContactId(contactId);
+        dto.setManageNo(manageDto.getManageNo());
 
         // コネクションを取得する
         try (Connection conn = DataSourceManager.getConnection()) {
-            //ログインユーザのIDをゲットする
-            UserDao userDao = new UserDao(conn);
-            userDto = userDao.findById(userDto.getUserId());
 
-            // フォームのデータを取得する
-            ContactDto contactDto = new ContactDto();
+            // コンタクト情報を取得する
+            ContactDao dao = new ContactDao(conn);
             request.setCharacterEncoding("UTF-8");
 
-            contactDto.setContactDetail(request.getParameter("request"));
-            contactDto.setUserNo(userDto.getUserNo());
+            ArrayList<ContactDto> arrayContactList = dao.selectByContactId(contactId);
 
-            ContactDao contactDao = new ContactDao(conn);
-            contactDto.setContactId(contactDao.insertContact(contactDto));
-            contactDao.insertRequest(contactDto);
+            // コンタクト一覧データをリクエストに保持する
+            request.setAttribute("contactDetailList", arrayContactList);
+
+            // コンタクトIDをリクエストに保持する
+            request.setAttribute("contactId", dto.getContactId());
 
             // URIをリクエストに保持する
             request.setAttribute("uri", request.getRequestURI());
 
-            // コンタクトIDを保持する
-            request.setAttribute("contactId", contactDto.getContactId());
-            request.setAttribute("message", "リクエストを送信しました。");
+            // コンタクト詳細表に遷移する
+            request.getRequestDispatcher("/WEB-INF/view-response-detail.jsp").forward(request, response);
 
-            // リクエスト詳細画面に遷移する
-            //request.getRequestDispatcher("view-request").forward(request, response);
-            request.getRequestDispatcher("index.jsp").forward(request, response);
         } catch (SQLException | NamingException e) {
 
             logger.error("{} {}", e.getClass(), e.getMessage());
