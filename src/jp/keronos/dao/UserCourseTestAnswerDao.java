@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import jp.keronos.dto.UnitDto;
+import jp.keronos.dto.UserCourseTestAnswerDto;
 
 public class UserCourseTestAnswerDao {
 
@@ -17,6 +18,13 @@ public class UserCourseTestAnswerDao {
         this.connection = connection;
     }
 
+    /**
+     * 不正解のカリキュラムリストを取得する
+     * @param userNo
+     * @param courseId
+     * @return 不正解のカリキュラムリスト
+     * @throws SQLException
+     */
     public ArrayList<UnitDto> selectTestResultsDecisionListByUserNoAndCourseId(int userNo, int courseId) throws SQLException {
 
         StringBuffer sb = new StringBuffer();
@@ -54,4 +62,59 @@ public class UserCourseTestAnswerDao {
         return null;
     }
 
+    /**
+     * 回答をテーブルに追加
+     * @param list
+     * @return 追加した行数
+     * @throws SQLException
+     */
+    public int[] insert(ArrayList<UserCourseTestAnswerDto> list) throws SQLException {
+
+        StringBuffer sb = new StringBuffer();
+        sb.append("insert into USER_COURSE_TEST_ANSWER (");
+        sb.append("            USER_NO,");
+        sb.append("            USER_ANSWER,");
+        sb.append("            TEST_ID,");
+        sb.append("            COURSE_ID,");
+        sb.append("            TIME");
+        sb.append(") ");
+        sb.append("     values (");
+        sb.append("            ?,?,?,?,?");
+        sb.append(")");
+
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sb.toString())) {
+
+            int max = selectMaxTime();
+
+            for (UserCourseTestAnswerDto dto : list) {
+                preparedStatement.setInt(1, dto.getUserNo());
+                preparedStatement.setString(2, dto.getUserAnswer());
+                preparedStatement.setInt(3, dto.getTestId());
+                preparedStatement.setInt(4, dto.getCourseId());
+                preparedStatement.setInt(5, max == 0 ? 1 : max + 1);
+                preparedStatement.addBatch();
+            }
+
+            return preparedStatement.executeBatch();
+        }
+    }
+
+    public int selectMaxTime() throws SQLException {
+
+        StringBuffer sb = new StringBuffer();
+        sb.append(" select");
+        sb.append("     max(time) AS RECORD_MAX");
+        sb.append(" from user_course_test_answer");
+
+        int max = 0;
+
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sb.toString())) {
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                max = resultSet.getInt("RECORD_MAX");
+            }
+        }
+        return max;
+    }
 }

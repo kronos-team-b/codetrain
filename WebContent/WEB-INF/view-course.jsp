@@ -40,19 +40,19 @@
               </div>
             </div>
             <div class="col-4 box-bottom">
-              <form action="view-unit" method="post" id="unitTest"></form>
-              <form action="form-course-test" method="post" id="completionTest"></form>
+              <form action="view-unit" method="post" id="unit-test"></form>
+              <form action="form-course-test" method="get" id="completion-test"></form>
               <div>
-                <button type="submit" form="unitTest" name="unitId" value="1" class="btn btn-primary col-5 mr-4">最初から</button>
+                <button type="submit" form="unit-test" name="unit-id" value="1" class="btn btn-primary col-5 mr-4">最初から</button>
                 <c:if test="${ not empty next.unitId }">
-                  <button type="submit" form="unitTest" name="unitId" value="${ next.unitId }" class="btn btn-primary col-5">続きから</button>
+                  <button type="submit" form="unit-test" name="unit-id" value="${ next.unitId }" class="btn btn-primary col-5">続きから</button>
                 </c:if>
                 <c:if test="${ empty next.unitId }">
                   <button class="btn btn-primary col-5" disabled>続きから</button>
                 </c:if>
               </div>
               <div>
-                <button type="submit" form="completionTest" class="btn btn-primary col-11 mt-2">修了テスト</button>
+                <button type="submit" form="completion-test" class="btn btn-primary col-11 mt-2">修了テスト</button>
               </div>
             </div>
           </div>
