@@ -6,6 +6,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   </head>
   <body>
-    <c:redirect url="/list-course" />
+    <c:redirect url="/form-course-test" />
   </body>
 </html>

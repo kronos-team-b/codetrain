@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
+import jp.keronos.dto.UnitTestChoicesDto;
 import jp.keronos.dto.UnitTestDto;
 
 /**
@@ -157,7 +159,7 @@ public class UnitTestDao {
         sb.append("            UNIT_ID,");
         sb.append("            COURSE_ID,");
         sb.append("            UPDATE_NUMBER,");
-        sb.append("            MANAGE_NO,");
+        sb.append("            MANAGE_NO");
         sb.append("       from UNIT_TEST");
         sb.append("      where UNIT_ID = ? and DELETE_FLG = 0");
         sb.append("   order by rand()");
@@ -194,17 +196,20 @@ public class UnitTestDao {
      * @return unit testの数
      * @throws SQLException
      */
-    public int count() throws SQLException {
+    public int count(int courseId) throws SQLException {
 
         StringBuffer sb = new StringBuffer();
         sb.append("select");
-        sb.append("       COUNT(*) AS RECORD_COUNT");
+        sb.append("       count(distinct UNIT_ID) AS RECORD_COUNT");
         sb.append("  from UNIT_TEST");
         sb.append(" where DELETE_FLG = 0");
+        sb.append("   and COURSE_ID = ?");
 
         int count = 0;
 
         try (PreparedStatement preparedStatement = conn.prepareStatement(sb.toString())) {
+
+            preparedStatement.setInt(1, courseId);
 
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -212,5 +217,38 @@ public class UnitTestDao {
             }
         }
         return count;
+    }
+
+    public ArrayList<UnitTestChoicesDto> selectUnitTestChoise() throws SQLException {
+
+        StringBuffer sb = new StringBuffer();
+        sb.append("select");
+        sb.append("        TEST_ID,");
+        sb.append("        CHOICE1,");
+        sb.append("        CHOICE2,");
+        sb.append("        CHOICE3,");
+        sb.append("        CHOICE4");
+        sb.append("   from UNIT_TEST_CHOICES");
+
+        ArrayList<UnitTestChoicesDto> list = new ArrayList<>();
+        UnitTestChoicesDto dto = null;
+
+        try(PreparedStatement preparedStatement = conn.prepareStatement(sb.toString())) {
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next()) {
+                dto = new UnitTestChoicesDto();
+                dto.setTestId(resultSet.getInt("TEST_ID"));
+                dto.setChoice1(resultSet.getString("CHOICE1"));
+                dto.setChoice2(resultSet.getString("CHOICE2"));
+                dto.setChoice3(resultSet.getString("CHOICE3"));
+                dto.setChoice4(resultSet.getString("CHOICE4"));
+
+                list.add(dto);
+            }
+        }
+
+        return list;
     }
 }
