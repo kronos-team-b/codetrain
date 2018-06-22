@@ -4,13 +4,14 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>初期パスワード変更</title>
+  <title>パスワード変更</title>
   <%@ include file="header.jsp"%>
 </head>
 <body>
   <%@ include file="user-navbar.jsp"%>
   <div class="container">
     <div class="row">
+      <div class="mx-auto text-primary">&nbsp;<c:out value="${ errorMessage }" /></div>
       <div class="mx-auto text-primary">&nbsp;<c:out value="${ message }" /></div>
     </div>
     <div class="row">

@@ -37,3 +37,4 @@ public class LogoutManageServlet extends HttpServlet {
         doGet(request, response);
     }
 }
+

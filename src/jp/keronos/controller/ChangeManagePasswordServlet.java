@@ -15,21 +15,18 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jp.keronos.dao.CourseDao;
-import jp.keronos.dao.UnitDao;
-import jp.keronos.dao.UserDao;
-import jp.keronos.dto.CourseDto;
-import jp.keronos.dto.UnitDto;
-import jp.keronos.dto.UserDto;
 import jp.keronos.DataSourceManager;
+import jp.keronos.dao.SystemManageDao;
+import jp.keronos.dto.SystemManageDto;
+
 /**
  * Servlet implementation class ChangeUserPasswordServlet
  */
-@WebServlet("/change-user-password")
-public class ChangeUserPasswordServlet extends HttpServlet {
+@WebServlet("/change-manage-password")
+public class ChangeManagePasswordServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    private Logger logger = LoggerFactory.getLogger(ChangeUserPasswordServlet.class);
+    private Logger logger = LoggerFactory.getLogger(ChangeManagePasswordServlet.class);
 
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -39,7 +36,7 @@ public class ChangeUserPasswordServlet extends HttpServlet {
         logger.info("start:{}", Thread.currentThread().getStackTrace()[1].getMethodName());
 
         // トップページに遷移する
-        response.sendRedirect("index.jsp");
+        response.sendRedirect("index-manage.jsp");
     }
 
     /**
@@ -50,21 +47,21 @@ public class ChangeUserPasswordServlet extends HttpServlet {
 
         // セッションを取得する
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("user") == null) {
+        if (session == null || session.getAttribute("manage") == null) {
             logger.warn("セッションタイムアウト {}", request.getRemoteAddr());
             // チャンネル一覧画面に遷移する
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            request.getRequestDispatcher("index-manage.jsp").forward(request, response);
             return;
         }
 
         //セッションのログイン情報を取得する
-        UserDto login_dto = (UserDto) session.getAttribute("user");
-        String user_id = login_dto.getUserId();
+        SystemManageDto login_dto = (SystemManageDto) session.getAttribute("manage");
+        String manage_id = login_dto.getManageId();
 
         // フォームのデータを取得する
         request.setCharacterEncoding("UTF-8");
-        UserDto dto = new UserDto();
-        dto.setUserId(user_id);
+        SystemManageDto dto = new SystemManageDto();
+        dto.setManageId(manage_id);
         String existpass = request.getParameter("existing-password");
         String changepass = request.getParameter("change-password");
         dto.setPassword(request.getParameter("confirm-password"));
@@ -72,16 +69,16 @@ public class ChangeUserPasswordServlet extends HttpServlet {
         // コネクションを取得する
         try (Connection conn = DataSourceManager.getConnection()) {
             // パスワードチェック
-            UserDao loginDao = new UserDao(conn);
-            UserDto userDto = loginDao.findByIdAndPassword(user_id, existpass);
+            SystemManageDao loginDao = new SystemManageDao(conn);
+            SystemManageDto manageDto = loginDao.findByIdAndPassword(manage_id, existpass);
 
-            session.setAttribute("user", userDto);
+            session.setAttribute("manage", manageDto);
             session.removeAttribute("errorMessage");
 
             // パスワードがおかしいとき
-            if (userDto == null) {
-                logger.warn("ｐ {} mail={} pass={}", request.getRemoteAddr(), user_id, existpass);
-                session.setAttribute("errorMessage", "既存パスワードが間違っています");
+            if (manageDto == null) {
+                logger.warn("ｐ {} mail={} pass={}", request.getRemoteAddr(), manage_id, existpass);
+                request.setAttribute("errorMessage", "既存パスワードが間違っています");
             }
         } catch (SQLException | NamingException e) {
             logger.error("{} {}", e.getClass(), e.getMessage());
@@ -106,21 +103,21 @@ public class ChangeUserPasswordServlet extends HttpServlet {
         // エラーメッセージがある場合に実行
         if (request.getAttribute("errorMessage") != null) {
 
-            request.getRequestDispatcher("WEB-INF/change-user-password.jsp").forward(request, response);
+            request.getRequestDispatcher("WEB-INF/change-manage-password.jsp").forward(request, response);
             return;
         }
 
         // コネクションを取得する
         try (Connection conn2 = DataSourceManager.getConnection()) {
             // パスワードを更新する
-            UserDao dao2 = new UserDao(conn2);
+            SystemManageDao dao2 = new SystemManageDao(conn2);
             dao2.updatePassword(dto);
 
             // 更新メッセージをリクエストスコープに保持する
             request.setAttribute("message", "パスワードを更新しました");
 
             // トップページに遷移する
-            request.getRequestDispatcher("list-course").forward(request, response);
+            request.getRequestDispatcher("list-response").forward(request, response);
 
         } catch (SQLException | NamingException e) {
             logger.error("{} {}", e.getClass(), e.getMessage());

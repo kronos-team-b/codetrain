@@ -50,3 +50,4 @@ public class FormChangePasswordServlet extends HttpServlet {
         doGet(request, response);
     }
 }
+
