@@ -21,6 +21,46 @@ public class BillDto {
 
     private double tax;
 
+    private int inactivePrice;
+
+    private int taxOfActiveAccount;
+
+    private int taxOfInactiveAccount;
+
+    private int priceOfActiveAccountWithTax;
+
+    private int priceOfInactiveAccountWithTax;
+
+    public int getPriceOfActiveAccountWithTax() {
+        return priceOfActiveAccountWithTax;
+    }
+    public void setPriceOfActiveAccountWithTax(int priceOfActiveAccountWithTax) {
+        this.priceOfActiveAccountWithTax = priceOfActiveAccountWithTax;
+    }
+    public int getPriceOfInactiveAccountWithTax() {
+        return priceOfInactiveAccountWithTax;
+    }
+    public void setPriceOfInactiveAccountWithTax(int priceOfInactiveAccountWithTax) {
+        this.priceOfInactiveAccountWithTax = priceOfInactiveAccountWithTax;
+    }
+    public int getTaxOfActiveAccount() {
+        return taxOfActiveAccount;
+    }
+    public void setTaxOfActiveAccount(int taxOfActiveAccount) {
+        this.taxOfActiveAccount = taxOfActiveAccount;
+    }
+    public int getTaxOfInactiveAccount() {
+        return taxOfInactiveAccount;
+    }
+    public void setTaxOfInactiveAccount(int taxOfInactiveAccount) {
+        this.taxOfInactiveAccount = taxOfInactiveAccount;
+    }
+    public int getInactivePrice() {
+        return inactivePrice;
+    }
+    public void setInactivePrice(int inactivePrice) {
+        this.inactivePrice = inactivePrice;
+    }
     private int totalPrice;
 
     public int getTotalPrice() {

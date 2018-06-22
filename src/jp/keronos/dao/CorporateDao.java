@@ -32,12 +32,15 @@ public class CorporateDao {
         // SQL文を作成する
         StringBuffer sb = new StringBuffer();
         sb.append("  select");
-        sb.append("        CORPORATE_NO");
-        sb.append("       ,CORPORATE_ID");
+        sb.append("         CORPORATE_NO");
+        sb.append("        ,CORPORATE_ID");
+        sb.append("        ,CORPORATE_NAME");
+        sb.append("        ,LAST_NAME");
+        sb.append("        ,FIRST_NAME");
         sb.append("    from");
-        sb.append("        CORPORATE");
+        sb.append("         CORPORATE");
         sb.append("   where");
-        sb.append("        CORPORATE_ID = ?");
+        sb.append("         CORPORATE_ID = ?");
 
         // ステートメントオブジェクトを作成する
         try (PreparedStatement ps = conn.prepareStatement(sb.toString())) {
@@ -49,6 +52,9 @@ public class CorporateDao {
             if (rs.next()) {
                 dto.setCorporateNo(rs.getInt("CORPORATE_NO"));
                 dto.setCorporateId(rs.getString("CORPORATE_ID"));
+                dto.setCorporateName(rs.getString("CORPORATE_NAME"));
+                dto.setLastName(rs.getString("LAST_NAME"));
+                dto.setFirstName(rs.getString("FIRST_NAME"));
             }
         }
         return dto;

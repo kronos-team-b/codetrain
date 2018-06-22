@@ -10,13 +10,16 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import jp.keronos.DataSourceManager;
 import jp.keronos.dao.BillDao;
+import jp.keronos.dao.CorporateDao;
 import jp.keronos.dto.BillDto;
+import jp.keronos.dto.CorporateDto;
 
 /**
  * Servlet implementation class ListBillDetailServlet
@@ -33,53 +36,48 @@ public class ListBillDetailServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         // セッションを取得する
-        /*HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("admin") == null) {
             logger.warn("セッションタイムアウト {}", request.getRemoteAddr());
             // トップページに遷移する
             request.getRequestDispatcher("index.jsp").forward(request, response);
             return;
-        }*/
+        }
+
+        //セッションのログイン情報を取得する
+        CorporateDto login_dto = (CorporateDto) session.getAttribute("admin");
+        String corporate_id = login_dto.getCorporateId();
 
         try (Connection conn = DataSourceManager.getConnection()) {
 
+            //会社IDに該当する会社名、管理者名を取得する
+            CorporateDto corporateDto = new CorporateDto();
+
+            corporateDto.setCorporateId(corporate_id);
+
+            CorporateDao corporateDao = new CorporateDao(conn);
+            corporateDto = corporateDao.selectByCorporateId(corporateDto);
+
+            request.setAttribute("corporateDto", corporateDto);
+
             //請求IDを取得する
-            int billingId = Integer.parseInt(request.getParameter("billingId"));
+            BillDto billDto = new BillDto();
+            request.setCharacterEncoding("UTF-8");
+            billDto.setBillingId(Integer.parseInt(request.getParameter("billingId")));
+
+ //           billDto.setBillingId(1);
 
             //請求IDに該当する請求情報を取得する
-            BillDto billDto = new BillDto();
-            billDto.setBillingId(billingId);
-
             BillDao billDao = new BillDao(conn);
             billDto = billDao.selectByBillingId(billDto);
 
             request.setAttribute("billDto", billDto);
 
-            //請求額を算出する
-            int price = billDto.getPrice();
-            int inactive_price = price / 2;
-            double tax = billDto.getTax();
-            int number_of_active_acount = billDto.getNumberOfActiveAccount();
-            int number_of_inactive_acount = billDto.getNumberOfInactiveAccount();
-
-            double tax_for_active_price = price * number_of_active_acount * tax;
-            double tax_for_inactive_price = price / 2 * number_of_inactive_acount * tax;
-            double total_price_with_tax = (price * number_of_active_acount + price / 2 * number_of_inactive_acount) * (1 + tax);
-
-            request.setAttribute("price", price);
-            request.setAttribute("inactive_price", inactive_price);
-            request.setAttribute("tax", tax);
-            request.setAttribute("number_of_active_acount", number_of_active_acount);
-            request.setAttribute("number_of_inactive_acount", number_of_inactive_acount);
-            request.setAttribute("tax_for_active_price", tax_for_active_price);
-            request.setAttribute("tax_for_inactive_price", tax_for_inactive_price);
-            request.setAttribute("total_price_with_tax", total_price_with_tax);
-
-         // URIをリクエストに保持する
+            // URIをリクエストに保持する
             request.setAttribute("uri", request.getRequestURI());
 
-            //list-bill.jspに転送する
-            request.getRequestDispatcher("WEB-INF/list-bill.jsp").forward(request, response);
+            //list-bill-detail.jspに転送する
+            request.getRequestDispatcher("WEB-INF/list-bill-detail.jsp").forward(request, response);
         } catch (SQLException | NamingException e) {
 
             logger.error("{} {}", e.getClass(), e.getMessage());

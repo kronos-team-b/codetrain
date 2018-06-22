@@ -46,6 +46,7 @@ public class BillDao {
         sb.append("        BILL left join PRICE");
         sb.append("     on BILL.PRICE_ID = PRICE.PRICE_ID");
         sb.append("  where CORPORATE_NO = ?");
+        sb.append(" order by BILLING_DATE DESC");
 
         // ステートメントオブジェクトを作成する
         try (PreparedStatement ps = conn.prepareStatement(sb.toString())) {
@@ -65,9 +66,11 @@ public class BillDao {
                 dto.setNumberOfInactiveAccount(rs.getInt("NUMBER_OF_INACTIVE_ACCOUNT"));
                 dto.setPrice(rs.getInt("PRICE"));
                 dto.setTax(rs.getDouble("TAX"));
+
                 double totalPrice = ((dto.getPrice() * dto.getNumberOfActiveAccount())
                         + (dto.getPrice() / 2 * dto.getNumberOfInactiveAccount())) * (1 + dto.getTax());
                 dto.setTotalPrice((int) totalPrice);
+
                 List.add(dto);
             }
             return List;
@@ -101,7 +104,7 @@ public class BillDao {
      // ステートメントオブジェクトを作成する
         try (PreparedStatement ps = conn.prepareStatement(sb.toString())) {
             // プレースホルダーに値をセットする
-            ps.setInt(1, dto.getCorporateNo());
+            ps.setInt(1, dto.getBillingId());
 
             // SQL文を実行する
             ResultSet rs = ps.executeQuery();
@@ -114,6 +117,28 @@ public class BillDao {
                 dto.setNumberOfInactiveAccount(rs.getInt("NUMBER_OF_INACTIVE_ACCOUNT"));
                 dto.setPrice(rs.getInt("PRICE"));
                 dto.setTax(rs.getDouble("TAX"));
+
+                int inactivePrice = dto.getPrice() / 2;
+                dto.setInactivePrice(inactivePrice);
+
+                double taxOfActiveAccount = dto.getPrice() * dto.getNumberOfActiveAccount() * dto.getTax();
+                dto.setTaxOfActiveAccount((int) taxOfActiveAccount);
+
+                double taxOfInactiveAccount = dto.getPrice() / 2 * dto.getNumberOfInactiveAccount()
+                        * dto.getTax();
+                dto.setTaxOfInactiveAccount((int) taxOfInactiveAccount);
+
+                double priceOfActiveAccountWithTax = dto.getPrice() * dto.getNumberOfActiveAccount()
+                        * (1 + dto.getTax());
+                dto.setPriceOfActiveAccountWithTax((int) priceOfActiveAccountWithTax);
+
+                double priceOfInativeAccountWithTax = dto.getPrice() / 2 * dto.getNumberOfInactiveAccount()
+                        * (1 + dto.getTax());
+                dto.setPriceOfInactiveAccountWithTax((int) priceOfInativeAccountWithTax);
+
+                double totalPrice = ((dto.getPrice() * dto.getNumberOfActiveAccount())
+                        + (dto.getPrice() / 2 * dto.getNumberOfInactiveAccount())) * (1 + dto.getTax());
+                dto.setTotalPrice((int) totalPrice);
 
             }
             return dto;

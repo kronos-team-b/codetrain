@@ -11,6 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,29 +39,25 @@ public class ListBillServlet extends HttpServlet {
         logger.info("start:{} {}", Thread.currentThread().getStackTrace()[1].getMethodName(), request.getRemoteAddr());
 
         // セッションを取得する
-        /*HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("admin") == null) {
             logger.warn("セッションタイムアウト {}", request.getRemoteAddr());
             // トップページに遷移する
             request.getRequestDispatcher("index.jsp").forward(request, response);
             return;
-        }*/
+        }
 
         //セッションのログイン情報を取得する
-        /*CorporateDto login_dto = (CorporateDto) session.getAttribute("admin");
+        CorporateDto login_dto = (CorporateDto) session.getAttribute("admin");
         String corporate_id = login_dto.getCorporateId();
-*/
+
         // コネクションを取得する
         try (Connection conn = DataSourceManager.getConnection()) {
 
             //会社IDに該当する会社NOを取得する
             CorporateDto corporateDto = new CorporateDto();
-            /**テストのためにコメントアウト
-            *corporateDto.setCorporateId(corporate_id);
-            **/
-            //テストのためにコメントイン
-            corporateDto.setCorporateId("park");
-            //後で消すよ
+
+            corporateDto.setCorporateId(corporate_id);
 
             CorporateDao corporateDao = new CorporateDao(conn);
             corporateDto = corporateDao.selectByCorporateId(corporateDto);
