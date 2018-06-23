@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import jp.keronos.dto.ContactDto;
@@ -39,6 +40,7 @@ public class ContactDao {
         sbContact.append("          CONTACT_ID");
         sbContact.append("         ,USER_NO");
         sbContact.append("     from CONTACT");
+        sbContact.append(" order by CONTACT_ID desc");
 
         ArrayList<ContactDto> list = new ArrayList<ContactDto>();
 
@@ -71,6 +73,7 @@ public class ContactDao {
         sbContact.append("         ,USER_NO");
         sbContact.append("     from CONTACT");
         sbContact.append("    where USER_NO = ?");
+        sbContact.append(" order by CONTACT_ID desc");
 
         ArrayList<ContactDto> list = new ArrayList<ContactDto>();
 
@@ -114,6 +117,8 @@ public class ContactDao {
         sb.append(" order by CONTACT_DETAIL_ID desc limit 1");
 
         ContactDto dto = new ContactDto();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
 
         // ステートメントオブジェクトを作成する
         try (PreparedStatement ps = conn.prepareStatement(sb.toString())) {
@@ -126,7 +131,7 @@ public class ContactDao {
                 dto.setContactDetailId(rs.getInt("CONTACT_DETAIL_ID"));
                 dto.setContactId(contactId);
                 dto.setContactDetail(rs.getString("CONTACT_DETAIL"));
-                dto.setContactAt(rs.getTimestamp("CONTACT_AT"));
+                dto.setContactAt(sdf.format(rs.getTimestamp("CONTACT_AT")));
                 dto.setRequestOrResponseFlg(rs.getInt("REQUEST_OR_RESPONSE_FLG"));
                 dto.setManageNo(rs.getInt("USER_OR_MANAGE_NO"));
             }
@@ -155,6 +160,8 @@ public class ContactDao {
         sb.append(" order by CONTACT_DETAIL_ID");
 
         ArrayList<ContactDto> list = new ArrayList<ContactDto>();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
 
         // ステートメントオブジェクトを作成する
         try (PreparedStatement ps = conn.prepareStatement(sb.toString())) {
@@ -168,7 +175,7 @@ public class ContactDao {
                 dto.setContactDetailId(rs.getInt("CONTACT_DETAIL_ID"));
                 dto.setContactId(rs.getInt("CONTACT_ID"));
                 dto.setContactDetail(rs.getString("CONTACT_DETAIL"));
-                dto.setContactAt(rs.getTimestamp("CONTACT_AT"));
+                dto.setContactAt(sdf.format(rs.getTimestamp("CONTACT_AT")));
                 dto.setRequestOrResponseFlg(rs.getInt("REQUEST_OR_RESPONSE_FLG"));
                 dto.setManageNo(rs.getInt("USER_OR_MANAGE_NO"));
                 list.add(dto);
@@ -197,7 +204,7 @@ public class ContactDao {
         sbContact.append("             ?");
         sbContact.append("           )");
 
-        // SQL文を作成する (テストIDの取得)
+        // SQL文を作成する (コンタクトIDの取得)
         StringBuffer sbDetail = new StringBuffer();
         sbDetail.append("     select CONTACT_ID");
         sbDetail.append("       from CONTACT");
@@ -209,8 +216,7 @@ public class ContactDao {
         try (PreparedStatement ps = conn.prepareStatement(sbContact.toString())) {
 
             // プレースホルダーに値をセットする
-            //ps.setInt(1, dto.getUserNo());
-            ps.setInt(1, 1);
+            ps.setInt(1, dto.getUserNo());
 
             // SQLを実行する
             ps.executeUpdate();
@@ -301,4 +307,3 @@ public class ContactDao {
         }
     }
 }
-

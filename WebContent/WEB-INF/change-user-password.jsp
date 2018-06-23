@@ -4,7 +4,7 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>初期パスワード変更</title>
+  <title>パスワード変更</title>
   <%@ include file="header.jsp"%>
 </head>
 <body>

@@ -11,8 +11,8 @@ import javax.servlet.http.HttpSession;
 /**
  * Servlet implementation class LogoutUserServlet
  */
-@WebServlet("/logout-user")
-public class LogoutUserServlet extends HttpServlet {
+@WebServlet("/logout-manage")
+public class LogoutManageServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -22,11 +22,11 @@ public class LogoutUserServlet extends HttpServlet {
 
         // セッションオブジェクトを破棄する
         HttpSession session = request.getSession();
-        session.removeAttribute("user");
+        session.removeAttribute("manage");
         session.invalidate();
 
         // index.jspに遷移する
-        response.sendRedirect("index.jsp");
+        response.sendRedirect("index-manage.jsp");
     }
 
     /**
@@ -37,5 +37,4 @@ public class LogoutUserServlet extends HttpServlet {
         doGet(request, response);
     }
 }
-
 

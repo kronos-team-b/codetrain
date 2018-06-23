@@ -18,35 +18,34 @@ import org.slf4j.LoggerFactory;
 
 import jp.keronos.DataSourceManager;
 import jp.keronos.dao.ContactDao;
+import jp.keronos.dao.SystemManageDao;
 import jp.keronos.dao.UserDao;
 import jp.keronos.dto.UserDto;
 import jp.keronos.dto.ContactDto;
+import jp.keronos.dto.SystemManageDto;
 
 /**
- * コンタクトの追加
+ * レスポンスの追加
  * @author Hiroki Nishio
  */
 
 /**
  * Servlet implementation class FormChannelServlet
  */
-@WebServlet("/add-contact")
-public class AddContactServlet extends HttpServlet {
+@WebServlet("/add-response")
+public class AddResponseServlet extends HttpServlet  {
     private static final long serialVersionUID = 1L;
 
-    private Logger logger = LoggerFactory.getLogger(AddContactServlet.class);
+    private Logger logger = LoggerFactory.getLogger(AddResponseServlet.class);
 
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        logger.info("start:{}", Thread.currentThread().getStackTrace()[1].getMethodName());
-
         // トップページに遷移する
         response.sendRedirect("index.jsp");
     }
-
     /**
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
      */
@@ -56,46 +55,44 @@ public class AddContactServlet extends HttpServlet {
 
         // セッションを取得する
         HttpSession session = request.getSession(false);
-
-        if (session == null || session.getAttribute("user") == null) {
+        if (session == null || session.getAttribute("manage") == null) {
 
             logger.warn("セッションタイムアウト {}", request.getRemoteAddr());
 
             // トップページに遷移する
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            request.getRequestDispatcher("index-manage.jsp").forward(request, response);
             return;
         }
 
-        UserDto userDto = (UserDto)session.getAttribute("user");
-
+        // ログインユーザ情報を取得する
+        SystemManageDto manage = (SystemManageDto)session.getAttribute("manage");
 
         // コネクションを取得する
         try (Connection conn = DataSourceManager.getConnection()) {
             //ログインユーザのIDをゲットする
-            UserDao userDao = new UserDao(conn);
-            userDto = userDao.findById(userDto.getUserId());
+            SystemManageDao manageDao = new SystemManageDao(conn);
+
+            manage = manageDao.findById(manage.getManageId());
 
             // フォームのデータを取得する
             ContactDto contactDto = new ContactDto();
             request.setCharacterEncoding("UTF-8");
 
-            contactDto.setContactDetail(request.getParameter("request"));
-            contactDto.setUserNo(userDto.getUserNo());
+            contactDto.setContactDetail(request.getParameter("response"));
+            contactDto.setContactId(Integer.parseInt(request.getParameter("contactId")));
+            contactDto.setManageNo(manage.getManageNo());
 
             ContactDao contactDao = new ContactDao(conn);
-            contactDto.setContactId(contactDao.insertContact(contactDto));
-            contactDao.insertRequest(contactDto);
+            contactDao.insertResponse(contactDto);
 
             // URIをリクエストに保持する
             request.setAttribute("uri", request.getRequestURI());
 
             // コンタクトIDを保持する
             request.setAttribute("contactId", contactDto.getContactId());
-            request.setAttribute("message", "リクエストを送信しました。");
 
             // リクエスト詳細画面に遷移する
-            //request.getRequestDispatcher("view-request").forward(request, response);
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            request.getRequestDispatcher("view-response").forward(request, response);
         } catch (SQLException | NamingException e) {
 
             logger.error("{} {}", e.getClass(), e.getMessage());
@@ -104,6 +101,7 @@ public class AddContactServlet extends HttpServlet {
             request.getRequestDispatcher("system-error.jsp").forward(request, response);
         }
     }
+
 }
 
 

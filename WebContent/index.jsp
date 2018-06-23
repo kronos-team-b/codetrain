@@ -9,3 +9,5 @@
     <c:redirect url="/list-course" />
   </body>
 </html>
+
+

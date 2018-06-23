@@ -28,11 +28,11 @@ public class FormChangeManagePasswordServlet extends HttpServlet {
 
         // セッションを取得する
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("user") == null) {
+        if (session == null || session.getAttribute("manage") == null) {
             logger.warn("セッションタイムアウト {}", request.getRemoteAddr());
 
             // ログインページに遷移する
-            request.getRequestDispatcher("index-test-contact.jsp").forward(request, response);
+            request.getRequestDispatcher("index-manage.jsp").forward(request, response);
             return;
         }
 
