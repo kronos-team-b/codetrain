@@ -18,8 +18,10 @@ import javax.servlet.http.HttpSession;
 import jp.keronos.DataSourceManager;
 import jp.keronos.dao.LearningCourseDao;
 import jp.keronos.dao.UnitTestDao;
+import jp.keronos.dto.UnitTestChoicesDto;
 import jp.keronos.dto.UnitTestDto;
 import jp.keronos.dto.UserCourseTestAnswerDto;
+import jp.keronos.dto.UserDto;
 
 /**
  * Servlet implementation class AnsCourseTestServlet
@@ -39,40 +41,53 @@ public class AnsCourseTestServlet extends HttpServlet {
     /**
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
      */
+    @SuppressWarnings("unchecked")
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        request.setCharacterEncoding("UTF-8");
 
         HttpSession session = request.getSession(false);
 
-//        if (session == null || session.getAttribute("user") == null) {
-//
-//          request.getRequestDispatcher("index.jsp").forward(request, response);
-//          return;
-//        }
+        UserDto user = (UserDto)session.getAttribute("user");
 
-//        UserDto user = (UserDto)session.getAttribute("user");
-//        int userNo = user.getUserNo();
-        int userNo = 1;
+        // ログインしていなければuserNoを0にセット
+        int userNo = 0;
+        if (user != null) {
+            userNo = user.getUserNo();
+        }
+
         int courseId = (int)request.getAttribute("courseId");
-        @SuppressWarnings("unchecked")
         ArrayList<UserCourseTestAnswerDto> answeredListDto = (ArrayList<UserCourseTestAnswerDto>) request.getAttribute("answers");
-        request.setAttribute("answeredList", answeredListDto);
-
-        ArrayList<Integer> testIds = takeTestIds(answeredListDto);
 
         try(Connection connection = DataSourceManager.getConnection()) {
 
             UnitTestDao unitTestDao = new UnitTestDao(connection);
-            ArrayList<UnitTestDto> answerListDto = unitTestDao.selectAnswerByTestIds(testIds);
-            request.setAttribute("answerList", answerListDto);
+            ArrayList<UnitTestDto> answerListDto = unitTestDao.selectAnswerByTestIds(takeTestIds(answeredListDto));
 
             ArrayList<String> answerList = takeAnswerList(answerListDto);
             ArrayList<String> answeredList = takeAnsweredList(answeredListDto);
 
-            byte passFlg = takePassFlg(answeredList, answerList);
-            LearningCourseDao learningCourseDao = new LearningCourseDao(connection);
-            learningCourseDao.duplicate(courseId, userNo, passFlg);
+            // ログインしていればテスト結果を登録する
+            if (userNo != 0) {
+                LearningCourseDao learningCourseDao = new LearningCourseDao(connection);
+                learningCourseDao.duplicate(courseId, userNo, takePassFlg(answeredList, answerList));
+            }
 
-            request.getRequestDispatcher("answer-course-test.jsp").forward(request, response);
+            ArrayList<UnitTestDto> unitTestList = (ArrayList<UnitTestDto>) session.getAttribute("sessionUnitTestList");
+            ArrayList<UnitTestChoicesDto> choicesList = (ArrayList<UnitTestChoicesDto>) session.getAttribute("sessionChoicesList");
+            UnitTestDto[] arrayAnswerListDto = answerListDto.toArray(new UnitTestDto[answerListDto.size()]);
+            UserCourseTestAnswerDto[] arrayAnswerdList  = answeredListDto.toArray(new UserCourseTestAnswerDto[answeredListDto.size()]);
+
+            request.setAttribute("courseId", courseId);
+            request.setAttribute("unitTestList", unitTestList);
+            request.setAttribute("choicesList", choicesList);
+            request.setAttribute("answerList", arrayAnswerListDto);
+            request.setAttribute("answeredList", arrayAnswerdList);
+
+            session.removeAttribute("sessionUnitTestList");
+            session.removeAttribute("sessionChoicesList");
+
+            request.getRequestDispatcher("WEB-INF/answer-course-test.jsp").forward(request, response);
 
         } catch (SQLException | NamingException e) {
 
