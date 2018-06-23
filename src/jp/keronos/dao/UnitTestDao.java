@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 import jp.keronos.dto.UnitTestChoicesDto;
 import jp.keronos.dto.UnitTestDto;
@@ -15,6 +16,10 @@ import jp.keronos.dto.UnitTestDto;
  * @author Hiroki Nishio
  */
 
+/**
+ * @author Hiroto
+ *
+ */
 public class UnitTestDao {
     /** コネクション */
     protected Connection conn;
@@ -250,5 +255,45 @@ public class UnitTestDao {
         }
 
         return list;
+    }
+
+    /**
+     * 正解リストを取得する
+     * @param courseId
+     * @param time
+     * @return 正解リスト
+     * @throws SQLException
+     */
+    public ArrayList<UnitTestDto> selectAnswerByTestIds(ArrayList<Integer> testIds) throws SQLException {
+
+        List<String> queries = new ArrayList<>();
+        for (Integer testId : testIds) {
+            queries.add(" TEST_ID = " + testId);
+        }
+        String query = String.join(" or", queries);
+
+        String sql =
+                "select "
+                + "MODEL_ANSWER "
+                + "from UNIT_TEST "
+                + "where "
+                + query;
+
+        ArrayList<UnitTestDto> list = new ArrayList<>();
+        UnitTestDto unitTestDto = null;
+
+        try(PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next()) {
+                unitTestDto = new UnitTestDto();
+                unitTestDto.setModelAnswer(resultSet.getString("MODEL_ANSWER"));
+
+                list.add(unitTestDto);
+            }
+
+            return list;
+        }
     }
 }

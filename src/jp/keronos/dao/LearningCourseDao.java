@@ -44,4 +44,35 @@ public class LearningCourseDao {
 
         return list;
     }
+
+    /**
+     * 回答データを追加、更新する
+     * @param courseId
+     * @param userNo
+     * @param pass_flag
+     * @return 追加、更新数
+     * @throws SQLException
+     */
+    public int duplicate(int courseId, int userNo, byte passFlag) throws SQLException {
+
+        String sql = "insert into LEARNING_COURSE( "
+                + "COURSE_ID, "
+                + "USER_NO, "
+                + "LEARNING_TYPE, "
+                + "PASS_FLG "
+                + ") "
+                + "values (?,?,1,?) "
+                + "on duplicate key update "
+                + "PASS_FLG = values (PASS_FLG)";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setInt(1, courseId);
+            preparedStatement.setInt(2, userNo);
+            preparedStatement.setByte(3, passFlag);
+
+            return preparedStatement.executeUpdate();
+        }
+
+    }
 }

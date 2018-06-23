@@ -87,22 +87,30 @@ public class FormCourseTestServlet extends HttpServlet {
 
         request.setCharacterEncoding("UTF-8");
 
-        int courseId = Integer.parseInt(request.getParameter("course-id"));
+        int courseCount = Integer.parseInt(request.getParameter("course-count"));
 
-        String[] answers = request.getParameterValues("answer[]");
+        int courseId = Integer.parseInt(request.getParameter("course-id"));
+        request.setAttribute("courseId", courseId);
+
+        String[] answers = new String[courseCount];
+        for (int i = 0; i < courseCount; i++) {
+            String param = String.format("answer[%d]", i);
+            answers[i] = request.getParameter(param);
+        }
+
         int[] testIds = Stream.of(request.getParameterValues("unit-test-id[]")).mapToInt(Integer::parseInt).toArray();
 
         UserDto user = (UserDto)session.getAttribute("user");
         int userNo = user.getUserNo();
 
         ArrayList<UserCourseTestAnswerDto> list = setTestData(courseId, answers, testIds, userNo);
+        request.setAttribute("answers", list);
 
         try(Connection connection = DataSourceManager.getConnection()) {
 
             UserCourseTestAnswerDao userCourseTestAnswerDao = new UserCourseTestAnswerDao(connection);
             userCourseTestAnswerDao.insert(list);
 
-            request.setAttribute("userAnswerList", list);
             request.getRequestDispatcher("ans-course-test").forward(request, response);
 
         } catch (SQLException | NamingException e) {
