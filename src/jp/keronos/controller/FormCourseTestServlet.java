@@ -38,12 +38,6 @@ public class FormCourseTestServlet extends HttpServlet {
 
         HttpSession session = request.getSession(false);
 
-        if (session == null || session.getAttribute("user") == null) {
-
-            request.getRequestDispatcher("index.jsp").forward(request, response);
-            return;
-        }
-
         int courseId = Integer.parseInt(request.getParameter("courseId"));
 
         try(Connection connection = DataSourceManager.getConnection()) {
@@ -60,9 +54,11 @@ public class FormCourseTestServlet extends HttpServlet {
                  unitTestList.add(unitTestDao.randomSelectByUnitId(unitId));
             }
             request.setAttribute("unitTestList", unitTestList);
+            session.setAttribute("sessionUnitTestList", unitTestList);
 
             ArrayList<UnitTestChoicesDto> choicesList = unitTestDao.selectUnitTestChoise();
             request.setAttribute("choicesList", choicesList);
+            session.setAttribute("sessionChoicesList", choicesList);
 
             request.getRequestDispatcher("WEB-INF/form-course-test.jsp").forward(request, response);
 
@@ -77,32 +73,41 @@ public class FormCourseTestServlet extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        HttpSession session = request.getSession(false);
-
-        if (session == null || session.getAttribute("user") == null) {
-
-          request.getRequestDispatcher("index.jsp").forward(request, response);
-          return;
-        }
-
         request.setCharacterEncoding("UTF-8");
 
-        int courseId = Integer.parseInt(request.getParameter("course-id"));
-
-        String[] answers = request.getParameterValues("answer[]");
-        int[] testIds = Stream.of(request.getParameterValues("unit-test-id[]")).mapToInt(Integer::parseInt).toArray();
+        HttpSession session = request.getSession(false);
 
         UserDto user = (UserDto)session.getAttribute("user");
-        int userNo = user.getUserNo();
+
+        int userNo = 0;
+        if (user != null) {
+            userNo = user.getUserNo();
+        }
+
+        int courseCount = Integer.parseInt(request.getParameter("course-count"));
+
+        int courseId = Integer.parseInt(request.getParameter("course-id"));
+        request.setAttribute("courseId", courseId);
+
+        String[] answers = new String[courseCount];
+        for (int i = 0; i < courseCount; i++) {
+            String param = String.format("answer[%d]", i);
+            answers[i] = request.getParameter(param);
+        }
+
+        int[] testIds = Stream.of(request.getParameterValues("unit-test-id[]")).mapToInt(Integer::parseInt).toArray();
 
         ArrayList<UserCourseTestAnswerDto> list = setTestData(courseId, answers, testIds, userNo);
+        request.setAttribute("answers", list);
 
         try(Connection connection = DataSourceManager.getConnection()) {
 
-            UserCourseTestAnswerDao userCourseTestAnswerDao = new UserCourseTestAnswerDao(connection);
-            userCourseTestAnswerDao.insert(list);
+            // ログインしていれば回答を登録
+            if (userNo != 0) {
+                UserCourseTestAnswerDao userCourseTestAnswerDao = new UserCourseTestAnswerDao(connection);
+                userCourseTestAnswerDao.insert(list);
+            }
 
-            request.setAttribute("userAnswerList", list);
             request.getRequestDispatcher("ans-course-test").forward(request, response);
 
         } catch (SQLException | NamingException e) {
