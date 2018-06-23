@@ -92,4 +92,3 @@ public class LearningHistoryDto {
         this.testAt = testAt;
     }
 }
-

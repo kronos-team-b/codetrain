@@ -87,8 +87,6 @@
         </c:if>        
       </c:forEach>
     </c:forEach>
-
-
   </div>
 </body>
 </html>
