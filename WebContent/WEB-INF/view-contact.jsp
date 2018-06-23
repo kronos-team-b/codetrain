@@ -17,7 +17,7 @@
       </div>
       <div class="row">
         <div class="col-12">
-          <p class="h4 mt-3 p-3 bg-light text-info rounded">リクエストフォーム</p>
+          <p class="h4 mt-3 mb-3 p-3 text-info border-bottom">リクエストフォーム</p>
           <div class="col-sm-8 offset-sm-2">
             <form action="add-contact" method="post">
               <div class="form-group row">
@@ -36,4 +36,3 @@
     </div>
   </body>
 </html>
-

@@ -11,7 +11,7 @@
   <%@ include file="user-navbar.jsp"%>
   <div class="container">
     <div class="row">
-      <div class="mx-auto text-primary">&nbsp;<c:out value="${ errorMessage }" /></div>
+      <div class="mx-auto text-danger">&nbsp;<c:out value="${ errorMessage }" /></div>
       <div class="mx-auto text-primary">&nbsp;<c:out value="${ message }" /></div>
     </div>
     <div class="row">

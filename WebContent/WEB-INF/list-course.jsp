@@ -50,11 +50,11 @@
               <tr>
                 <td>${ list.get(i)[0]["categoryName"] }</td>
                 <c:if test="${ list.get(i)[0]['isFreeFlg'] eq 1 }">
-                  <td><a href="course-detail?courseId=${ list.get(i)[0]['courseId'] }">${ list.get(i)[0]["courseName"] }</a></td>
+                  <td><a href="view-course?courseId=${ list.get(i)[0]['courseId'] }">${ list.get(i)[0]["courseName"] }</a></td>
                 </c:if>
                 <c:if test="${ list.get(i)[0]['isFreeFlg'] eq 0 }">
                   <c:if test="${ not empty user }">
-                    <td><a href="course-detail?courseId=${ list.get(i)[0]['courseId'] }">${ list.get(i)[0]["courseName"] }</a></td>
+                    <td><a href="view-course?courseId=${ list.get(i)[0]['courseId'] }">${ list.get(i)[0]["courseName"] }</a></td>
                   </c:if>
                   <c:if test="${ empty user }">
                     <td>${ list.get(i)[0]["courseName"] }</td>
@@ -71,7 +71,7 @@
                 <c:if test="${ not empty user }">
                   <td><span class="text-primary">${ list.get(i)[1] }</span></td>
                   <c:if test="${ list.get(i)[2][0]['passFlg'] eq 0 }">
-                    <td><span class="text-white bg-success success-or-failure">不合格</span></td>
+                    <td><span class="text-white bg-danger success-or-failure">不合格</span></td>
                   </c:if>
                   <c:if test="${ list.get(i)[2][0]['passFlg'] eq 1 }">
                     <td><span class="text-white bg-success success-or-failure">合格</span></td>
