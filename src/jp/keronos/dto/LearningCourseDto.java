@@ -1,7 +1,5 @@
 package jp.keronos.dto;
 
-import java.sql.Timestamp;
-
 public class LearningCourseDto {
 
     private int courseId;
@@ -12,7 +10,15 @@ public class LearningCourseDto {
 
     private int passFlg;
 
-    private Timestamp updateAt;
+    private String updateAt;
+
+	private String courseName;
+	
+	private int isFreeFlg;
+	
+	private int categoryId;
+	
+	private int updateNumber;
 
     public int getCourseId() {
         return courseId;
@@ -46,11 +52,43 @@ public class LearningCourseDto {
         this.passFlg = passFlg;
     }
 
-    public Timestamp getUpdateAt() {
+    public String getUpdateAt() {
         return updateAt;
     }
 
-    public void setUpdateAt(Timestamp updateAt) {
+    public void setUpdateAt(String updateAt) {
         this.updateAt = updateAt;
     }
+		
+	public String getCourseName() {
+	    return courseName;
+	}
+	
+	public void setCourseName(String courseName) {
+	    this.courseName = courseName;
+	}
+	
+	public int getIsFreeFlg() {
+	    return isFreeFlg;
+	}
+	
+	public void setIsFreeFlg(int isFreeFlg) {
+	    this.isFreeFlg = isFreeFlg;
+	}
+	
+	public int getCategoryId() {
+	    return categoryId;
+	}
+	
+	public void setCategoryId(int categoryId) {
+	    this.categoryId = categoryId;
+	}
+	
+	public int getUpdateNumber() {
+	    return updateNumber;
+	}
+	
+	public void setUpdateNumber(int updateNumber) {
+	    this.updateNumber = updateNumber;
+	}
 }
