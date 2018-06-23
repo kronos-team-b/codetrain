@@ -5,9 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import jp.keronos.dto.CourseDto;
+import jp.keronos.dto.LearningCourseDto;
 
 public class CourseDao {
 
@@ -107,7 +109,7 @@ public class CourseDao {
         sb.append("         ,MANAGE_NO");
         sb.append("         ,DELETE_FLG");
         sb.append("     from COURSE");
-        sb.append(" order by COURSE_ID desc");
+        sb.append(" order by COURSE_ID");
 
         ArrayList<CourseDto> list = new ArrayList<CourseDto>();
 
@@ -134,6 +136,63 @@ public class CourseDao {
             return list;
         }
     }
+
+    /**
+     * コース情報リストと学習履歴を取得する
+     * @return コース情報リスト
+     * @param ユーザNO
+     * @throws SQLException SQL例外
+     */
+    public ArrayList<LearningCourseDto> selectAllAndUserHistory(int userNo) throws SQLException {
+        // SQL文を作成する
+        StringBuffer sb = new StringBuffer();
+        sb.append("          select");
+        sb.append("                 LC.LEARNING_TYPE");
+        sb.append("                ,LC.USER_NO");
+        sb.append("                ,LC.PASS_FLG");
+        sb.append("                ,LC.UPDATE_AT");
+        sb.append("                ,CO.COURSE_ID");
+        sb.append("                ,CO.COURSE_NAME");
+        sb.append("                ,CO.IS_FREE_FLG");
+        sb.append("                ,CO.CATEGORY_ID");
+        sb.append("                ,CO.DELETE_FLG");
+        sb.append("     from COURSE as CO");
+        sb.append(" left outer join LEARNING_COURSE as LC");
+        sb.append("              on LC.COURSE_ID = CO.COURSE_ID");
+        sb.append("             and LC.USER_NO = ?");
+        sb.append("           where CO.DELETE_FLG = 0");
+        sb.append("        order by CO.COURSE_ID");
+
+        ArrayList<LearningCourseDto> list = new ArrayList<LearningCourseDto>();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        
+        // ステートメントオブジェクトを作成する
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sb.toString())) {
+
+        	preparedStatement.setInt(1, userNo);
+        	
+            // SQL文を実行する
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                LearningCourseDto dto = new LearningCourseDto();
+                dto.setLearnigType(rs.getInt("LEARNING_TYPE"));
+                dto.setUserNo(rs.getInt("USER_NO"));
+                dto.setPassFlg(rs.getInt("PASS_FLG"));
+                if(rs.getTimestamp("UPDATE_AT") != null) {
+                	dto.setUpdateAt(sdf.format(rs.getTimestamp("UPDATE_AT")));            		
+            	}
+                dto.setCourseId(rs.getInt("COURSE_ID"));
+                dto.setCourseName(rs.getString("COURSE_Name"));
+                dto.setIsFreeFlg(rs.getInt("IS_FREE_FLG"));
+                dto.setCategoryId(rs.getInt("CATEGORY_ID"));
+                dto.setUpdateNumber(rs.getInt("DELETE_FLG"));
+                list.add(dto);
+            }
+            return list;
+        }
+    }
+
+    
 
     public CourseDto selectByCourseId(int courseId) throws SQLException {
 
@@ -175,3 +234,4 @@ public class CourseDao {
 
 
 }
+

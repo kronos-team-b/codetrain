@@ -4,8 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 import jp.keronos.dto.CategoryDto;
+import jp.keronos.dto.CourseDto;
 
 public class CategoryDao {
 
@@ -50,4 +53,37 @@ public class CategoryDao {
 
         return categoryDto;
     }
+
+
+    /**
+     * カテゴリ情報リストを取得する
+     * @return カテゴリ情報リスト
+     * @throws SQLException SQL例外
+     */
+    public ArrayList<CategoryDto> selectAll() throws SQLException {
+        // SQL文を作成する
+        StringBuffer sb = new StringBuffer();
+        sb.append("     select ");
+        sb.append("            CATEGORY_ID,");
+        sb.append("            CATEGORY_NAME");
+        sb.append("       from CATEGORY");
+        sb.append(" order by CATEGORY_ID");
+
+        ArrayList<CategoryDto> list = new ArrayList<CategoryDto>();
+
+        // ステートメントオブジェクトを作成する
+        try (Statement stmt = connection.createStatement()) {
+
+            // SQL文を実行する
+            ResultSet rs = stmt.executeQuery(sb.toString());
+            while (rs.next()) {
+                CategoryDto dto = new CategoryDto();
+                dto.setCategoryId(rs.getInt("CATEGORY_ID"));
+                dto.setCategoryName(rs.getString("CATEGORY_NAME"));
+                list.add(dto);
+            }
+            return list;
+        }
+    }
 }
+

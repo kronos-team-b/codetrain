@@ -1,16 +1,16 @@
 package jp.keronos.dto;
 
-import java.sql.Timestamp;
-
 public class LearningHistoryDto {
 
     private int learningHistoryId;
 
-    private int unitNo;
+    private int unitId;
+    
+    private String unitTitle;
 
     private int courseId;
 
-    private int userId;
+    private int userNo;
 
     private int skipFlg;
 
@@ -18,7 +18,7 @@ public class LearningHistoryDto {
 
     private int unitTestPoint;
 
-    private Timestamp testAt;
+    private String testAt;
 
     public int getLearningHistoryId() {
         return learningHistoryId;
@@ -28,12 +28,20 @@ public class LearningHistoryDto {
         this.learningHistoryId = learningHistoryId;
     }
 
-    public int getUnitNo() {
-        return unitNo;
+    public int getUnitId() {
+        return unitId;
     }
 
-    public void setUnitNo(int unitNo) {
-        this.unitNo = unitNo;
+    public void setUnitId(int unitId) {
+        this.unitId = unitId;
+    }
+    
+    public String getUnitTitle() {
+        return unitTitle;
+    }
+
+    public void setUnitTitle(String unitTitle) {
+        this.unitTitle = unitTitle;
     }
 
     public int getCourseId() {
@@ -44,12 +52,12 @@ public class LearningHistoryDto {
         this.courseId = courseId;
     }
 
-    public int getUserId() {
-        return userId;
+    public int getUserNo() {
+        return userNo;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUserNo(int userNo) {
+        this.userNo = userNo;
     }
 
     public int getSkipFlg() {
@@ -76,11 +84,12 @@ public class LearningHistoryDto {
         this.unitTestPoint = unitTestPoint;
     }
 
-    public Timestamp getTestAt() {
+    public String getTestAt() {
         return testAt;
     }
 
-    public void setTestAt(Timestamp testAt) {
+    public void setTestAt(String testAt) {
         this.testAt = testAt;
     }
 }
+
