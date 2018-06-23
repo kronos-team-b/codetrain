@@ -81,12 +81,12 @@ public class ContactDao {
 
             // SQL文を実行する
             ResultSet rs = ps.executeQuery();
-                 while (rs.next()) {
-                     ContactDto dto = new ContactDto();
-                     int contactId = rs.getInt("CONTACT_ID");
-                     dto = selectLatestByContactId(contactId);
-                     list.add(dto);
-                 }
+            while (rs.next()) {
+                ContactDto dto = new ContactDto();
+                int contactId = rs.getInt("CONTACT_ID");
+                dto = selectLatestByContactId(contactId);
+                list.add(dto);
+            }
         }
         return list;
     }
@@ -108,7 +108,7 @@ public class ContactDao {
         sb.append("         ,CONTACT_DETAIL");
         sb.append("         ,CONTACT_AT");
         sb.append("         ,REQUEST_OR_RESPONSE_FLG");
-        sb.append("         ,MANAGE_NO");
+        sb.append("         ,USER_OR_MANAGE_NO");
         sb.append("     from CONTACT_DETAIL");
         sb.append("    where CONTACT_ID = ?");
         sb.append(" order by CONTACT_DETAIL_ID desc limit 1");
@@ -128,7 +128,7 @@ public class ContactDao {
                 dto.setContactDetail(rs.getString("CONTACT_DETAIL"));
                 dto.setContactAt(rs.getTimestamp("CONTACT_AT"));
                 dto.setRequestOrResponseFlg(rs.getInt("REQUEST_OR_RESPONSE_FLG"));
-                dto.setManageNo(rs.getInt("MANAGE_NO"));
+                dto.setManageNo(rs.getInt("USER_OR_MANAGE_NO"));
             }
             return dto;
         }
@@ -149,7 +149,7 @@ public class ContactDao {
         sb.append("         ,CONTACT_DETAIL");
         sb.append("         ,CONTACT_AT");
         sb.append("         ,REQUEST_OR_RESPONSE_FLG");
-        sb.append("         ,MANAGE_NO");
+        sb.append("         ,USER_OR_MANAGE_NO");
         sb.append("     from CONTACT_DETAIL");
         sb.append("    where CONTACT_ID = ?");
         sb.append(" order by CONTACT_DETAIL_ID");
@@ -170,7 +170,7 @@ public class ContactDao {
                 dto.setContactDetail(rs.getString("CONTACT_DETAIL"));
                 dto.setContactAt(rs.getTimestamp("CONTACT_AT"));
                 dto.setRequestOrResponseFlg(rs.getInt("REQUEST_OR_RESPONSE_FLG"));
-                dto.setManageNo(rs.getInt("MANAGE_NO"));
+                dto.setManageNo(rs.getInt("USER_OR_MANAGE_NO"));
                 list.add(dto);
             }
             return list;
@@ -242,7 +242,7 @@ public class ContactDao {
         sbContact.append("             CONTACT_ID");
         sbContact.append("            ,CONTACT_DETAIL");
         sbContact.append("            ,REQUEST_OR_RESPONSE_FLG");
-        sbContact.append("            ,MANAGE_NO");
+        sbContact.append("            ,USER_OR_MANAGE_NO");
         sbContact.append("           )");
         sbContact.append("      values");
         sbContact.append("           (");
@@ -279,7 +279,7 @@ public class ContactDao {
         sbContact.append("             CONTACT_ID");
         sbContact.append("            ,CONTACT_DETAIL");
         sbContact.append("            ,REQUEST_OR_RESPONSE_FLG");
-        sbContact.append("            ,MANAGE_NO");
+        sbContact.append("            ,USER_OR_MANAGE_NO");
         sbContact.append("           )");
         sbContact.append("      values");
         sbContact.append("           (");
@@ -301,3 +301,4 @@ public class ContactDao {
         }
     }
 }
+

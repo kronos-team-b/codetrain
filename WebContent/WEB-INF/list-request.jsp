@@ -17,7 +17,7 @@
       </div>
       <div class="row">
         <div class="col-12">
-          <p class="h4 mt-3 p-3 bg-light text-info rounded">リクエスト一覧</p>
+          <p class="h4 mt-3 mb-3 p-3 text-info border-bottom">リクエスト一覧</p>
           <table class="table table-striped">
             <thead>
               <tr>

@@ -151,4 +151,57 @@ public class UserDao {
             return ps.executeUpdate();
         }
     }
+
+    /**
+    * 利用者情報を取得する
+    * @param 利用者ID
+    * @return 利用者情報
+    * @throws SQLException SQL例外
+    */
+
+    public UserDto findByUserNo(int userNo) throws SQLException {
+        //SQL文を作成する
+        StringBuffer sb = new StringBuffer();
+        sb.append(" select");
+        sb.append("        USER_NO");
+        sb.append("       ,USER_ID");
+//        sb.append("       ,PASSWORD");
+        sb.append("       ,FIRST_NAME");
+        sb.append("       ,LAST_NAME");
+        sb.append("       ,INACTIVE_FLG");
+        sb.append("       ,CORPORATE_NO");
+        sb.append("       ,UPDATE_NUMBER");
+        sb.append("       ,DELETE_FLG");
+        sb.append("   from USER");
+        sb.append("  where USER_NO = ?");
+        sb.append("    and DELETE_FLG = 0");
+
+        // ステートメントオブジェクトを作成する
+        try (PreparedStatement ps = conn.prepareStatement(sb.toString())) {
+            // プレースホルダーに値をセットする
+            ps.setInt(1, userNo);
+
+            // SQLを実行する
+            ResultSet rs = ps.executeQuery();
+
+            // 結果をDTOに詰める
+            if (rs.next()) {
+                UserDto user = new UserDto();
+                user.setUserNo(rs.getInt("USER_NO"));
+                user.setUserId(rs.getString("USER_ID"));
+//                user.setPassword(rs.getString("PASSWORD"));
+                user.setFirstName(rs.getString("FIRST_NAME"));
+                user.setLastName(rs.getString("LAST_NAME"));
+                user.setInactiveFlg(rs.getInt("INACTIVE_FLG"));
+                user.setInactiveFlg(rs.getInt("CORPORATE_NO"));
+                user.setUpdateNumber(rs.getInt("UPDATE_NUMBER"));
+                user.setDeleteFlg(rs.getInt("DELETE_FLG"));
+                return user;
+            }
+            // 該当するデータがない場合はnullを返却する
+            return null;
+        }
+    }
 }
+
+

@@ -75,13 +75,13 @@ public class ChangeUserPasswordServlet extends HttpServlet {
             UserDao loginDao = new UserDao(conn);
             UserDto userDto = loginDao.findByIdAndPassword(user_id, existpass);
 
-            session.setAttribute("user", userDto);
-            session.removeAttribute("errorMessage");
+            request.setAttribute("user", userDto);
+            request.removeAttribute("errorMessage");
 
             // パスワードがおかしいとき
             if (userDto == null) {
                 logger.warn("ログイン失敗 {} mail={} pass={}", request.getRemoteAddr(), user_id, existpass);
-                session.setAttribute("errorMessage", "メールアドレスまたはパスワードが間違っています");
+                request.setAttribute("errorMessage", "既存のパスワードが間違っています");
             }
         } catch (SQLException | NamingException e) {
             logger.error("{} {}", e.getClass(), e.getMessage());
@@ -118,6 +118,7 @@ public class ChangeUserPasswordServlet extends HttpServlet {
 
             // 更新メッセージをリクエストスコープに保持する
             request.setAttribute("message", "パスワードを更新しました");
+            request.removeAttribute("errorMessage");
 
             // トップページに遷移する
             request.getRequestDispatcher("list-course").forward(request, response);
@@ -130,3 +131,4 @@ public class ChangeUserPasswordServlet extends HttpServlet {
         }
     }
 }
+
