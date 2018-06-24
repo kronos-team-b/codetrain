@@ -1,5 +1,7 @@
 package jp.keronos.dto;
 
+import java.sql.Timestamp;
+
 public class CorporateDto {
 
     private int corporateNo;
@@ -31,6 +33,12 @@ public class CorporateDto {
     private String domain;
 
     private int manageNo;
+    
+    private int deleteFlg;
+    
+    private Timestamp updateAt;
+
+    private int updateNumber;
 
     public int getCorporateNo() {
         return corporateNo;
@@ -151,5 +159,28 @@ public class CorporateDto {
     public void setManageNo(int manageNo) {
         this.manageNo = manageNo;
     }
+    
+    public int getDeleteFlg() {
+        return deleteFlg;
+    }
 
+    public void setDeleteFlg(int deleteFlg) {
+        this.deleteFlg = deleteFlg;
+    }
+
+    public Timestamp getupdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(Timestamp updateAt) {
+        this.updateAt = updateAt;
+    }
+    
+    public int getUpdateNumber() {
+        return updateNumber;
+    }
+
+    public void setUpdateNumber(int updateNumber) {
+        this.updateNumber = updateNumber;
+    }
 }

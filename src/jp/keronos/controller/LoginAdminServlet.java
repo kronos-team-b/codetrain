@@ -86,7 +86,8 @@ public class LoginAdminServlet extends HttpServlet {
             }
 
             // 初回ログイン時
-            if (getInitParameter("password").equals(adminPassword)) {
+            //if (getInitParameter("password").equals(adminPassword)) {
+            if (adminDto.getUpdateNumber() == 0) {
                 request.getRequestDispatcher("WEB-INF/change-admin-password.jsp").forward(request, response);
                 return;
             }

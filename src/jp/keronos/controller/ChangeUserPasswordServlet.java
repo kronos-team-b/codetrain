@@ -15,11 +15,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jp.keronos.dao.CourseDao;
-import jp.keronos.dao.UnitDao;
 import jp.keronos.dao.UserDao;
-import jp.keronos.dto.CourseDto;
-import jp.keronos.dto.UnitDto;
 import jp.keronos.dto.UserDto;
 import jp.keronos.DataSourceManager;
 /**
