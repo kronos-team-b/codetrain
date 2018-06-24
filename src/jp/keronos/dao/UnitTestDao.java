@@ -146,6 +146,50 @@ public class UnitTestDao {
         return dto;
     }
 
+    public ArrayList<UnitTestDto> selectByUnitId(UnitTestDto dto) throws SQLException {
+
+        StringBuffer sb = new StringBuffer();
+        sb.append("   select");
+        sb.append("          TEST_ID");
+        sb.append("         ,TEST_TITLE");
+        sb.append("         ,ANSWER_TYPE_FLG");
+        sb.append("         ,TEST_CONTENT");
+        sb.append("         ,MODEL_ANSWER");
+        sb.append("         ,UNIT_ID");
+        sb.append("         ,COURSE_ID");
+        sb.append("         ,UPDATE_NUMBER");
+        sb.append("         ,MANAGE_NO");
+        sb.append("         ,DELETE_FLG");
+        sb.append("     from UNIT_TEST");
+        sb.append("    where UNIT_ID = ? and DELETE_FLG = 0");
+
+        ArrayList<UnitTestDto> list = new ArrayList<>();
+
+        try (PreparedStatement ps = conn.prepareStatement(sb.toString())) {
+
+            ps.setInt(1, dto.getUnitId());
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                dto = new UnitTestDto();
+                dto.setTestId(rs.getInt("TEST_ID"));
+                dto.setTestTitle(rs.getString("TEST_TITLE"));
+                dto.setAnswerTypeFlg(rs.getInt("ANSWER_TYPE_FLG"));
+                dto.setTestContent(rs.getString("TEST_CONTENT"));
+                dto.setModelAnswer(rs.getString("MODEL_ANSWER"));
+                dto.setUnitId(rs.getInt("UNIT_ID"));
+                dto.setCourseId(rs.getInt("COURSE_ID"));
+                dto.setUpdateNumber(rs.getInt("UPDATE_NUMBER"));
+                dto.setManageNo(rs.getInt("MANAGE_NO"));
+                dto.setDeleteFlg(rs.getInt("DELETE_FLG"));
+
+                list.add(dto);
+            }
+        }
+        return list;
+    }
+
     /**
      * unit idに紐づくテストをランダムで一件取得する
      * @param unitId
