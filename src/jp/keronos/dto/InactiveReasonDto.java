@@ -1,5 +1,7 @@
 package jp.keronos.dto;
 
+import java.sql.Timestamp;
+
 public class InactiveReasonDto {
 
     private int inactiveReasonId;
@@ -7,8 +9,12 @@ public class InactiveReasonDto {
     private int userNo;
 
     private String reason;
+    
+    private Timestamp inactiveAt;
+    
+    private Timestamp activeAt;
 
-    public int getInactiveReasonId() {
+	public int getInactiveReasonId() {
         return inactiveReasonId;
     }
 
@@ -31,4 +37,21 @@ public class InactiveReasonDto {
     public void setReason(String reason) {
         this.reason = reason;
     }
+    
+    public Timestamp getInactiveAt() {
+		return inactiveAt;
+	}
+
+	public void setInactiveAt(Timestamp inactiveAt) {
+		this.inactiveAt = inactiveAt;
+	}
+
+	public Timestamp getActiveAt() {
+		return activeAt;
+	}
+
+	public void setActiveAt(Timestamp activeAt) {
+		this.activeAt = activeAt;
+	}
+
 }

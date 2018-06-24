@@ -46,6 +46,9 @@ public class CorporateDao {
         sb.append("       ,EMAIL");
         sb.append("       ,DOMAIN");
         sb.append("       ,MANAGE_NO");
+        sb.append("       ,DELETE_FLG");
+        sb.append("       ,UPDATE_NUMBER");
+        sb.append("       ,UPDATE_AT");        
         sb.append("   from CORPORATE");
         sb.append("  where CORPORATE_ID = ?");
         sb.append("    and PASSWORD = sha2(?, 256)");
@@ -58,7 +61,7 @@ public class CorporateDao {
 
             // SQLを実行する
             ResultSet rs = ps.executeQuery();
-
+            
             // 結果をDTOに詰める
             if (rs.next()) {
                 CorporateDto corporate = new CorporateDto();
@@ -77,7 +80,9 @@ public class CorporateDao {
                 corporate.setEmail(rs.getString("EMAIL"));
                 corporate.setDomain(rs.getString("DOMAIN"));
                 corporate.setManageNo(rs.getInt("MANAGE_NO"));
-
+                corporate.setDeleteFlg(rs.getInt("DELETE_FLG"));
+                corporate.setUpdateAt(rs.getTimestamp("UPDATE_AT"));
+                corporate.setUpdateNumber(rs.getInt("UPDATE_NUMBER"));
                 return corporate;
             }
             // 該当するデータがない場合はnullを返却する

@@ -181,7 +181,6 @@ public class UnitDao {
                 list.add(unitDto);
             }
         }
-
         return list;
     }
 

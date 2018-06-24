@@ -41,6 +41,8 @@ public class SystemManageDao {
         sb.append("       ,EDIT_CORPORATE_FLG");
         sb.append("       ,EDIT_TEXT_FLG");
         sb.append("       ,DELETE_FLG");
+        sb.append("       ,UPDATE_NUMBER");
+        sb.append("       ,UPDATE_AT");
         sb.append("   from SYSTEM_MANAGE");
         sb.append("  where MANAGE_ID = ?");
         sb.append("    and PASSWORD = sha2(?, 256)");
@@ -67,6 +69,8 @@ public class SystemManageDao {
                 systemManage.setEditCorporateFlg(rs.getInt("EDIT_CORPORATE_FLG"));
                 systemManage.setEditTextFlg(rs.getInt("EDIT_TEXT_FLG"));
                 systemManage.setDeleteFlg(rs.getInt("DELETE_FLG"));
+                systemManage.setUpdateAt(rs.getTimestamp("UPDATE_AT"));
+                systemManage.setUpdateNumber(rs.getInt("UPDATE_NUMBER"));
                 return systemManage;
             }
             // 該当するデータがない場合はnullを返却する
@@ -95,6 +99,8 @@ public class SystemManageDao {
         sb.append("       ,EDIT_CORPORATE_FLG");
         sb.append("       ,EDIT_TEXT_FLG");
         sb.append("       ,DELETE_FLG");
+        sb.append("       ,UPDATE_NUMBER");
+        sb.append("       ,UPDATE_AT");
         sb.append("   from SYSTEM_MANAGE");
         sb.append("  where MANAGE_ID = ?");
         sb.append("    and DELETE_FLG = 0");
@@ -119,6 +125,8 @@ public class SystemManageDao {
                 systemManage.setEditCorporateFlg(rs.getInt("EDIT_CORPORATE_FLG"));
                 systemManage.setEditTextFlg(rs.getInt("EDIT_TEXT_FLG"));
                 systemManage.setDeleteFlg(rs.getInt("DELETE_FLG"));
+                systemManage.setUpdateAt(rs.getTimestamp("UPDATE_AT"));
+                systemManage.setUpdateNumber(rs.getInt("UPDATE_NUMBER"));
                 return systemManage;
             }
             // 該当するデータがない場合はnullを返却する

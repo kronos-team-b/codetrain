@@ -76,8 +76,8 @@ public class ChangeAdminPasswordServlet extends HttpServlet {
 
             // パスワードがおかしいとき
             if (adminDto == null) {
-                logger.warn("ｐ {} mail={} pass={}", request.getRemoteAddr(), admin_id, existpass);
-                session.setAttribute("errorMessage", "既存パスワードが間違っています");
+                logger.warn("ｐ {} id={} pass={}", request.getRemoteAddr(), admin_id, existpass);
+                request.setAttribute("errorMessage", "既存パスワードが間違っています");
             }
         } catch (SQLException | NamingException e) {
             logger.error("{} {}", e.getClass(), e.getMessage());
