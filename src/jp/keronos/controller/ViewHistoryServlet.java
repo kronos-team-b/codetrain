@@ -19,14 +19,11 @@ import org.slf4j.LoggerFactory;
 import jp.keronos.DataSourceManager;
 import jp.keronos.dao.CategoryDao;
 import jp.keronos.dao.CourseDao;
-import jp.keronos.dao.LearningHistoryDao;
 import jp.keronos.dao.UnitDao;
 import jp.keronos.dao.UserDao;
 import jp.keronos.dto.CategoryDto;
-import jp.keronos.dto.CourseDto;
 import jp.keronos.dto.LearningCourseDto;
 import jp.keronos.dto.LearningHistoryDto;
-import jp.keronos.dto.UnitDto;
 import jp.keronos.dto.UserDto;
 
 /**
@@ -54,6 +51,7 @@ public class ViewHistoryServlet extends HttpServlet {
         }
 
         int userNo = Integer.parseInt(request.getParameter("userNo"));
+        logger.warn("userNumber {}", request.getParameter("userNo"));
 
 
         try(Connection connection = DataSourceManager.getConnection()) {
@@ -81,8 +79,8 @@ public class ViewHistoryServlet extends HttpServlet {
             request.getRequestDispatcher("WEB-INF/view-history.jsp").forward(request, response);;
 
         } catch (SQLException | NamingException e) {
-        	logger.error("{} {}", e.getClass(), e.getMessage());
-        	
+            logger.error("{} {}", e.getClass(), e.getMessage());
+
             request.getRequestDispatcher("system-error.jsp").forward(request, response);
         }
 
