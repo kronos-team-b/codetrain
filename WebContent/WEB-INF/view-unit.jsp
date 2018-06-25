@@ -23,7 +23,10 @@
               </div>
             <p class="h4 mt-3 mb-3 p-3 text-info border-bottom">
                 <c:out value="${ unitDto.unitTitle }" /></p>
-            <p class ="mb='20'"><c:out value="${ unitDto.unitText }" /></p>
+            <p class ="mb='20'">
+              <c:forEach var="str" items="${ fn:split(unitDto.unitText,'---') }" >${str}<br>
+              </c:forEach>
+             </p>
           <div class="form-group row">
           <div class="mx-auto">
           <form action="form-unit-test" method="post" >
