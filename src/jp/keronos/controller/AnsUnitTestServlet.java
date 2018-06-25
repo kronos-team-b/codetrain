@@ -123,7 +123,9 @@ public class AnsUnitTestServlet extends HttpServlet {
             session.removeAttribute("sessionUnitTestList");
             session.removeAttribute("sessionChoicesList");
 
-            request.setAttribute("unitFlg", 0);
+            int unitFlg = (int) session.getAttribute("unitFlg");
+
+            request.setAttribute("unitFlg", unitFlg);
 
             request.getRequestDispatcher("WEB-INF/answer-unit-test.jsp").forward(request, response);
 
