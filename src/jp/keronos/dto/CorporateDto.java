@@ -1,12 +1,14 @@
 package jp.keronos.dto;
 
+import java.sql.Timestamp;
+
 public class CorporateDto {
 
     private int corporateNo;
 
     private String corporateId;
 
-    private String passsword;
+    private String password;
 
     private String corporateName;
 
@@ -19,14 +21,24 @@ public class CorporateDto {
     private String department;
 
     private String postalCode;
+    
+    private int prefectureId;
+    
+    private String addressLine1;
 
-    private String address;
+    private String addressLine2;
 
     private String email;
 
     private String domain;
 
-    private int manageId;
+    private int manageNo;
+    
+    private int deleteFlg;
+    
+    private Timestamp updateAt;
+
+    private int updateNumber;
 
     public int getCorporateNo() {
         return corporateNo;
@@ -44,12 +56,12 @@ public class CorporateDto {
         this.corporateId = corporateId;
     }
 
-    public String getPasssword() {
-        return passsword;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPasssword(String passsword) {
-        this.passsword = passsword;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getCorporateName() {
@@ -99,13 +111,29 @@ public class CorporateDto {
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
-
-    public String getAddress() {
-        return address;
+    
+    public int getPrefectureId() {
+        return prefectureId;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setPrefectureId(int prefectureId) {
+        this.prefectureId = prefectureId;
+    }
+
+    public String getAddressLine1() {
+        return addressLine1;
+    }
+
+    public void setAddressLine1(String addressLine1) {
+        this.addressLine1 = addressLine1;
+    }
+    
+    public String getAddressLine2() {
+        return addressLine2;
+    }
+
+    public void setAddressLine2(String addressLine2) {
+        this.addressLine2 = addressLine2;
     }
 
     public String getEmail() {
@@ -124,12 +152,35 @@ public class CorporateDto {
         this.domain = domain;
     }
 
-    public int getManageId() {
-        return manageId;
+    public int getManageNo() {
+        return manageNo;
     }
 
-    public void setManageId(int manageId) {
-        this.manageId = manageId;
+    public void setManageNo(int manageNo) {
+        this.manageNo = manageNo;
+    }
+    
+    public int getDeleteFlg() {
+        return deleteFlg;
     }
 
+    public void setDeleteFlg(int deleteFlg) {
+        this.deleteFlg = deleteFlg;
+    }
+
+    public Timestamp getupdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(Timestamp updateAt) {
+        this.updateAt = updateAt;
+    }
+    
+    public int getUpdateNumber() {
+        return updateNumber;
+    }
+
+    public void setUpdateNumber(int updateNumber) {
+        this.updateNumber = updateNumber;
+    }
 }

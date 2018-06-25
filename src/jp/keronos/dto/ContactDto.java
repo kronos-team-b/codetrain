@@ -10,7 +10,7 @@ public class ContactDto {
 
     private String contactDetail;
 
-    private Timestamp contactAt;
+    private String contactAt;
 
     private int requestOrResponseFlg;
 
@@ -42,11 +42,11 @@ public class ContactDto {
         this.contactDetail = contactDetail;
     }
 
-    public Timestamp getContactAt() {
+    public String getContactAt() {
         return contactAt;
     }
 
-    public void setContactAt(Timestamp contactAt) {
+    public void setContactAt(String contactAt) {
         this.contactAt = contactAt;
     }
 
@@ -74,3 +74,4 @@ public class ContactDto {
         this.userNo = userNo;
     }
 }
+

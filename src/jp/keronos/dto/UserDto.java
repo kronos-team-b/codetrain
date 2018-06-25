@@ -1,5 +1,7 @@
 package jp.keronos.dto;
 
+import java.sql.Timestamp;
+
 public class UserDto {
 
     private int userNo;
@@ -12,10 +14,12 @@ public class UserDto {
 
     private String firstName;
 
-    private int activeFlg;
+    private int inactiveFlg;
 
-    private int corporateId;
+    private int corporateNo;
 
+    private Timestamp updateAt;
+    
     private int updateNumber;
 
     private int deleteFlg;
@@ -60,20 +64,20 @@ public class UserDto {
         this.firstName = firstName;
     }
 
-    public int getActiveFlg() {
-        return activeFlg;
+    public int getInactiveFlg() {
+        return inactiveFlg;
     }
 
-    public void setActiveFlg(int activeFlg) {
-        this.activeFlg = activeFlg;
+    public void setInactiveFlg(int inactiveFlg) {
+        this.inactiveFlg = inactiveFlg;
     }
 
-    public int getCorporateId() {
-        return corporateId;
+    public int getCorporateNo() {
+        return corporateNo;
     }
 
-    public void setCorporateId(int corporateId) {
-        this.corporateId = corporateId;
+    public void setCorporateNo(int corporateNo) {
+        this.corporateNo = corporateNo;
     }
 
     public int getUpdateNumber() {
@@ -92,6 +96,12 @@ public class UserDto {
         this.deleteFlg = deleteFlg;
     }
 
+    public Timestamp getUpdateAt() {
+        return updateAt;
+    }
 
+    public void setUpdateAt(Timestamp updateAt) {
+        this.updateAt = updateAt;
+    }
 
 }
