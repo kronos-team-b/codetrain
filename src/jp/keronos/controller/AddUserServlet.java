@@ -16,13 +16,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import jp.keronos.DataSourceManager;
-import jp.keronos.dao.ContactDao;
 import jp.keronos.dao.CorporateDao;
-import jp.keronos.dao.SystemManageDao;
 import jp.keronos.dao.UserDao;
-import jp.keronos.dto.ContactDto;
 import jp.keronos.dto.CorporateDto;
-import jp.keronos.dto.SystemManageDto;
 import jp.keronos.dto.UserDto;
 
 /**

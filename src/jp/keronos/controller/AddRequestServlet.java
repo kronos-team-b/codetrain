@@ -3,7 +3,6 @@ package jp.keronos.controller;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
@@ -28,7 +27,7 @@ import jp.keronos.dto.ContactDto;
  */
 
 /**
- * Servlet implementation class FormChannelServlet
+ * Servlet implementation class AddRequestServlet
  */
 @WebServlet("/add-request")
 public class AddRequestServlet extends HttpServlet  {
@@ -98,7 +97,4 @@ public class AddRequestServlet extends HttpServlet  {
             request.getRequestDispatcher("system-error.jsp").forward(request, response);
         }
     }
-
 }
-
-

@@ -81,7 +81,7 @@ public class ViewHistoryServlet extends HttpServlet {
         } catch (SQLException | NamingException e) {
             logger.error("{} {}", e.getClass(), e.getMessage());
 
-            request.getRequestDispatcher("system-error.jsp").forward(request, response);
+            request.getRequestDispatcher("system-error-admin.jsp").forward(request, response);
         }
 
     }

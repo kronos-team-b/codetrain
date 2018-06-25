@@ -38,23 +38,23 @@ public class ListBillServlet extends HttpServlet {
 
         logger.info("start:{} {}", Thread.currentThread().getStackTrace()[1].getMethodName(), request.getRemoteAddr());
 
-        // ƒZƒbƒVƒ‡ƒ“‚ğæ“¾‚·‚é
+        // ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚’å–å¾—ã™ã‚‹
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("admin") == null) {
-            logger.warn("ƒZƒbƒVƒ‡ƒ“ƒ^ƒCƒ€ƒAƒEƒg {}", request.getRemoteAddr());
-            // ƒgƒbƒvƒy[ƒW‚É‘JˆÚ‚·‚é
+            logger.warn("ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆ {}", request.getRemoteAddr());
+            // ãƒˆãƒƒãƒ—ãƒšãƒ¼ã‚¸ã«é·ç§»ã™ã‚‹
             request.getRequestDispatcher("index.jsp").forward(request, response);
             return;
         }
 
-        //ƒZƒbƒVƒ‡ƒ“‚ÌƒƒOƒCƒ“î•ñ‚ğæ“¾‚·‚é
+        //ã‚»ãƒƒã‚·ãƒ§ãƒ³ã®ãƒ­ã‚°ã‚¤ãƒ³æƒ…å ±ã‚’å–å¾—ã™ã‚‹
         CorporateDto login_dto = (CorporateDto) session.getAttribute("admin");
         String corporate_id = login_dto.getCorporateId();
 
-        // ƒRƒlƒNƒVƒ‡ƒ“‚ğæ“¾‚·‚é
+        // ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ã‚’å–å¾—ã™ã‚‹
         try (Connection conn = DataSourceManager.getConnection()) {
 
-            //‰ïĞID‚ÉŠY“–‚·‚é‰ïĞNO‚ğæ“¾‚·‚é
+            //ä¼šç¤¾IDã«è©²å½“ã™ã‚‹ä¼šç¤¾NOã‚’å–å¾—ã™ã‚‹
             CorporateDto corporateDto = new CorporateDto();
 
             corporateDto.setCorporateId(corporate_id);
@@ -63,7 +63,7 @@ public class ListBillServlet extends HttpServlet {
             corporateDto = corporateDao.selectByCorporateId(corporateDto);
             int corporate_no = corporateDto.getCorporateNo();
 
-            //‰ïĞNO‚ÉŠY“–‚·‚é¿‹î•ñƒŠƒXƒg‚ğæ“¾‚µAƒŠƒNƒGƒXƒgƒXƒR[ƒv‚É•Û‚·‚é
+            //ä¼šç¤¾NOã«è©²å½“ã™ã‚‹è«‹æ±‚æƒ…å ±ãƒªã‚¹ãƒˆã‚’å–å¾—ã—ã€ãƒªã‚¯ã‚¨ã‚¹ãƒˆã‚¹ã‚³ãƒ¼ãƒ—ã«ä¿æŒã™ã‚‹
             BillDto billDto = new BillDto();
             billDto.setCorporateNo(corporate_no);
 
@@ -72,16 +72,16 @@ public class ListBillServlet extends HttpServlet {
 
             request.setAttribute("list", list);
 
-            // URI‚ğƒŠƒNƒGƒXƒg‚É•Û‚·‚é
+            // URIã‚’ãƒªã‚¯ã‚¨ã‚¹ãƒˆã«ä¿æŒã™ã‚‹
             request.setAttribute("uri", request.getRequestURI());
 
-            //list-bill.jsp‚É“]‘—‚·‚é
+            //list-bill.jspã«è»¢é€ã™ã‚‹
             request.getRequestDispatcher("WEB-INF/list-bill.jsp").forward(request, response);
         } catch (SQLException | NamingException e) {
 
             logger.error("{} {}", e.getClass(), e.getMessage());
 
-            // ƒVƒXƒeƒ€ƒGƒ‰[‰æ–Ê‚É‘JˆÚ‚·‚é
+            // ã‚·ã‚¹ãƒ†ãƒ ã‚¨ãƒ©ãƒ¼ç”»é¢ã«é·ç§»ã™ã‚‹
             request.getRequestDispatcher("system-error.jsp").forward(request, response);
         }
     }

@@ -123,7 +123,7 @@ public class ChangeManagePasswordServlet extends HttpServlet {
             logger.error("{} {}", e.getClass(), e.getMessage());
 
             // システムエラーに遷移する
-            request.getRequestDispatcher("system-error.jsp").forward(request, response);
+            request.getRequestDispatcher("system-error-manage.jsp").forward(request, response);
         }
     }
 }
