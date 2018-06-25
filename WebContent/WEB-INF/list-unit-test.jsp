@@ -12,11 +12,11 @@
     <div class="row">
       <div class="col-12">
         <p class="h4 mt-3 mb-5 p-3 text-info border-bottom"><c:out value="${ unit.unitTitle }" /></p>
-        <form action="form-course-test" method="post">
+        <form action="form-unit-test" method="post">
         <input type="hidden" name="course-count" value="${ unitTestAmount }">
           <c:forEach items="${ unitTestList }" var="unitTest" varStatus="unitTestStatus">
-           <input type="hidden" name="course-id" value="${ courseId }">
-           <input type="hidden" name="unit-test-id[]" value="${ unitTest.testId }">
+           <input type="hidden" name="course-id" value="${ unit.courseId }">
+           <input type="hidden" name="unit-test-id" value="${ unitTest.testId }">
            <div class="mb-4">
               <p class="font-weight-bold">問<c:out value="${unitTestStatus.count}" /> <c:out value="${ unitTest.testTitle }" /></p>
               <c:if test="${ unitTest.answerTypeFlg eq 0 }">

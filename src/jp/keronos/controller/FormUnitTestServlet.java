@@ -42,7 +42,6 @@ public class FormUnitTestServlet extends HttpServlet {
 
         HttpSession session = request.getSession(false);
 
-        int courseId = Integer.parseInt(request.getParameter("courseId"));
         int unitId = Integer.parseInt(request.getParameter("unitId"));
         int testType = Integer.parseInt(request.getParameter("testType"));
 
@@ -60,13 +59,12 @@ public class FormUnitTestServlet extends HttpServlet {
             UnitTestDao unitTestDao = new UnitTestDao(connection);
             ArrayList<UnitTestDto> unitTestList = unitTestDao.selectByUnitId(unitTestDto);
 
-            int unitTestAmount = unitTestDao.count(courseId);
+            int unitTestAmount = unitTestDao.count(unit.getCourseId());
 
             ArrayList<UnitTestChoicesDto> choicesList = unitTestDao.selectUnitTestChoise();
 
             request.setAttribute("unit", unit);
             request.setAttribute("unitTestAmount", unitTestAmount);
-            request.setAttribute("courseId", courseId);
             request.setAttribute("testType", testType);
             request.setAttribute("unitTestList", unitTestList);
             request.setAttribute("choicesList", choicesList);
@@ -74,6 +72,7 @@ public class FormUnitTestServlet extends HttpServlet {
             session.setAttribute("sessionUnitTestList", unitTestList);
             session.setAttribute("sessionChoicesList", choicesList);
 
+            request.getRequestDispatcher("WEB-INF/list-unit-test.jsp").forward(request, response);
 
         } catch (SQLException | NamingException e) {
             // TODO Auto-generated catch block

@@ -171,7 +171,7 @@ public class UnitTestDao {
 
             ResultSet rs = ps.executeQuery();
 
-            if (rs.next()) {
+            while (rs.next()) {
                 dto = new UnitTestDto();
                 dto.setTestId(rs.getInt("TEST_ID"));
                 dto.setTestTitle(rs.getString("TEST_TITLE"));
