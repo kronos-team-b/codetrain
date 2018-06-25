@@ -9,7 +9,7 @@ import jp.keronos.dto.CorporateDto;
 
 public class CorporateDao {
 
-    /** コネクション */
+  /** コネクション */
     protected Connection conn;
 
     /**
@@ -20,6 +20,47 @@ public class CorporateDao {
     public CorporateDao(Connection conn) {
        this.conn = conn;
     }
+  
+    /**
+     * コーポレートIDに紐づくコーポレートDTOを取得する
+     * @param dto
+     * @return CorporateDTO
+     * @throws SQLException
+     */
+    public CorporateDto selectByCorporateId(CorporateDto dto) throws SQLException {
+
+        // SQL文の生成
+        StringBuffer sb = new StringBuffer();
+        sb.append("  select");
+        sb.append("         CORPORATE_NO");
+        sb.append("        ,CORPORATE_ID");
+        sb.append("        ,CORPORATE_NAME");
+        sb.append("        ,LAST_NAME");
+        sb.append("        ,FIRST_NAME");
+        sb.append("    from");
+        sb.append("         CORPORATE");
+        sb.append("   where");
+        sb.append("         CORPORATE_ID = ?");
+
+        // ステートメントオブジェクトを作成する
+        try (PreparedStatement ps = conn.prepareStatement(sb.toString())) {
+            // プレースホルダーに値をセットする
+            ps.setString(1, dto.getCorporateId());
+
+            // SQLを実行する
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                dto.setCorporateNo(rs.getInt("CORPORATE_NO"));
+                dto.setCorporateId(rs.getString("CORPORATE_ID"));
+                dto.setCorporateName(rs.getString("CORPORATE_NAME"));
+                dto.setLastName(rs.getString("LAST_NAME"));
+                dto.setFirstName(rs.getString("FIRST_NAME"));
+            }
+        }
+        return dto;
+    }
+}
+
 
     /**
      * 法人アカウント情報を取得する
