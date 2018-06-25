@@ -3,7 +3,6 @@ package jp.keronos.controller;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
@@ -19,8 +18,6 @@ import org.slf4j.LoggerFactory;
 import jp.keronos.DataSourceManager;
 import jp.keronos.dao.ContactDao;
 import jp.keronos.dao.SystemManageDao;
-import jp.keronos.dao.UserDao;
-import jp.keronos.dto.UserDto;
 import jp.keronos.dto.ContactDto;
 import jp.keronos.dto.SystemManageDto;
 

@@ -95,7 +95,7 @@ public class UnitDao {
             return list;
         }
     }
-    
+
     /**
      * 単元情報リストを取得する
      * @return 単元情報リスト
@@ -123,26 +123,26 @@ public class UnitDao {
 
         ArrayList<LearningHistoryDto> list = new ArrayList<LearningHistoryDto>();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        
+
         // ステートメントオブジェクトを作成する
         try (PreparedStatement preparedStatement = connection.prepareStatement(sb.toString())) {
 
-        	preparedStatement.setInt(1, userNo);
-        	
+            preparedStatement.setInt(1, userNo);
+
             // SQL文を実行する
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-            	LearningHistoryDto dto = new LearningHistoryDto();
-            	dto.setUserNo(rs.getInt("USER_NO"));
-            	dto.setUnitId(rs.getInt("UNIT_ID"));
-            	dto.setSkipFlg(rs.getInt("SKIP_FLG"));
-            	dto.setEndFlg(rs.getInt("END_FLG"));
-            	dto.setUnitTestPoint(rs.getInt("UNIT_TEST_POINT"));
-            	if(rs.getTimestamp("TEST_AT") != null) {
-                	dto.setTestAt(sdf.format(rs.getTimestamp("TEST_AT")));            		
-            	}
-            	dto.setUnitTitle(rs.getString("UNIT_TITLE"));
-            	dto.setCourseId(rs.getInt("COURSE_ID"));
+                LearningHistoryDto dto = new LearningHistoryDto();
+                dto.setUserNo(rs.getInt("USER_NO"));
+                dto.setUnitId(rs.getInt("UNIT_ID"));
+                dto.setSkipFlg(rs.getInt("SKIP_FLG"));
+                dto.setEndFlg(rs.getInt("END_FLG"));
+                dto.setUnitTestPoint(rs.getInt("UNIT_TEST_POINT"));
+                if(rs.getTimestamp("TEST_AT") != null) {
+                    dto.setTestAt(sdf.format(rs.getTimestamp("TEST_AT")));
+                }
+                dto.setUnitTitle(rs.getString("UNIT_TITLE"));
+                dto.setCourseId(rs.getInt("COURSE_ID"));
                 list.add(dto);
             }
             return list;

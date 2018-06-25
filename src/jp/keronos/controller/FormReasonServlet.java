@@ -35,7 +35,7 @@ public class FormReasonServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         // トップページに遷移する
-        response.sendRedirect("index.jsp");
+        response.sendRedirect("index-admin.jsp");
     }
     /**
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -56,20 +56,20 @@ public class FormReasonServlet extends HttpServlet {
         // コネクションを取得する
         try (Connection conn = DataSourceManager.getConnection()) {
 
-        	// 休止ユーザのNOをゲットする
-        	int userNo = Integer.parseInt(request.getParameter("userNo"));
-        	
-            // ログインユーザ情報を取得する
-            UserDto user = new UserDto();
-            UserDao userDao = new UserDao(conn);
-            
-        	user = userDao.findByNo(userNo);
-        	
-            // コンタクトIDを保持する
-            request.setAttribute("user", user);
+            // 休止ユーザのNOをゲットする
+            int userNo = Integer.parseInt(request.getParameter("userNo"));
 
-        	// アカウント休止理由追加画面に遷移する
-            request.getRequestDispatcher("view-reason.jsp").forward(request, response);
+            // ログインユーザ情報を取得する
+            UserDto userDto = new UserDto();
+            UserDao userDao = new UserDao(conn);
+
+            userDto = userDao.findByUserNo(userNo);
+
+            // ユーザ情報を保持する
+            request.setAttribute("user", userDto);
+
+            // アカウント休止理由追加画面に遷移する
+            request.getRequestDispatcher("/WEB-INF/view-reason.jsp").forward(request, response);
         } catch (SQLException | NamingException e) {
 
             logger.error("{} {}", e.getClass(), e.getMessage());

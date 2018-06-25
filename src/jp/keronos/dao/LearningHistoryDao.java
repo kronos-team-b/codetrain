@@ -4,10 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
-import jp.keronos.dto.CategoryDto;
 import jp.keronos.dto.LearningHistoryDto;
 import jp.keronos.dto.UnitDto;
 
@@ -102,6 +100,77 @@ public class LearningHistoryDao {
             }
         }
         return list;
+    }
+
+    public void insert(LearningHistoryDto dto) throws SQLException {
+
+        StringBuffer sb = new StringBuffer();
+        sb.append(" insert into LEARNING_HISTORY(");
+        sb.append("     USER_NO,");
+        sb.append("     COURSE_ID,");
+        sb.append("     UNIT_ID,");
+        sb.append("     UNIT_TEST_POINT,");
+        sb.append("     END_FLG");
+        sb.append(" )");
+        sb.append(" values(");
+        sb.append("     ?,?,?,?,1");
+        sb.append(" )");
+
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sb.toString())) {
+
+            preparedStatement.setInt(1, dto.getUserNo());
+            preparedStatement.setInt(2, dto.getCourseId());
+            preparedStatement.setInt(3, dto.getUnitId());
+            preparedStatement.setInt(4, dto.getUnitTestPoint());
+
+            preparedStatement.executeUpdate();
+        }
+    }
+
+    public void update(LearningHistoryDto dto) throws SQLException {
+
+        StringBuffer sb = new StringBuffer();
+        sb.append(" update LEARNING_HISTORY");
+        sb.append(" set");
+        sb.append("     END_FLG = 1,");
+        sb.append("     UNIT_TEST_POINT = ?");
+        sb.append(" where LEARNING_HISTORY_ID = ?");
+
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sb.toString())) {
+
+            preparedStatement.setInt(1, dto.getUnitTestPoint());
+            preparedStatement.setInt(2, dto.getLearningHistoryId());
+
+            preparedStatement.executeUpdate();
+        }
+    }
+
+    public int selectLearningHistory(LearningHistoryDto learningHistoryDto) throws SQLException {
+
+        StringBuffer sb = new StringBuffer();
+        sb.append(" select");
+        sb.append("     LEARNING_HISTORY_ID");
+        sb.append(" from LEARNING_HISTORY");
+        sb.append(" where USER_NO = ?");
+        sb.append(" and COURSE_ID = ?");
+        sb.append(" and UNIT_ID = ?");
+
+        int id = 0;
+
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sb.toString())) {
+
+            preparedStatement.setInt(1, learningHistoryDto.getUserNo());
+            preparedStatement.setInt(2, learningHistoryDto.getCourseId());
+            preparedStatement.setInt(3, learningHistoryDto.getUnitId());
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+
+                id = resultSet.getInt("LEARNING_HISTORY_ID");
+            }
+        }
+        return id;
     }
 }
 

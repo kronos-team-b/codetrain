@@ -3,7 +3,7 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>修了テスト</title>
+  <title>カリキュラムテスト</title>
   <%@ include file="header.jsp"%>
 </head>
 <body>
@@ -11,11 +11,11 @@
   <div class="container">
     <div class="row">
       <div class="col-12">
-        <p class="h4 mt-3 mb-5 p-3 text-info border-bottom">- 修了テスト - <c:out value="${ course.courseName }" /></p>
-        <form action="form-course-test" method="post">
-        <input type="hidden" name="course-count" value="${ unitTestList.size() }">
+        <p class="h4 mt-3 mb-5 p-3 text-info border-bottom"><c:out value="${ unit.unitTitle }" /></p>
+        <form action="form-unit-test" method="post">
+        <input type="hidden" name="unit-test-amount" value="${ unitTestAmount }">
           <c:forEach items="${ unitTestList }" var="unitTest" varStatus="unitTestStatus">
-           <input type="hidden" name="course-id" value="${ course.courseId }">
+           <input type="hidden" name="unit-id" value="${ unit.unitId }">
            <input type="hidden" name="unit-test-id[]" value="${ unitTest.testId }">
            <div class="mb-4">
               <p class="font-weight-bold">問<c:out value="${unitTestStatus.count}" /> <c:out value="${ unitTest.testTitle }" /></p>

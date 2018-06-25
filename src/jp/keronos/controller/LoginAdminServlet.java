@@ -63,7 +63,7 @@ public class LoginAdminServlet extends HttpServlet {
         if ("".equals(adminId) || "".equals(adminPassword)) {
             logger.warn("ログイン失敗 {}", request.getRemoteAddr());
 
-            session.setAttribute("errorMessage", "運営者ID、パスワードを入力してください");
+            request.setAttribute("errorMessage", "運営者ID、パスワードを入力してください");
 
             // ログイン処理前にページ情報が存在しない場合は利用者ログインページに遷移する
             response.sendRedirect(uri);
@@ -77,7 +77,7 @@ public class LoginAdminServlet extends HttpServlet {
             CorporateDto adminDto = loginDao.findByIdAndPassword(adminId, adminPassword);
 
             session.setAttribute("admin", adminDto);
-            session.removeAttribute("errorMessage");
+            request.removeAttribute("errorMessage");
 
             // ログイン失敗時
             if (adminDto == null) {
@@ -86,7 +86,6 @@ public class LoginAdminServlet extends HttpServlet {
             }
 
             // 初回ログイン時
-            //if (getInitParameter("password").equals(adminPassword)) {
             if (adminDto.getUpdateNumber() == 0) {
                 request.getRequestDispatcher("WEB-INF/change-admin-password.jsp").forward(request, response);
                 return;

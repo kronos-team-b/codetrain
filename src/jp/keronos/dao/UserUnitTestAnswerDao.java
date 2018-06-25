@@ -29,8 +29,8 @@ public class UserUnitTestAnswerDao {
 
             preparedStatement.setInt(1, userNo);
             preparedStatement.setString(2, answer);
-            preparedStatement.setInt(3, unitId);
-            preparedStatement.setInt(4, testId);
+            preparedStatement.setInt(3, testId);
+            preparedStatement.setInt(4, unitId);
 
             return preparedStatement.executeUpdate();
         }
