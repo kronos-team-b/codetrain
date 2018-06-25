@@ -38,7 +38,7 @@ public class ViewUnitServlet extends HttpServlet {
 
         logger.info("start:{}", Thread.currentThread().getStackTrace()[1].getMethodName());
 
-        // ƒgƒbƒvƒy[ƒW‚É‘JˆÚ‚·‚é
+        // ãƒˆãƒƒãƒ—ãƒšãƒ¼ã‚¸ã«é·ç§»ã™ã‚‹
         response.sendRedirect("index.jsp");
     }
 
@@ -48,46 +48,46 @@ public class ViewUnitServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         logger.info("start:{}", Thread.currentThread().getStackTrace()[1].getMethodName());
 
-        // ƒtƒH[ƒ€‚Ìƒf[ƒ^iƒJƒŠƒLƒ…ƒ‰ƒ€IDj‚ğæ“¾‚·‚é
+        // ãƒ•ã‚©ãƒ¼ãƒ ã®ãƒ‡ãƒ¼ã‚¿ï¼ˆã‚«ãƒªã‚­ãƒ¥ãƒ©ãƒ IDï¼‰ã‚’å–å¾—ã™ã‚‹
         UnitDto unitDto = new UnitDto();
         CourseDto courseDto = new CourseDto();
         request.setCharacterEncoding("UTF-8");
 
         unitDto.setUnitId(Integer.parseInt(request.getParameter("unitId")));
 
-        // ƒRƒlƒNƒVƒ‡ƒ“‚ğæ“¾‚·‚é
-        try (Connection conn = DataSourceManager.getConnection()) {
+        // ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ã‚’å–å¾—ã™ã‚‹
+        try (Connection connection = DataSourceManager.getConnection()) {
 
-            //ƒJƒŠƒLƒ…ƒ‰ƒ€ID‚É•R‚Ã‚­ƒJƒŠƒLƒ…ƒ‰ƒ€î•ñƒŠƒXƒg‚ğæ“¾‚·‚µAƒŠƒNƒGƒXƒgƒXƒR[ƒv‚ÉƒiƒŒƒbƒWî•ñƒŠƒXƒg‚ğ•Û‚·‚é
-            UnitDao unitDao = new UnitDao(conn);
+            //ã‚«ãƒªã‚­ãƒ¥ãƒ©ãƒ IDã«ç´ã¥ãã‚«ãƒªã‚­ãƒ¥ãƒ©ãƒ æƒ…å ±ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã—ã€ãƒªã‚¯ã‚¨ã‚¹ãƒˆã‚¹ã‚³ãƒ¼ãƒ—ã«ãƒŠãƒ¬ãƒƒã‚¸æƒ…å ±ãƒªã‚¹ãƒˆã‚’ä¿æŒã™ã‚‹
+            UnitDao unitDao = new UnitDao(connection);
             unitDto = unitDao.selectByUnitId(unitDto);
 
             request.setAttribute("unitDto", unitDto);
 
-            // ƒZƒbƒVƒ‡ƒ“‚ğæ“¾‚·‚é
+            // ã‚»ãƒƒã‚·ãƒ§ãƒ³ã‚’å–å¾—ã™ã‚‹
             HttpSession session2 = request.getSession(true);
             session2.removeAttribute("queries");
 
-            // ƒR[ƒXî•ñ‚ğæ“¾‚·‚é
+            // ã‚³ãƒ¼ã‚¹æƒ…å ±ã‚’å–å¾—ã™ã‚‹
             courseDto.setCourseId(unitDto.getCourseId());
-            CourseDao courseDao = new CourseDao(conn);
+            CourseDao courseDao = new CourseDao(connection);
             courseDto = courseDao.selectByCourseId(courseDto);
 
-            // ƒ`ƒƒƒ“ƒlƒ‹ˆê——ƒf[ƒ^‚ğƒŠƒNƒGƒXƒg‚É•Û‚·‚é
+            // ãƒãƒ£ãƒ³ãƒãƒ«ä¸€è¦§ãƒ‡ãƒ¼ã‚¿ã‚’ãƒªã‚¯ã‚¨ã‚¹ãƒˆã«ä¿æŒã™ã‚‹
             request.setAttribute("courseDto", courseDto);
 
-            // URI‚ğƒŠƒNƒGƒXƒg‚É•Û‚·‚é
+            // URIã‚’ãƒªã‚¯ã‚¨ã‚¹ãƒˆã«ä¿æŒã™ã‚‹
             request.setAttribute("uri", request.getRequestURI());
         } catch (SQLException | NamingException e) {
 
             logger.error("{} {}", e.getClass(), e.getMessage());
 
-            // ƒVƒXƒeƒ€ƒGƒ‰[‰æ–Ê‚É‘JˆÚ‚·‚é
+            // ã‚·ã‚¹ãƒ†ãƒ ã‚¨ãƒ©ãƒ¼ç”»é¢ã«é·ç§»ã™ã‚‹
             request.getRequestDispatcher("system-error.jsp").forward(request, response);
             return;
         }
 
-        // view-unit.jsp‚É“]‘—‚·‚é
+        // view-unit.jspã«è»¢é€ã™ã‚‹
         request.getRequestDispatcher("/WEB-INF/view-unit.jsp").forward(request, response);
     }
 }
