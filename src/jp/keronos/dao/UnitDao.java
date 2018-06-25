@@ -95,7 +95,7 @@ public class UnitDao {
             return list;
         }
     }
-    
+
     /**
      * 単元情報リストを取得する
      * @return 単元情報リスト
@@ -123,26 +123,26 @@ public class UnitDao {
 
         ArrayList<LearningHistoryDto> list = new ArrayList<LearningHistoryDto>();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        
+
         // ステートメントオブジェクトを作成する
         try (PreparedStatement preparedStatement = connection.prepareStatement(sb.toString())) {
 
-        	preparedStatement.setInt(1, userNo);
-        	
+            preparedStatement.setInt(1, userNo);
+
             // SQL文を実行する
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-            	LearningHistoryDto dto = new LearningHistoryDto();
-            	dto.setUserNo(rs.getInt("USER_NO"));
-            	dto.setUnitId(rs.getInt("UNIT_ID"));
-            	dto.setSkipFlg(rs.getInt("SKIP_FLG"));
-            	dto.setEndFlg(rs.getInt("END_FLG"));
-            	dto.setUnitTestPoint(rs.getInt("UNIT_TEST_POINT"));
-            	if(rs.getTimestamp("TEST_AT") != null) {
-                	dto.setTestAt(sdf.format(rs.getTimestamp("TEST_AT")));            		
-            	}
-            	dto.setUnitTitle(rs.getString("UNIT_TITLE"));
-            	dto.setCourseId(rs.getInt("COURSE_ID"));
+                LearningHistoryDto dto = new LearningHistoryDto();
+                dto.setUserNo(rs.getInt("USER_NO"));
+                dto.setUnitId(rs.getInt("UNIT_ID"));
+                dto.setSkipFlg(rs.getInt("SKIP_FLG"));
+                dto.setEndFlg(rs.getInt("END_FLG"));
+                dto.setUnitTestPoint(rs.getInt("UNIT_TEST_POINT"));
+                if(rs.getTimestamp("TEST_AT") != null) {
+                    dto.setTestAt(sdf.format(rs.getTimestamp("TEST_AT")));
+                }
+                dto.setUnitTitle(rs.getString("UNIT_TITLE"));
+                dto.setCourseId(rs.getInt("COURSE_ID"));
                 list.add(dto);
             }
             return list;
@@ -183,6 +183,34 @@ public class UnitDao {
         }
         return list;
     }
+
+  public UnitDto selectByUnitId(UnitDto unitDto) throws SQLException {
+
+      StringBuffer sb = new StringBuffer();
+      sb.append("select ");
+      sb.append("       UNIT_ID,");
+      sb.append("       UNIT_TITLE,");
+      sb.append("       UNIT_TEXT,");
+      sb.append("       COURSE_ID");
+      sb.append("  from UNIT");
+      sb.append(" where UNIT_ID = ?");
+
+      try(PreparedStatement preparedStatement = connection.prepareStatement(sb.toString())) {
+
+          preparedStatement.setInt(1, unitDto.getUnitId());
+
+          ResultSet resultSet = preparedStatement.executeQuery();
+
+          while(resultSet.next()) {
+              unitDto.setUnitId(resultSet.getInt("UNIT_ID"));
+              unitDto.setUnitTitle(resultSet.getString("UNIT_TITLE"));
+              unitDto.setUnitText(resultSet.getString("UNIT_TEXT"));
+              unitDto.setCourseId(resultSet.getInt("COURSE_ID"));
+          }
+      }
+
+      return unitDto;
+  }
 
 }
 
