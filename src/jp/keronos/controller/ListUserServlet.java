@@ -70,7 +70,7 @@ public class ListUserServlet extends HttpServlet {
 
             logger.error("{} {}", e.getClass(), e.getMessage());
 
-            request.getRequestDispatcher("system-error.jsp").forward(request, response);
+            request.getRequestDispatcher("system-error-admin.jsp").forward(request, response);
         }
     }
     

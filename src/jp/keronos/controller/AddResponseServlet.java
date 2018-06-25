@@ -41,7 +41,7 @@ public class AddResponseServlet extends HttpServlet  {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         // トップページに遷移する
-        response.sendRedirect("index.jsp");
+        response.sendRedirect("index-manage.jsp");
     }
     /**
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

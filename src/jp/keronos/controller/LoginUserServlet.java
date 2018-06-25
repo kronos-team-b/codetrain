@@ -23,7 +23,7 @@ import jp.keronos.dto.UserDto;
 /**
  * Servlet implementation class LoginUserServlet
  */
-@WebServlet(urlPatterns={"/login-user"}, initParams={@WebInitParam(name="password", value="000000")})
+@WebServlet(urlPatterns={"/login-user"}, initParams={@WebInitParam(name="password", value="password")})
 public class LoginUserServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 

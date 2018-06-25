@@ -25,7 +25,7 @@ import jp.keronos.dto.CorporateDto;
 /**
  * Servlet implementation class LoginUserServlet
  */
-@WebServlet(urlPatterns={"/login-admin"}, initParams={@WebInitParam(name="password", value="000000")})
+@WebServlet(urlPatterns={"/login-admin"}, initParams={@WebInitParam(name="password", value="password")})
 public class LoginAdminServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -104,7 +104,7 @@ public class LoginAdminServlet extends HttpServlet {
             logger.error("{} {}", e.getClass(), e.getMessage());
 
             // システムエラーに遷移する
-            request.getRequestDispatcher("system-error.jsp").forward(request, response);
+            request.getRequestDispatcher("system-error-admin.jsp").forward(request, response);
         }
     }
 }

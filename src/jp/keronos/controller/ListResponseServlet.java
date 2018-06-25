@@ -76,7 +76,7 @@ public class ListResponseServlet extends HttpServlet {
             logger.error("{} {}", e.getClass(), e.getMessage());
 
             // システムエラー画面に遷移する
-            request.getRequestDispatcher("system-error.jsp").forward(request, response);
+            request.getRequestDispatcher("system-error-manage.jsp").forward(request, response);
         }
     }
 

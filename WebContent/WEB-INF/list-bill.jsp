@@ -13,7 +13,7 @@
     </style>
   </head>
   <body>
-    <%@ include file="coporate-navbar.jsp"%>
+    <%@ include file="admin-navbar.jsp"%>
     <div class="container">
      <div class="row">
         <div class="col-12">

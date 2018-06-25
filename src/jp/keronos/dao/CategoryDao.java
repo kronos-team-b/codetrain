@@ -8,7 +8,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import jp.keronos.dto.CategoryDto;
-import jp.keronos.dto.CourseDto;
 
 public class CategoryDao {
 

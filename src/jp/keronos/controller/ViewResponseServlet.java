@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 
 import jp.keronos.DataSourceManager;
 import jp.keronos.dao.ContactDao;
-import jp.keronos.dto.UserDto;
 import jp.keronos.dto.ContactDto;
 import jp.keronos.dto.SystemManageDto;
 
@@ -101,7 +100,7 @@ public class ViewResponseServlet extends HttpServlet {
             logger.error("{} {}", e.getClass(), e.getMessage());
 
             // システムエラー画面に遷移する
-            request.getRequestDispatcher("system-error.jsp").forward(request, response);
+            request.getRequestDispatcher("system-error-manage.jsp").forward(request, response);
         }
     }
 }
