@@ -268,6 +268,29 @@ public class UnitTestDao {
         return count;
     }
 
+    public int countByUnitId(int unitId) throws SQLException {
+
+        StringBuffer sb = new StringBuffer();
+        sb.append("select");
+        sb.append("       count(UNIT_ID) AS RECORD_COUNT");
+        sb.append("  from UNIT_TEST");
+        sb.append(" where DELETE_FLG = 0");
+        sb.append("   and UNIT_ID = ?");
+
+        int count = 0;
+
+        try (PreparedStatement preparedStatement = conn.prepareStatement(sb.toString())) {
+
+            preparedStatement.setInt(1, unitId);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                count = resultSet.getInt("RECORD_COUNT");
+            }
+        }
+        return count;
+    }
+
     public ArrayList<UnitTestChoicesDto> selectUnitTestChoise() throws SQLException {
 
         StringBuffer sb = new StringBuffer();

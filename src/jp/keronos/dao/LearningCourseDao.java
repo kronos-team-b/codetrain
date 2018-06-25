@@ -61,7 +61,7 @@ public class LearningCourseDao {
                 + "LEARNING_TYPE, "
                 + "PASS_FLG "
                 + ") "
-                + "values (?,?,1,?) "
+                + "values (?,?,0,?) "
                 + "on duplicate key update "
                 + "PASS_FLG = values (PASS_FLG)";
 
