@@ -12,6 +12,11 @@
     bottom: 60;
     right: 0;
   }
+  hr {
+  border-width: 2px 0 0 0; /* 太さ */
+  border-style: solid; /* 種類 */
+  border-color: silver; /* 色 */
+  }
   </style>
 </head>
 <body>
@@ -24,11 +29,11 @@
       <div class="col-12">
         <p class="h4 mt-3 p-3 text-primary border-bottom">利用者詳細</p>
       </div>
-      <div class="col-12">
+      <div class="col-12 ml-4 ">
         <b>利用者：<c:out value="${ user.lastName += ' ' += user.firstName += 'さん'}" /></b>
       </div>
       <div class="col-12">
-        <p class="h5 mt-3 p-3 border-bottom"><b>学習履歴</b></p>
+        <p class="h5 mt-3 p-2 border-bottom"><b>学習履歴</b></p>
       </div>
     </div>
 
@@ -36,12 +41,12 @@
       <c:forEach items="${ courses }" var="course" varStatus="courseStatus">
       <c:if test="${ category.categoryId eq course.categoryId}">
       <div>
-        <span class="border border-warning rounded pt-1 pb-1 pl-3 pr-3">${ category.categoryName }</span>
+        <span class="border border-warning rounded mt-2 ml-3 pt-1 pb-1 pl-3 pr-3">${ category.categoryName }</span>
 
 
         <c:out value="${ course.courseName }"/>
          <div class="col-7">
-          <table class="table mt-4 col-7 table-condensed">
+          <table class="table mt-2 col-7 table-condensed">
             <thead>
               <tr>
                 <th scope="col">カリキュラム</th>
@@ -73,9 +78,8 @@
               </c:forEach>
             </tbody>
           </table>
-          <hr>
           <div>
-            <p class="h7 mt-3 p-3"><b>修了テスト：</b>
+            <p class="h7"><b>修了テスト：</b>
              <c:choose>
                <c:when test="${ course.userNo == 0}"><b>未受験</b></c:when>
                <c:when test="${ course.passFlg == 1}"><span class="alert alert-success pt-1 pb-1 pl-3 pr-3"><b>合格</b></span></c:when>
@@ -85,7 +89,7 @@
           </div>
           </div>
         </div>
-        <hr size="5" Color="#ffffff" noshade>
+        <hr>
         </c:if>
       </c:forEach>
     </c:forEach>

@@ -169,6 +169,7 @@ public class UserDao {
                user.setFirstName(rs.getString("FIRST_NAME"));
                user.setLastName(rs.getString("LAST_NAME"));
                user.setInactiveFlg(rs.getInt("INACTIVE_FLG"));
+               user.setCorporateNo(rs.getInt("CORPORATE_NO"));
                user.setUpdateAt(rs.getTimestamp("UPDATE_AT"));
                user.setUpdateNumber(rs.getInt("UPDATE_NUMBER"));
                user.setDeleteFlg(rs.getInt("DELETE_FLG"));
@@ -216,6 +217,7 @@ public class UserDao {
                dto.setFirstName(rs.getString("FIRST_NAME"));
                dto.setLastName(rs.getString("LAST_NAME"));
                dto.setInactiveFlg(rs.getInt("INACTIVE_FLG"));
+               dto.setCorporateNo(rs.getInt("CORPORATE_NO"));
                dto.setUpdateNumber(rs.getInt("UPDATE_NUMBER"));
                dto.setDeleteFlg(rs.getInt("DELETE_FLG"));
                List.add(dto);
@@ -274,10 +276,10 @@ public class UserDao {
        sbUser.append(" update");
        sbUser.append("        USER");
        sbUser.append("    set");
-       sbUser.append("        INACTIVE_FLG = 1");
+       sbUser.append("        INACTIVE_FLG = 0");
        sbUser.append("       ,UPDATE_NUMBER = UPDATE_NUMBER + 1");
        sbUser.append("       ,UPDATE_AT = current_timestamp");
-       sbUser.append("       ,COPORATE_NO = ?");
+       sbUser.append("       ,CORPORATE_NO = ?");
        sbUser.append("  where USER_NO = ?");
 
        // ステートメントオブジェクトを作成する
@@ -287,9 +289,8 @@ public class UserDao {
             psUser.setInt(2, dto.getUserNo());
 
             // SQLを実行する
-            psUser.executeUpdate();
+            return psUser.executeUpdate();
         }
-       return 1;
    }
 
     /**
@@ -314,6 +315,36 @@ public class UserDao {
 
             // プレースホルダーに値をセットする
             ps.setString(1, dto.getPassword());
+            ps.setString(2, dto.getUserId());
+
+            // SQLを実行する
+            return ps.executeUpdate();
+        }
+    }
+    
+    /**
+     * 利用者情報を更新する
+     * @param dto 利用者情報
+     * @return 更新件数
+     * @throws SQLException SQL例外
+     */
+    public int deleteByCorporateNo(UserDto dto) throws SQLException {
+
+        // SQL文を作成する
+        StringBuffer sb = new StringBuffer();
+        sb.append(" update");
+        sb.append("        USER");
+        sb.append("    set");
+        sb.append("        CORPORATE_NO = ?");
+        sb.append("       ,UPDATE_NUMBER = UPDATE_NUMBER + 1");
+        sb.append("       ,DELETE_FLG = 1");
+        sb.append("  where USER_ID = ?");
+
+        // ステートメントオブジェクトを作成する
+        try (PreparedStatement ps = conn.prepareStatement(sb.toString())) {
+
+            // プレースホルダーに値をセットする
+            ps.setInt(1, dto.getCorporateNo());
             ps.setString(2, dto.getUserId());
 
             // SQLを実行する

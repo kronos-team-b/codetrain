@@ -77,7 +77,7 @@ public class ChangeManagePasswordServlet extends HttpServlet {
 
             // パスワードがおかしいとき
             if (manageDto == null) {
-                logger.warn("ｐ {} id={} pass={}", request.getRemoteAddr(), manage_id, existpass);
+                logger.warn(" {} id={} pass={}", request.getRemoteAddr(), manage_id, existpass);
                 request.setAttribute("errorMessage", "既存パスワードが間違っています");
             }
         } catch (SQLException | NamingException e) {

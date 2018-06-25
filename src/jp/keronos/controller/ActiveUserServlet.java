@@ -75,17 +75,18 @@ public class ActiveUserServlet extends HttpServlet {
             int userNo = Integer.parseInt(request.getParameter("userNo"));
             userDto = userDao.findByUserNo(userNo);
             userDto.setCorporateNo(adminDto.getCorporateNo());
+            
+            logger.error("Servlet CorporateNo={}", adminDto.getCorporateNo());
 
             userDao.updateToActive(userDto);
 
             // コンタクトIDを保持する
             request.setAttribute("message", "ID=" + userDto.getUserId()
              + "の" + userDto.getLastName() + userDto.getFirstName()
-             + "さんをアクティブに変更しました。");
+             + "さんを復帰しました。");
 
-            // リクエスト詳細画面に遷移する
-            //request.getRequestDispatcher("view-request").forward(request, response);
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            // トップ画面に遷移する
+            request.getRequestDispatcher("list-user").forward(request, response);
         } catch (SQLException | NamingException e) {
 
             logger.error("{} {}", e.getClass(), e.getMessage());

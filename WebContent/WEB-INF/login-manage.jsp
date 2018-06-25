@@ -8,7 +8,7 @@
   <%@ include file="header.jsp"%>
 </head>
 <body>
-  <%@ include file="manage-navbar.jsp"%>
+  <%@ include file="plain-navbar.jsp"%>
   <div class="container">
     <div class="row">
       <div class="mx-auto text-primary">&nbsp;<c:out value="${ errorMessage }" /></div>

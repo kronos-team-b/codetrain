@@ -16,13 +16,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import jp.keronos.DataSourceManager;
-import jp.keronos.dao.ContactDao;
 import jp.keronos.dao.CorporateDao;
-import jp.keronos.dao.SystemManageDao;
 import jp.keronos.dao.UserDao;
-import jp.keronos.dto.ContactDto;
 import jp.keronos.dto.CorporateDto;
-import jp.keronos.dto.SystemManageDto;
 import jp.keronos.dto.UserDto;
 
 /**
@@ -33,11 +29,11 @@ import jp.keronos.dto.UserDto;
 /**
  * Servlet implementation class FormChannelServlet
  */
-@WebServlet("/add-user")
-public class AddUserServlet extends HttpServlet  {
+@WebServlet("/delete-user")
+public class DeleteUserServlet extends HttpServlet  {
     private static final long serialVersionUID = 1L;
 
-    private Logger logger = LoggerFactory.getLogger(AddUserServlet.class);
+    private Logger logger = LoggerFactory.getLogger(DeleteUserServlet.class);
 
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -80,22 +76,24 @@ public class AddUserServlet extends HttpServlet  {
             UserDto userDto = new UserDto();
             request.setCharacterEncoding("UTF-8");
             UserDao userDao = new UserDao(conn);
-
+            
             String userId = request.getParameter("userId");
             String userLastName = request.getParameter("userLastName");
             String userFirstName = request.getParameter("userFirstName");
+
             userDto.setUserId(userId);
             userDto.setLastName(userLastName);
             userDto.setFirstName(userFirstName);
+            
             userDto.setCorporateNo(admin.getCorporateNo());
-            userDao.insertByCorporateNo(userDto);
+            userDao.deleteByCorporateNo(userDto);
 
             // URIをリクエストに保持する
             request.setAttribute("uri", request.getRequestURI());
 
             // 更新メッセージをリクエストスコープに保持する
-            request.setAttribute("message", "ID=" + userId + "で"
-                + userLastName + userFirstName + "さんを利用者として追加しました");
+            request.setAttribute("message", "ID=" + userId + "の"
+                + userLastName + userFirstName + "さんを削除しました");
 
             // ユーザ一覧画面に遷移する
             request.getRequestDispatcher("list-user").forward(request, response);

@@ -31,12 +31,6 @@ public class ListUserServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        //　リダイレクト
-        response.sendRedirect("index-admin.jsp");
-    }
-
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         logger.info("start:{}", Thread.currentThread().getStackTrace()[1].getMethodName());
 
         HttpSession session = request.getSession(false);
@@ -79,4 +73,10 @@ public class ListUserServlet extends HttpServlet {
             request.getRequestDispatcher("system-error.jsp").forward(request, response);
         }
     }
+    
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    	
+    	doGet(request, response);
+    }
+
 }
