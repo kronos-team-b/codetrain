@@ -7,8 +7,8 @@
   <title>利用者休止</title>
   <script type="text/javascript">
   <!--
-  function addReasonConfirm(FirstName, LastName) {
-    return window.confirm("「" + LastName + FirstName + "」さんを本当に休止にしますか？");
+  function addReasonConfirm() {
+    return window.confirm("本当に休止にしますか？");
   }
   // -->
   </script>
@@ -29,11 +29,13 @@
             <div class="form-group row">
               <label class="col-form-label" for="confirm-password">理由</label>
               <input type="text" id="reason" class="form-control" name="reason" maxlength="50" required value="" />
-              <input type="hidden" id="user" name="user" value="${ user }">
+              <input type="hidden" id="userNo" name="userNo" value="${ user.userNo }">
+              <input type="hidden" id="userLastName" name="userLastName" value="${ user.lastName }">
+              <input type="hidden" id="userFirstName" name="userFirstName" value="${ user.firstName }">
             </div>
             <div class="form-group row pt-3">
               <div class="mx-auto">
-                <button type="submit" class="btn btn-primary pl-5 pr-5" onclick="addReasonConfirm(user.FirstName, user.LastName)">アカウントを休止する</button>
+                <button type="submit" class="btn btn-primary pl-5 pr-5" onclick="addReasonConfirm()">アカウントを休止する</button>
               </div>
             </div>
           </form>

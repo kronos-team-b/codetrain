@@ -48,7 +48,7 @@ public class CorporateDao {
         sb.append("       ,MANAGE_NO");
         sb.append("       ,DELETE_FLG");
         sb.append("       ,UPDATE_NUMBER");
-        sb.append("       ,UPDATE_AT");        
+        sb.append("       ,UPDATE_AT");
         sb.append("   from CORPORATE");
         sb.append("  where CORPORATE_ID = ?");
         sb.append("    and PASSWORD = sha2(?, 256)");
@@ -61,7 +61,7 @@ public class CorporateDao {
 
             // SQLを実行する
             ResultSet rs = ps.executeQuery();
-            
+
             // 結果をDTOに詰める
             if (rs.next()) {
                 CorporateDto corporate = new CorporateDto();
@@ -89,6 +89,46 @@ public class CorporateDao {
             return null;
         }
     }
+
+    /**
+     * 会社IDに紐づく会社NOを取得する
+     * @param dto
+     * @return　会社NO
+     * @throws SQLException
+     */
+     public CorporateDto findByCorporateId(CorporateDto dto) throws SQLException {
+
+        // SQL文を作成する
+        StringBuffer sb = new StringBuffer();
+        sb.append("  select");
+        sb.append("         CORPORATE_NO");
+        sb.append("        ,CORPORATE_ID");
+        sb.append("        ,CORPORATE_NAME");
+        sb.append("        ,LAST_NAME");
+        sb.append("        ,FIRST_NAME");
+        sb.append("    from");
+        sb.append("         CORPORATE");
+        sb.append("   where");
+        sb.append("         CORPORATE_ID = ?");
+
+        // ステートメントオブジェクトを作成する
+        try (PreparedStatement ps = conn.prepareStatement(sb.toString())) {
+
+         // プレースホルダーに値をセットする
+            ps.setString(1, dto.getCorporateId());
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                dto.setCorporateNo(rs.getInt("CORPORATE_NO"));
+                dto.setCorporateId(rs.getString("CORPORATE_ID"));
+                dto.setCorporateName(rs.getString("CORPORATE_NAME"));
+                dto.setLastName(rs.getString("LAST_NAME"));
+                dto.setFirstName(rs.getString("FIRST_NAME"));
+            }
+        }
+        return dto;
+    }
+
 
     /**
      * 法人アカウント情報を更新する

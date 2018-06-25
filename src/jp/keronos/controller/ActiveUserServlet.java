@@ -16,33 +16,35 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import jp.keronos.DataSourceManager;
-import jp.keronos.dao.InactiveReasonDao;
 import jp.keronos.dao.UserDao;
 import jp.keronos.dto.UserDto;
-import jp.keronos.dto.InactiveReasonDto;
+import jp.keronos.dto.CorporateDto;
 
 /**
- * リクエストの追加
+ * コンタクトの追加
  * @author Hiroki Nishio
  */
 
 /**
  * Servlet implementation class FormChannelServlet
  */
-@WebServlet("/add-reason")
-public class AddReasonServlet extends HttpServlet  {
+@WebServlet("/active-user")
+public class ActiveUserServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    private Logger logger = LoggerFactory.getLogger(AddReasonServlet.class);
+    private Logger logger = LoggerFactory.getLogger(ActiveUserServlet.class);
 
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        logger.info("start:{}", Thread.currentThread().getStackTrace()[1].getMethodName());
+
         // トップページに遷移する
         response.sendRedirect("index-admin.jsp");
     }
+
     /**
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
      */
@@ -52,6 +54,7 @@ public class AddReasonServlet extends HttpServlet  {
 
         // セッションを取得する
         HttpSession session = request.getSession(false);
+
         if (session == null || session.getAttribute("admin") == null) {
 
             logger.warn("セッションタイムアウト {}", request.getRemoteAddr());
@@ -61,32 +64,28 @@ public class AddReasonServlet extends HttpServlet  {
             return;
         }
 
+        CorporateDto adminDto = (CorporateDto)session.getAttribute("admin");
+
+
         // コネクションを取得する
         try (Connection conn = DataSourceManager.getConnection()) {
-            //　休止ユーザのNOをゲットする
-            // ログインユーザ情報を取得する
+            //ログインユーザのIDをゲットする
             UserDao userDao = new UserDao(conn);
             UserDto userDto = new UserDto();
             int userNo = Integer.parseInt(request.getParameter("userNo"));
-            userDto.setUserNo(userNo);
-            userDto = userDao.findByUserNo(userDto.getUserNo());
+            userDto = userDao.findByUserNo(userNo);
+            userDto.setCorporateNo(adminDto.getCorporateNo());
 
-            // フォームのデータを取得する
-            InactiveReasonDto inactiveReasonDto = new InactiveReasonDto();
+            userDao.updateToActive(userDto);
 
-            inactiveReasonDto.setReason(request.getParameter("reason"));
-            inactiveReasonDto.setUserNo(userDto.getUserNo());
-            inactiveReasonDto.setActiveAt(userDto.getUpdateAt());
+            // コンタクトIDを保持する
+            request.setAttribute("message", "ID=" + userDto.getUserId()
+             + "の" + userDto.getLastName() + userDto.getFirstName()
+             + "さんをアクティブに変更しました。");
 
-            InactiveReasonDao inactiveReasonDao = new InactiveReasonDao(conn);
-            inactiveReasonDao.insertReason(inactiveReasonDto);
-
-            String inactiveMessage = userDto.getLastName() + userDto.getFirstName() + "さんのアカウントを休止しました";
-            // 更新メッセージをリクエストスコープに保持する
-            request.setAttribute("message", inactiveMessage);
-
-            // 利用者一覧画面に遷移する
-            request.getRequestDispatcher("list-user").forward(request, response);
+            // リクエスト詳細画面に遷移する
+            //request.getRequestDispatcher("view-request").forward(request, response);
+            request.getRequestDispatcher("index.jsp").forward(request, response);
         } catch (SQLException | NamingException e) {
 
             logger.error("{} {}", e.getClass(), e.getMessage());
@@ -96,3 +95,5 @@ public class AddReasonServlet extends HttpServlet  {
         }
     }
 }
+
+
