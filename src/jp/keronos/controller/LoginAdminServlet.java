@@ -92,7 +92,6 @@ public class LoginAdminServlet extends HttpServlet {
                 return;
             }
 
-
             // 初回ログイン時
             if (adminDto.getUpdateNumber() == 0) {
                 request.getRequestDispatcher("WEB-INF/change-admin-password.jsp").forward(request, response);

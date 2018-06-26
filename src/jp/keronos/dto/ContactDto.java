@@ -1,7 +1,5 @@
 package jp.keronos.dto;
 
-import java.sql.Timestamp;
-
 public class ContactDto {
 
     private int contactDetailId;
@@ -11,6 +9,10 @@ public class ContactDto {
     private String contactDetail;
 
     private String contactAt;
+
+    private String firstAt;
+
+    private String lastAt;
 
     private int requestOrResponseFlg;
 
@@ -49,6 +51,23 @@ public class ContactDto {
     public void setContactAt(String contactAt) {
         this.contactAt = contactAt;
     }
+
+    public String getFirstAt() {
+        return firstAt;
+    }
+
+    public void setFirstAt(String firstAt) {
+        this.firstAt = firstAt;
+    }
+
+    public String getLastAt() {
+        return lastAt;
+    }
+
+    public void setLastAt(String lastAt) {
+        this.lastAt = lastAt;
+    }
+
 
     public int getRequestOrResponseFlg() {
         return requestOrResponseFlg;

@@ -39,10 +39,14 @@ public class ContactDao {
         sbContact.append("   select");
         sbContact.append("          CONTACT_ID");
         sbContact.append("         ,USER_NO");
+        sbContact.append("         ,FIRST_AT");
+        sbContact.append("         ,LAST_AT");
         sbContact.append("     from CONTACT");
-        sbContact.append(" order by CONTACT_ID desc");
+        sbContact.append(" order by LAST_REQUEST_OR_RESPONSE_FLG asc");
+        sbContact.append("         ,LAST_AT desc");
 
         ArrayList<ContactDto> list = new ArrayList<ContactDto>();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
         // ステートメントオブジェクトを作成する
         try (Statement stmt = conn.createStatement()) {
@@ -52,6 +56,8 @@ public class ContactDao {
                      ContactDto dto = new ContactDto();
                      int contactId = rs.getInt("CONTACT_ID");
                      dto = selectLatestByContactId(contactId);
+                     dto.setFirstAt(sdf.format(rs.getTimestamp("FIRST_AT")));
+                     dto.setLastAt(sdf.format(rs.getTimestamp("LAST_AT")));
                      list.add(dto);
                  }
         }
@@ -71,11 +77,15 @@ public class ContactDao {
         sbContact.append("   select");
         sbContact.append("          CONTACT_ID");
         sbContact.append("         ,USER_NO");
+        sbContact.append("         ,FIRST_AT");
+        sbContact.append("         ,LAST_AT");
         sbContact.append("     from CONTACT");
         sbContact.append("    where USER_NO = ?");
-        sbContact.append(" order by CONTACT_ID desc");
+        sbContact.append(" order by LAST_REQUEST_OR_RESPONSE_FLG desc");
+        sbContact.append("         ,LAST_AT desc");
 
         ArrayList<ContactDto> list = new ArrayList<ContactDto>();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
         // ステートメントオブジェクトを作成する
         try (PreparedStatement ps = conn.prepareStatement(sbContact.toString())) {
@@ -88,6 +98,8 @@ public class ContactDao {
                 ContactDto dto = new ContactDto();
                 int contactId = rs.getInt("CONTACT_ID");
                 dto = selectLatestByContactId(contactId);
+                dto.setFirstAt(sdf.format(rs.getTimestamp("FIRST_AT")));
+                dto.setLastAt(sdf.format(rs.getTimestamp("LAST_AT")));
                 list.add(dto);
             }
         }
@@ -243,24 +255,37 @@ public class ContactDao {
 
         // SQL文を作成する
         StringBuffer sbContact = new StringBuffer();
-        sbContact.append(" insert into CONTACT_DETAIL");
-        sbContact.append("           (");
-        sbContact.append("             CONTACT_ID");
-        sbContact.append("            ,CONTACT_DETAIL");
-        sbContact.append("            ,REQUEST_OR_RESPONSE_FLG");
-        sbContact.append("            ,USER_OR_MANAGE_NO");
-        sbContact.append("           )");
-        sbContact.append("      values");
-        sbContact.append("           (");
-        sbContact.append("             ?");
-        sbContact.append("            ,?");
-        sbContact.append("            ,0");
-        sbContact.append("            ,0");
-        sbContact.append("           )");
-
+        sbContact.append("      update CONTACT");
+        sbContact.append("         set LAST_AT = current_timestamp");
+        sbContact.append("            ,LAST_REQUEST_OR_RESPONSE_FLG = 0");
+        sbContact.append("       where CONTACT_ID = ?");
         // ステートメントオブジェクトを作成する
         try (PreparedStatement ps = conn.prepareStatement(sbContact.toString())) {
+            // プレースホルダーに値をセットする
+            ps.setInt(1, dto.getContactId());
+            // SQLを実行する
+            ps.executeUpdate();
+        }
 
+        // SQL文を作成する
+        StringBuffer sbDetail = new StringBuffer();
+        sbDetail.append(" insert into CONTACT_DETAIL");
+        sbDetail.append("           (");
+        sbDetail.append("             CONTACT_ID");
+        sbDetail.append("            ,CONTACT_DETAIL");
+        sbDetail.append("            ,REQUEST_OR_RESPONSE_FLG");
+        sbDetail.append("            ,USER_OR_MANAGE_NO");
+        sbDetail.append("           )");
+        sbDetail.append("      values");
+        sbDetail.append("           (");
+        sbDetail.append("             ?");
+        sbDetail.append("            ,?");
+        sbDetail.append("            ,0");
+        sbDetail.append("            ,0");
+        sbDetail.append("           )");
+
+        // ステートメントオブジェクトを作成する
+        try (PreparedStatement ps = conn.prepareStatement(sbDetail.toString())) {
             // プレースホルダーに値をセットする
             ps.setInt(1, dto.getContactId());
             ps.setString(2, dto.getContactDetail());
@@ -270,7 +295,7 @@ public class ContactDao {
     }
 
     /**
-     * コンタクトにリクエストを登録する
+     * コンタクトにレスポンスを登録する
      * @param dto リクエスト情報情報
      * @return 更新件数
      * @throws SQLException SQL例外
@@ -279,24 +304,38 @@ public class ContactDao {
      public int insertResponse(ContactDto dto) throws SQLException {
 
         // SQL文を作成する
-        StringBuffer sbContact = new StringBuffer();
-        sbContact.append(" insert into CONTACT_DETAIL");
-        sbContact.append("           (");
-        sbContact.append("             CONTACT_ID");
-        sbContact.append("            ,CONTACT_DETAIL");
-        sbContact.append("            ,REQUEST_OR_RESPONSE_FLG");
-        sbContact.append("            ,USER_OR_MANAGE_NO");
-        sbContact.append("           )");
-        sbContact.append("      values");
-        sbContact.append("           (");
-        sbContact.append("             ?");
-        sbContact.append("            ,?");
-        sbContact.append("            ,1");
-        sbContact.append("            ,?");
-        sbContact.append("           )");
+         StringBuffer sbContact = new StringBuffer();
+         sbContact.append("      update CONTACT");
+         sbContact.append("         set LAST_AT = current_timestamp");
+         sbContact.append("            ,LAST_REQUEST_OR_RESPONSE_FLG = 1");
+         sbContact.append("       where CONTACT_ID = ?");
+         // ステートメントオブジェクトを作成する
+         try (PreparedStatement ps = conn.prepareStatement(sbContact.toString())) {
+             // プレースホルダーに値をセットする
+             ps.setInt(1, dto.getContactId());
+             // SQLを実行する
+             ps.executeUpdate();
+         }
+
+        // SQL文を作成する
+        StringBuffer sbDetail = new StringBuffer();
+        sbDetail.append(" insert into CONTACT_DETAIL");
+        sbDetail.append("           (");
+        sbDetail.append("             CONTACT_ID");
+        sbDetail.append("            ,CONTACT_DETAIL");
+        sbDetail.append("            ,REQUEST_OR_RESPONSE_FLG");
+        sbDetail.append("            ,USER_OR_MANAGE_NO");
+        sbDetail.append("           )");
+        sbDetail.append("      values");
+        sbDetail.append("           (");
+        sbDetail.append("             ?");
+        sbDetail.append("            ,?");
+        sbDetail.append("            ,1");
+        sbDetail.append("            ,?");
+        sbDetail.append("           )");
 
         // ステートメントオブジェクトを作成する
-        try (PreparedStatement ps = conn.prepareStatement(sbContact.toString())) {
+        try (PreparedStatement ps = conn.prepareStatement(sbDetail.toString())) {
 
             // プレースホルダーに値をセットする
             ps.setInt(1, dto.getContactId());

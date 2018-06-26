@@ -18,13 +18,14 @@
       <div class="row">
         <div class="col-12">
           <p class="h4 mt-3 p-3 text-info border-bottom">リクエスト一覧</p>
-          <div>
-          </div>
+          <p>&nbsp;</p>
           <table class="table table-striped">
             <thead>
               <tr>
                 <th scope="col">連絡事項</th>
+                <th scope="col">リクエスト日</th>
                 <th scope="col">最新連絡日</th>
+                <th scope="col"></th>
                 <th scope="col"></th>
               </tr>
             </thead>
@@ -32,7 +33,14 @@
               <c:forEach items="${ list }" var="dto" varStatus="status">
                 <tr>
                   <td><c:out value="${ dto.contactDetail }" /></td>
-                  <td><c:out value="${ dto.contactAt }" /></td>
+                  <td><c:out value="${ dto.firstAt }" /></td>
+                  <td><c:out value="${ dto.lastAt }" /></td>
+                  <c:if test="${ dto.requestOrResponseFlg eq 1}">
+                    <td class="text-danger">返信あり</td>
+                  </c:if>
+                  <c:if test="${ dto.requestOrResponseFlg eq 0}">
+                    <td></td>
+                  </c:if>
                   <td><form action="view-request" method="post">
                         <input type="hidden" name="contactId" value="${ dto.contactId }">
                         <button type="submit" class="btn btn-secondary btn-sm">詳細</button>

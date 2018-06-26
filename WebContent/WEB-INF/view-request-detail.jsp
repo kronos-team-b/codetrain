@@ -41,7 +41,7 @@
             <form action="add-request" method="post">
               <div class="form-group row">
                 <label class="col-form-label" for="request">返信内容</label>
-                <textarea rows="15" cols="50" id="response" class="form-control" name="response" maxlength="65535" required></textarea>
+                <textarea rows="15" cols="50" id="request" class="form-control" name="request" maxlength="65535" required></textarea>
               </div>
               <div class="form-group row pt-3">
                 <div class="mx-auto">

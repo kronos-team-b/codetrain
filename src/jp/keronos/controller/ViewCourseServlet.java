@@ -38,9 +38,14 @@ public class ViewCourseServlet extends HttpServlet {
 
         HttpSession session = request.getSession(false);
 
-        int courseId = Integer.parseInt(request.getParameter("courseId"));
-        int userNo = 0;
+        int courseId;
+        if (request.getParameter("courseId") != null) {
+            courseId = Integer.parseInt(request.getParameter("courseId"));
+        } else {
+            courseId = (int)session.getAttribute("sessionCourseId");
+        }
 
+        int userNo = 0;
         if (session != null && session.getAttribute("user") != null) {
 
             UserDto loginUserInfo = (UserDto)session.getAttribute("user");
@@ -63,6 +68,9 @@ public class ViewCourseServlet extends HttpServlet {
             UnitDao unitDao = new UnitDao(connection);
             ArrayList<UnitDto> unitInfo = unitDao.selectByCourseId(courseId);
             request.setAttribute("units", unitInfo);
+
+            // URIをリクエストに保持する
+            //request.setAttribute("uri", request.getRequestURI());
 
             if (userNo != 0) {
                 // 不正解情報をsessionに保存
