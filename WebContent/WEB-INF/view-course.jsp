@@ -52,6 +52,7 @@
                 </c:if>
               </div>
               <div>
+                <input type="hidden" form="completion-test" name="courseId" value="${ course.courseId }">
                 <button type="submit" form="completion-test" class="btn btn-primary col-11 mt-2">修了テスト</button>
               </div>
             </div>
