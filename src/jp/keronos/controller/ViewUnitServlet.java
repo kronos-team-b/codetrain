@@ -17,9 +17,12 @@ import org.slf4j.LoggerFactory;
 
 import jp.keronos.DataSourceManager;
 import jp.keronos.dao.CourseDao;
+import jp.keronos.dao.LearningHistoryDao;
 import jp.keronos.dao.UnitDao;
 import jp.keronos.dto.CourseDto;
+import jp.keronos.dto.LearningHistoryDto;
 import jp.keronos.dto.UnitDto;
+import jp.keronos.dto.UserDto;
 
 
 /**
@@ -49,36 +52,50 @@ public class ViewUnitServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         logger.info("start:{}", Thread.currentThread().getStackTrace()[1].getMethodName());
 
-        // フォームのデータ（カリキュラムID）を取得する
-        UnitDto unitDto = new UnitDto();
-        CourseDto courseDto = new CourseDto();
         request.setCharacterEncoding("UTF-8");
 
-        unitDto.setUnitId(Integer.parseInt(request.getParameter("unit-id")));
+        int unitId = Integer.parseInt(request.getParameter("unit-id"));
 
-        // コネクションを取得する
+        HttpSession session = request.getSession(false);
+
+        UserDto user = (UserDto)session.getAttribute("user");
+
+        int userNo = 0;
+        if (user != null) {
+            userNo = user.getUserNo();
+        }
+        userNo = 1;
+
         try (Connection connection = DataSourceManager.getConnection()) {
 
-            //カリキュラムIDに紐づくカリキュラム情報リストを取得すし、リクエストスコープにナレッジ情報リストを保持する
+            UnitDto unitDto = new UnitDto();
             UnitDao unitDao = new UnitDao(connection);
+            unitDto.setUnitId(unitId);
             unitDto = unitDao.selectByUnitId(unitDto);
 
-            request.setAttribute("unitDto", unitDto);
-
-            // セッションを取得する
-            HttpSession session2 = request.getSession(true);
-            session2.removeAttribute("queries");
-
-            // コース情報を取得する
+            CourseDto courseDto = new CourseDto();
             courseDto.setCourseId(unitDto.getCourseId());
             CourseDao courseDao = new CourseDao(connection);
             courseDto = courseDao.selectByCourseId(courseDto);
 
-            // チャンネル一覧データをリクエストに保持する
+            LearningHistoryDto learningHistoryDto = new LearningHistoryDto();
+            learningHistoryDto.setCourseId(courseDto.getCourseId());
+            learningHistoryDto.setUnitId(unitDto.getUnitId());
+            learningHistoryDto.setUserNo(userNo);
+
+            LearningHistoryDao learningHistoryDao = new LearningHistoryDao(connection);
+
+            boolean existsLearningHistory = learningHistoryDao.exists(learningHistoryDto);
+            if (userNo != 0 && existsLearningHistory == false) {
+
+                learningHistoryDao.insertInit(learningHistoryDto);
+            }
+
+            request.setAttribute("unitDto", unitDto);
             request.setAttribute("courseDto", courseDto);
 
-            // URIをリクエストに保持する
-            request.setAttribute("uri", request.getRequestURI());
+            request.getRequestDispatcher("/WEB-INF/view-unit.jsp").forward(request, response);
+
         } catch (SQLException | NamingException e) {
 
             logger.error("{} {}", e.getClass(), e.getMessage());
@@ -87,8 +104,5 @@ public class ViewUnitServlet extends HttpServlet {
             request.getRequestDispatcher("system-error.jsp").forward(request, response);
             return;
         }
-
-        // view-unit.jspに転送する
-        request.getRequestDispatcher("/WEB-INF/view-unit.jsp").forward(request, response);
     }
 }
