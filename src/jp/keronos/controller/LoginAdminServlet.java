@@ -85,16 +85,16 @@ public class LoginAdminServlet extends HttpServlet {
                 request.setAttribute("errorMessage", "IDまたはパスワードが間違っています");
             }
 
-            // 初回ログイン時
-            if (adminDto.getUpdateNumber() == 0) {
-                request.getRequestDispatcher("WEB-INF/change-admin-password.jsp").forward(request, response);
-                return;
-            }
-
             // もしエラーメッセージがある場合はログインページに遷移する
             if (request.getAttribute("errorMessage") != null) {
                 logger.debug(uri);
                 request.getRequestDispatcher("WEB-INF/login-admin.jsp").forward(request, response);
+                return;
+            }
+
+            // 初回ログイン時
+            if (adminDto.getUpdateNumber() == 0) {
+                request.getRequestDispatcher("WEB-INF/change-admin-password.jsp").forward(request, response);
                 return;
             }
 

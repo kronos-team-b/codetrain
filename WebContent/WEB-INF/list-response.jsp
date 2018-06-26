@@ -38,7 +38,7 @@
                   <c:if test="${ dto.requestOrResponseFlg eq 1}">
                     <td class="text-success">返信済</td>
                   </c:if>
-                  <td><c:out value="${ dto.contactAt }" /></td>
+                  <td><c:out value="${ dto.firstAt }" /></td>
                   <td><form action="view-response" method="post">
                         <input type="hidden" name="contactId" value="${ dto.contactId }">
                         <button type="submit" class="btn btn-secondary btn-sm">詳細</button>

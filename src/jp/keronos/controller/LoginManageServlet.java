@@ -86,7 +86,7 @@ public class LoginManageServlet extends HttpServlet {
 
             // もしエラーメッセージがある場合はログインページに遷移する
             if (request.getAttribute("errorMessage") != null) {
-                logger.debug(uri);
+                //logger.debug(uri);
                 request.getRequestDispatcher("WEB-INF/login-manage.jsp").forward(request, response);
                 return;
             }
