@@ -93,8 +93,7 @@ public class AddContactServlet extends HttpServlet {
             request.setAttribute("message", "リクエストを送信しました。");
 
             // リクエスト詳細画面に遷移する
-            //request.getRequestDispatcher("view-request").forward(request, response);
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            request.getRequestDispatcher("list-request").forward(request, response);
         } catch (SQLException | NamingException e) {
 
             logger.error("{} {}", e.getClass(), e.getMessage());
