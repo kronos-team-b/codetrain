@@ -15,7 +15,7 @@
   <%@ include file="/WEB-INF/header.jsp"%>
 </head>
 <body>
-  <%@ include file="manage-navbar.jsp"%>
+  <%@ include file="admin-navbar.jsp"%>
   <div class="container">
     <div class="row">
       <div class="mx-auto text-primary">&nbsp;<c:out value="${ errorMessage }" /></div>
