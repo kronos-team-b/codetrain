@@ -8,13 +8,13 @@ import jp.keronos.dto.InactiveReasonDto;
 
 public class InactiveReasonDao {
 
-	
+
     protected Connection conn;
 
     public InactiveReasonDao(Connection conn) {
         this.conn = conn;
     }
-    
+
     /**
      * コンタクトを新規作成する
      * @param dto コンタクト情報情報
@@ -26,20 +26,23 @@ public class InactiveReasonDao {
 
         // SQL文を作成する (休止情報の追加)
         StringBuffer sbReason = new StringBuffer();
-        sbReason.append(" insert into INACTIVE_REASON");
-        sbReason.append("           (");
-        sbReason.append("             USER_NO");
-        sbReason.append("            ,REASON");
-        sbReason.append("            ,ACTIVE_AT");
-        sbReason.append("            ,INACTIVE_AT");
-        sbReason.append("           )");
-        sbReason.append("      values");
-        sbReason.append("           (");
-        sbReason.append("             ?");
-        sbReason.append("            ,?");
-        sbReason.append("            ,?");
-        sbReason.append("            ,current_timestamp");
-        sbReason.append("           )");
+        sbReason.append("             insert into INACTIVE_REASON");
+        sbReason.append("                       (");
+        sbReason.append("                         USER_NO");
+        sbReason.append("                        ,REASON");
+        sbReason.append("                        ,ACTIVE_AT");
+        sbReason.append("                        ,INACTIVE_AT");
+        sbReason.append("                       )");
+        sbReason.append("                  values");
+        sbReason.append("                       (");
+        sbReason.append("                         ?");
+        sbReason.append("                        ,?");
+        sbReason.append("                        ,?");
+        sbReason.append("                        ,current_timestamp");
+        sbReason.append("                         )");
+        sbReason.append(" on duplicate key update REASON = values(REASON)");
+        sbReason.append("                        ,ACTIVE_AT = values(ACTIVE_AT)");
+        sbReason.append("                        ,INACTIVE_AT = current_timestamp;");
 
         // ステートメントオブジェクトを作成する
         try (PreparedStatement psReason = conn.prepareStatement(sbReason.toString())) {
@@ -49,10 +52,11 @@ public class InactiveReasonDao {
             psReason.setString(2, dto.getReason());
             psReason.setTimestamp(3, dto.getActiveAt());
 
+
             // SQLを実行する
             psReason.executeUpdate();
         }
-        
+
         // SQL文を作成する (コンタクトIDの取得)
         StringBuffer sbUser = new StringBuffer();
         sbUser.append(" update");
@@ -65,7 +69,7 @@ public class InactiveReasonDao {
 
         // ステートメントオブジェクトを作成する
          try (PreparedStatement psUser = conn.prepareStatement(sbUser.toString())) {
-        	// プレースホルダーに値をセットする
+            // プレースホルダーに値をセットする
              psUser.setInt(1, dto.getUserNo());
 
              // SQLを実行する

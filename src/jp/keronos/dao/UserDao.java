@@ -271,27 +271,45 @@ public class UserDao {
 
 
    public int updateToActive(UserDto dto) throws SQLException {
-       // SQL文を作成する (コンタクトIDの取得)
-       StringBuffer sbUser = new StringBuffer();
-       sbUser.append(" update");
-       sbUser.append("        USER");
-       sbUser.append("    set");
-       sbUser.append("        INACTIVE_FLG = 0");
-       sbUser.append("       ,UPDATE_NUMBER = UPDATE_NUMBER + 1");
-       sbUser.append("       ,UPDATE_AT = current_timestamp");
-       sbUser.append("       ,CORPORATE_NO = ?");
-       sbUser.append("  where USER_NO = ?");
 
-       // ステートメントオブジェクトを作成する
+    // SQL文を作成する (休止情報の追加)
+        StringBuffer sbReason = new StringBuffer();
+        sbReason.append(" update");
+        sbReason.append("        INACTIVE_REASON");
+        sbReason.append("    set");
+        sbReason.append("        ACTIVE_AT = current_timestamp");
+        sbReason.append("  where USER_NO = ?");
+
+        // ステートメントオブジェクトを作成する
+        try (PreparedStatement psReason = conn.prepareStatement(sbReason.toString())) {
+            // プレースホルダーに値をセットする
+            psReason.setInt(1, dto.getUserNo());
+
+            // SQLを実行する
+            psReason.executeUpdate();
+        }
+
+        // SQL文を作成する (ユーザの活動フラグを追加)
+        StringBuffer sbUser = new StringBuffer();
+        sbUser.append(" update");
+        sbUser.append("        USER");
+        sbUser.append("    set");
+        sbUser.append("        INACTIVE_FLG = 0");
+        sbUser.append("       ,UPDATE_NUMBER = UPDATE_NUMBER + 1");
+        sbUser.append("       ,UPDATE_AT = current_timestamp");
+        sbUser.append("       ,CORPORATE_NO = ?");
+        sbUser.append("  where USER_NO = ?");
+
+        // ステートメントオブジェクトを作成する
         try (PreparedStatement psUser = conn.prepareStatement(sbUser.toString())) {
-           // プレースホルダーに値をセットする
+            // プレースホルダーに値をセットする
             psUser.setInt(1, dto.getCorporateNo());
             psUser.setInt(2, dto.getUserNo());
 
             // SQLを実行する
             return psUser.executeUpdate();
         }
-   }
+    }
 
     /**
      * 利用者情報を更新する
@@ -321,7 +339,7 @@ public class UserDao {
             return ps.executeUpdate();
         }
     }
-    
+
     /**
      * 利用者情報を更新する
      * @param dto 利用者情報
