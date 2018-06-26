@@ -64,7 +64,6 @@ public class ViewUnitServlet extends HttpServlet {
         if (user != null) {
             userNo = user.getUserNo();
         }
-        userNo = 1;
 
         try (Connection connection = DataSourceManager.getConnection()) {
 
