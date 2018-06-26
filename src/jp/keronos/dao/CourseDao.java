@@ -3,10 +3,10 @@ package jp.keronos.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.sql.SQLException;
 
 import jp.keronos.dto.CourseDto;
 import jp.keronos.dto.LearningCourseDto;
@@ -166,12 +166,12 @@ public class CourseDao {
 
         ArrayList<LearningCourseDto> list = new ArrayList<LearningCourseDto>();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        
+
         // ステートメントオブジェクトを作成する
         try (PreparedStatement preparedStatement = connection.prepareStatement(sb.toString())) {
 
-        	preparedStatement.setInt(1, userNo);
-        	
+            preparedStatement.setInt(1, userNo);
+
             // SQL文を実行する
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
@@ -180,8 +180,8 @@ public class CourseDao {
                 dto.setUserNo(rs.getInt("USER_NO"));
                 dto.setPassFlg(rs.getInt("PASS_FLG"));
                 if(rs.getTimestamp("UPDATE_AT") != null) {
-                	dto.setUpdateAt(sdf.format(rs.getTimestamp("UPDATE_AT")));            		
-            	}
+                    dto.setUpdateAt(sdf.format(rs.getTimestamp("UPDATE_AT")));
+                }
                 dto.setCourseId(rs.getInt("COURSE_ID"));
                 dto.setCourseName(rs.getString("COURSE_Name"));
                 dto.setIsFreeFlg(rs.getInt("IS_FREE_FLG"));
@@ -193,7 +193,7 @@ public class CourseDao {
         }
     }
 
-    
+
 
     public CourseDto selectByCourseId(int courseId) throws SQLException {
 
@@ -258,7 +258,7 @@ public class CourseDao {
         sb.append("   where COURSE_ID = ?");
 
         // ステートメントオブジェクトを作成する
-        try (PreparedStatement ps = conn.prepareStatement(sb.toString())) {
+        try (PreparedStatement ps = connection.prepareStatement(sb.toString())) {
 
             // プレースホルダーに値をセットする
             ps.setInt(1, dto.getCourseId());
@@ -269,4 +269,8 @@ public class CourseDao {
                 dto = new CourseDto();
                 dto.setCourseId(rs.getInt("COURSE_ID"));
                 dto.setCourseName(rs.getString("COURSE_NAME"));
+            }
+        }
+        return dto;
+    }
 }

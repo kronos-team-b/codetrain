@@ -20,7 +20,7 @@ public class CorporateDao {
     public CorporateDao(Connection conn) {
        this.conn = conn;
     }
-  
+
     /**
      * コーポレートIDに紐づくコーポレートDTOを取得する
      * @param dto
@@ -59,7 +59,6 @@ public class CorporateDao {
         }
         return dto;
     }
-}
 
 
     /**

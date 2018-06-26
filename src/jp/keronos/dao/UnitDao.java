@@ -202,7 +202,7 @@ public class UnitDao {
         sb.append("     and DELETE_FLG = 0");
 
         // ステートメントオブジェクトを作成する
-        try (PreparedStatement ps = conn.prepareStatement(sb.toString())) {
+        try (PreparedStatement ps = connection.prepareStatement(sb.toString())) {
             // プレースホルダーに値をセットする
             ps.setInt(1, dto.getUnitId());
 

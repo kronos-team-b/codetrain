@@ -15,11 +15,11 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import jp.keronos.DataSourceManager;
 import jp.keronos.dao.CourseDao;
 import jp.keronos.dao.UnitDao;
 import jp.keronos.dto.CourseDto;
 import jp.keronos.dto.UnitDto;
-import jp.keronos.DataSourceManager;
 
 
 /**
@@ -39,7 +39,8 @@ public class ViewUnitServlet extends HttpServlet {
         logger.info("start:{}", Thread.currentThread().getStackTrace()[1].getMethodName());
 
         // トップページに遷移する
-        response.sendRedirect("index.jsp");
+
+        doPost(request, response);
     }
 
     /**
@@ -53,7 +54,7 @@ public class ViewUnitServlet extends HttpServlet {
         CourseDto courseDto = new CourseDto();
         request.setCharacterEncoding("UTF-8");
 
-        unitDto.setUnitId(Integer.parseInt(request.getParameter("unitId")));
+        unitDto.setUnitId(Integer.parseInt(request.getParameter("unit-id")));
 
         // コネクションを取得する
         try (Connection connection = DataSourceManager.getConnection()) {
