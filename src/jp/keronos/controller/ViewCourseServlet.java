@@ -38,9 +38,14 @@ public class ViewCourseServlet extends HttpServlet {
 
         HttpSession session = request.getSession(false);
 
-        int courseId = Integer.parseInt(request.getParameter("courseId"));
-        int userNo = 0;
+        int courseId;
+        if (request.getParameter("courseId") != null) {
+            courseId = Integer.parseInt(request.getParameter("courseId"));
+        } else {
+            courseId = (int)session.getAttribute("sessionCourseId");
+        }
 
+        int userNo = 0;
         if (session != null && session.getAttribute("user") != null) {
 
             UserDto loginUserInfo = (UserDto)session.getAttribute("user");

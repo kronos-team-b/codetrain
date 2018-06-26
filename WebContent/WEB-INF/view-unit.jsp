@@ -31,7 +31,7 @@
           <div class="mx-auto">
           <form action="form-unit-test" method="post" >
             <button type="submit" class="btn btn-primary">テスト開始</button>
-            <button type="submit" formaction="list-course" class="btn btn-danger">中断</button>
+            <button type="submit" formaction="test-stop?unit-id=${ unitDto.unitId }" class="btn btn-danger">中断</button>
           </form>
           </div>
         </div>

@@ -221,5 +221,25 @@ public class LearningHistoryDao {
 
         return exists;
     }
+
+    public void updateSkipFlg(LearningHistoryDto dto) throws SQLException {
+
+        String sql = ""
+                + "update LEARNING_HISTORY "
+                + "set SKIP_FLG = ? "
+                + "where USER_NO = ? "
+                + "and UNIT_ID = ? "
+                + "and COURSE_ID = ? ";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setInt(1, dto.getSkipFlg());
+            preparedStatement.setInt(2, dto.getUserNo());
+            preparedStatement.setInt(3, dto.getUnitId());
+            preparedStatement.setInt(4, dto.getCourseId());
+
+            preparedStatement.executeUpdate();
+        }
+    }
 }
 

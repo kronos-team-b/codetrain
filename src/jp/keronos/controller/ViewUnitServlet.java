@@ -69,8 +69,8 @@ public class ViewUnitServlet extends HttpServlet {
         try (Connection connection = DataSourceManager.getConnection()) {
 
             UnitDto unitDto = new UnitDto();
-            UnitDao unitDao = new UnitDao(connection);
             unitDto.setUnitId(unitId);
+            UnitDao unitDao = new UnitDao(connection);
             unitDto = unitDao.selectByUnitId(unitDto);
 
             CourseDto courseDto = new CourseDto();
