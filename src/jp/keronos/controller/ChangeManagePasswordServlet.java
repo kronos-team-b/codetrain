@@ -87,7 +87,7 @@ public class ChangeManagePasswordServlet extends HttpServlet {
             request.getRequestDispatcher("system-error.jsp").forward(request, response);}
 
         //入力チェック
-        if("".equals(existpass) | "".equals(changepass) | "".equals(dto.getPassword())) {
+        if("".equals(existpass) || "".equals(changepass) || "".equals(dto.getPassword())) {
 
             request.setAttribute("errorMessage", "パスワードを入力してください");
         }

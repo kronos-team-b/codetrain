@@ -245,7 +245,7 @@ public class UserDao {
        sb.append("   values");
        sb.append("          (");
        sb.append("          ?");
-       sb.append("         ,?");
+       sb.append("         ,sha2(?, 256)");
        sb.append("         ,?");
        sb.append("         ,?");
        sb.append("         ,0");

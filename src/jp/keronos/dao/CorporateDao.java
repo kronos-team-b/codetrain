@@ -20,7 +20,7 @@ public class CorporateDao {
     public CorporateDao(Connection conn) {
        this.conn = conn;
     }
-  
+
     /**
      * コーポレートIDに紐づくコーポレートDTOを取得する
      * @param dto
@@ -41,6 +41,7 @@ public class CorporateDao {
         sb.append("         CORPORATE");
         sb.append("   where");
         sb.append("         CORPORATE_ID = ?");
+        sb.append("     and DELETE_FLG = 0");
 
         // ステートメントオブジェクトを作成する
         try (PreparedStatement ps = conn.prepareStatement(sb.toString())) {
@@ -92,6 +93,7 @@ public class CorporateDao {
         sb.append("   from CORPORATE");
         sb.append("  where CORPORATE_ID = ?");
         sb.append("    and PASSWORD = sha2(?, 256)");
+        sb.append("    and DELETE_FLG = 0");
 
         // ステートメントオブジェクトを作成する
         try (PreparedStatement ps = conn.prepareStatement(sb.toString())) {
@@ -150,6 +152,7 @@ public class CorporateDao {
         sb.append("         CORPORATE");
         sb.append("   where");
         sb.append("         CORPORATE_ID = ?");
+        sb.append("     and DELETE_FLG = 0");
 
         // ステートメントオブジェクトを作成する
         try (PreparedStatement ps = conn.prepareStatement(sb.toString())) {
@@ -185,14 +188,15 @@ public class CorporateDao {
         sb.append("    set");
         sb.append("        PASSWORD = sha2(?, 256)");
         sb.append("       ,UPDATE_NUMBER = UPDATE_NUMBER + 1");
-        sb.append("  where CORPORATE_NO = ?");
+        sb.append("  where CORPORATE_ID = ?");
+        sb.append("    and DELETE_FLG = 0");
 
         // ステートメントオブジェクトを作成する
         try (PreparedStatement ps = conn.prepareStatement(sb.toString())) {
 
             // プレースホルダーに値をセットする
             ps.setString(1, dto.getPassword());
-            ps.setInt(2, dto.getCorporateNo());
+            ps.setString(2, dto.getCorporateId());
 
             // SQLを実行する
             return ps.executeUpdate();

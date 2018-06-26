@@ -73,17 +73,41 @@ public class AddUserServlet extends HttpServlet  {
             admin = adminDao.findByCorporateId(admin);
 
             // フォームのデータを取得する
-            UserDto userDto = new UserDto();
+
             request.setCharacterEncoding("UTF-8");
             UserDao userDao = new UserDao(conn);
 
             String userId = request.getParameter("userId");
             String userLastName = request.getParameter("userLastName");
             String userFirstName = request.getParameter("userFirstName");
+
+            // 入力チェック
+            UserDto usercheckDto = new UserDto();
+            usercheckDto = userDao.findById(userId);
+            if("".equals(userId) || "".equals(userLastName) || "".equals(userFirstName)) {
+                request.setAttribute("errorMessage", "全ての項目を入力してください");
+            }
+
+            if (usercheckDto != null) {
+                logger.warn(" id={}", request.getRemoteAddr(), userId);
+                request.setAttribute("errorMessage", "入力されたユーザIDは利用できません。");
+            }
+
+            // エラーメッセージがある場合に実行
+            if (request.getAttribute("errorMessage") != null) {
+                request.setAttribute("userId", userId);
+                request.setAttribute("userLastName", userLastName);
+                request.setAttribute("userFirstName", userFirstName);
+                request.getRequestDispatcher("list-user").forward(request, response);
+                return;
+            }
+
+            UserDto userDto = new UserDto();
             userDto.setUserId(userId);
             userDto.setLastName(userLastName);
             userDto.setFirstName(userFirstName);
             userDto.setCorporateNo(admin.getCorporateNo());
+
             userDao.insertByCorporateNo(userDto);
 
             // URIをリクエストに保持する
@@ -100,7 +124,7 @@ public class AddUserServlet extends HttpServlet  {
             logger.error("{} {}", e.getClass(), e.getMessage());
 
             // システムエラー画面に遷移する
-            request.getRequestDispatcher("system-error.jsp").forward(request, response);
+            request.getRequestDispatcher("system-error-admin.jsp").forward(request, response);
         }
     }
 }

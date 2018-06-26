@@ -6,15 +6,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <title>利用者一覧</title>
   <script>
-  function addConfirm(e) {
-      if (window.confirm('登録しますか')) {
-        $('#add').attr('action', 'add-user');
-        $('#add').submit();
-      } else {
-        return false;
-      }
-    }
-  
+
   function activeConfirm(e) {
       if (window.confirm('復帰しますか')) {
         $('#active').attr('action', 'active-user');
@@ -23,7 +15,7 @@
         return false;
       }
     }
-  
+
   function deleteConfirm(e) {
     if (window.confirm('本当に削除しますか')) {
       $('#delete').attr('action', 'delete-user');
@@ -46,6 +38,7 @@
   <%@ include file="admin-navbar.jsp"%>
     <div class="container">
       <div class="row">
+        <div class="mx-auto text-danger">&nbsp;<c:out value="${ errorMessage }" /></div>
         <div class="mx-auto text-primary">&nbsp;<c:out value="${ message }" /></div>
       </div>
       <div class="row">
@@ -66,11 +59,11 @@
             </thead>
             <tbody>
               <tr>
-                <td><input type="text" form="add" name="userId" class="form-control" placeholder="例) code1" required></td>
-                <td><input type="text" form="add" name="userLastName" class="form-control" placeholder="新幹線" required></td>
-                <td><input type="text" form="add" name="userFirstName" class="form-control" placeholder="のぞみ" required></td>
+                <td><input type="text" form="add" name="userId" class="form-control" placeholder="例) code1" value="${ userId }" required ></td>
+                <td><input type="text" form="add" name="userLastName" class="form-control" placeholder="新幹線" value="${ userLastName }" required></td>
+                <td><input type="text" form="add" name="userFirstName" class="form-control" placeholder="のぞみ" value="${ userFirstName }" required></td>
                 <td></td>
-                <td><button type="submit" form="add" class="btn btn-primary" onClick="return addConfirm()">登録</button></td>
+                <td><button type="submit" form="add" class="btn btn-primary" >登録</button></td>
                 <td></td>
                 <td></td>
               </tr>
