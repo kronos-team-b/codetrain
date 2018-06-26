@@ -5,7 +5,7 @@ public class LearningHistoryDto {
     private int learningHistoryId;
 
     private int unitId;
-    
+
     private String unitTitle;
 
     private int courseId;
@@ -35,7 +35,7 @@ public class LearningHistoryDto {
     public void setUnitId(int unitId) {
         this.unitId = unitId;
     }
-    
+
     public String getUnitTitle() {
         return unitTitle;
     }

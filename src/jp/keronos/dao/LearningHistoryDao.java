@@ -102,6 +102,28 @@ public class LearningHistoryDao {
         return list;
     }
 
+    public void insertInit(LearningHistoryDto dto) throws SQLException {
+
+        StringBuffer sb = new StringBuffer();
+        sb.append(" insert into LEARNING_HISTORY(");
+        sb.append("     USER_NO,");
+        sb.append("     COURSE_ID,");
+        sb.append("     UNIT_ID");
+        sb.append(" )");
+        sb.append(" values(");
+        sb.append("     ?,?,?");
+        sb.append(" )");
+
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sb.toString())) {
+
+            preparedStatement.setInt(1, dto.getUserNo());
+            preparedStatement.setInt(2, dto.getCourseId());
+            preparedStatement.setInt(3, dto.getUnitId());
+
+            preparedStatement.executeUpdate();
+        }
+    }
+
     public void insert(LearningHistoryDto dto) throws SQLException {
 
         StringBuffer sb = new StringBuffer();
@@ -171,6 +193,53 @@ public class LearningHistoryDao {
             }
         }
         return id;
+    }
+
+    public boolean exists(LearningHistoryDto dto) throws SQLException {
+
+        String sql = ""
+                + "select LEARNING_HISTORY_ID "
+                + "from LEARNING_HISTORY "
+                + "where USER_NO = ? "
+                + "and COURSE_ID = ? "
+                + "and UNIT_ID = ?";
+
+        boolean exists = false;
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setInt(1, dto.getUserNo());
+            preparedStatement.setInt(2, dto.getCourseId());
+            preparedStatement.setInt(3, dto.getUnitId());
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                exists = true;
+            }
+        }
+
+        return exists;
+    }
+
+    public void updateSkipFlg(LearningHistoryDto dto) throws SQLException {
+
+        String sql = ""
+                + "update LEARNING_HISTORY "
+                + "set SKIP_FLG = ? "
+                + "where USER_NO = ? "
+                + "and UNIT_ID = ? "
+                + "and COURSE_ID = ? ";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setInt(1, dto.getSkipFlg());
+            preparedStatement.setInt(2, dto.getUserNo());
+            preparedStatement.setInt(3, dto.getUnitId());
+            preparedStatement.setInt(4, dto.getCourseId());
+
+            preparedStatement.executeUpdate();
+        }
     }
 }
 

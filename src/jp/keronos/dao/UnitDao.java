@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import jp.keronos.dto.LearningHistoryDto;
 import jp.keronos.dto.UnitDto;
 
-
 public class UnitDao {
 
     /** コネクション */
@@ -90,6 +89,7 @@ public class UnitDao {
                 dto.setUpdateNumber(rs.getInt("UPDATE_NUMBER"));
                 dto.setManageNo(rs.getInt("MANAGE_NO"));
                 dto.setDeleteFlg(rs.getInt("DELETE_FLG"));
+
                 list.add(dto);
             }
             return list;
@@ -184,34 +184,43 @@ public class UnitDao {
         return list;
     }
 
-  public UnitDto selectByUnitId(UnitDto unitDto) throws SQLException {
+ public UnitDto selectByUnitId(UnitDto dto) throws SQLException {
 
-      StringBuffer sb = new StringBuffer();
-      sb.append("select ");
-      sb.append("       UNIT_ID,");
-      sb.append("       UNIT_TITLE,");
-      sb.append("       UNIT_TEXT,");
-      sb.append("       COURSE_ID");
-      sb.append("  from UNIT");
-      sb.append(" where UNIT_ID = ?");
+        // SQL文を作成する
+        StringBuffer sb = new StringBuffer();
+        sb.append("  select");
+        sb.append("         UNIT_ID");
+        sb.append("        ,UNIT_TITLE");
+        sb.append("        ,UNIT_TEXT");
+        sb.append("        ,COURSE_ID");
+        sb.append("        ,UPDATE_NUMBER");
+        sb.append("        ,MANAGE_NO");
+        sb.append("        ,DELETE_FLG");
+        sb.append("    from");
+        sb.append("         UNIT");
+        sb.append("   where UNIT_ID = ?");
+        sb.append("     and DELETE_FLG = 0");
 
-      try(PreparedStatement preparedStatement = connection.prepareStatement(sb.toString())) {
+        // ステートメントオブジェクトを作成する
+        try (PreparedStatement ps = connection.prepareStatement(sb.toString())) {
+            // プレースホルダーに値をセットする
+            ps.setInt(1, dto.getUnitId());
 
-          preparedStatement.setInt(1, unitDto.getUnitId());
-
-          ResultSet resultSet = preparedStatement.executeQuery();
-
-          while(resultSet.next()) {
-              unitDto.setUnitId(resultSet.getInt("UNIT_ID"));
-              unitDto.setUnitTitle(resultSet.getString("UNIT_TITLE"));
-              unitDto.setUnitText(resultSet.getString("UNIT_TEXT"));
-              unitDto.setCourseId(resultSet.getInt("COURSE_ID"));
-          }
-      }
-
-      return unitDto;
-  }
-
+         // SQL文を実行する
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                dto = new UnitDto();
+                dto.setUnitId(rs.getInt("UNIT_ID"));
+                dto.setUnitTitle(rs.getString("UNIT_TITLE"));
+                dto.setUnitText(rs.getString("UNIT_TEXT"));
+                dto.setCourseId(rs.getInt("COURSE_ID"));
+                dto.setUpdateNumber(rs.getInt("UPDATE_NUMBER"));
+                dto.setManageNo(rs.getInt("MANAGE_NO"));
+                dto.setDeleteFlg(rs.getInt("DELETE_FLG"));
+              }
+            return dto;
+        }
+    }
 }
 
 

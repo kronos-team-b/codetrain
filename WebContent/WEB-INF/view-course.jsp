@@ -73,7 +73,7 @@
         <tbody>
           <c:forEach items="${ units }" var="unit" varStatus="status">
             <tr>
-              <td><a href="view-unit?unitId=${ unit.unitId }">${ unit.unitTitle }</a></td>
+              <td><a href="view-unit?unit-id=${ unit.unitId }">${ unit.unitTitle }</a></td>
             </tr>
           </c:forEach>
         </tbody>

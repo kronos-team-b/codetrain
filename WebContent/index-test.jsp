@@ -15,7 +15,8 @@
    <%@ include file="/WEB-INF/header.jsp"%>
  </head>
  <body>
-   <form action="list-bill" method="post">
+   <%@ include file="/WEB-INF/user-navbar.jsp"%>
+   <form action="view-unit" method="post">
      <button type="submit" class="btn btn-danger btn-sm">テスト</button>
    </form>
    <form action="user-logout" method="post" class="form-inline">
