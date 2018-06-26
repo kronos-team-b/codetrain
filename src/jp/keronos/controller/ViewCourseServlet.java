@@ -69,9 +69,6 @@ public class ViewCourseServlet extends HttpServlet {
             ArrayList<UnitDto> unitInfo = unitDao.selectByCourseId(courseId);
             request.setAttribute("units", unitInfo);
 
-            // URIをリクエストに保持する
-            //request.setAttribute("uri", request.getRequestURI());
-
             if (userNo != 0) {
                 // 不正解情報をsessionに保存
                 UserCourseTestAnswerDao userCourseTestAnswerDao = new UserCourseTestAnswerDao(connection);
