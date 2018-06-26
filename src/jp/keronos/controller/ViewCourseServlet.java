@@ -80,13 +80,14 @@ public class ViewCourseServlet extends HttpServlet {
 
                 // 続きから判定
                 LearningHistoryDao learningHistoryDao = new LearningHistoryDao(connection);
-                UnitDto next = learningHistoryDao.selectUnitIdByUserNoAndCourseId(userNo, courseId);
+                UnitDto next = learningHistoryDao.selectMinUnitIdByEndFlg(userNo, courseId);
                 request.setAttribute("next", next);
             }
 
             request.getRequestDispatcher("WEB-INF/view-course.jsp").forward(request, response);;
 
         } catch (SQLException | NamingException e) {
+            e.printStackTrace();
             request.getRequestDispatcher("system-error.jsp").forward(request, response);
         }
     }
