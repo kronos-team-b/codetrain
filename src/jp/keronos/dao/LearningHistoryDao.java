@@ -133,9 +133,10 @@ public class LearningHistoryDao {
         sb.append("     UNIT_ID,");
         sb.append("     UNIT_TEST_POINT,");
         sb.append("     END_FLG");
+        sb.append("     SKIP_FLG");
         sb.append(" )");
         sb.append(" values(");
-        sb.append("     ?,?,?,?,1");
+        sb.append("     ?,?,?,?,1,0");
         sb.append(" )");
 
         try(PreparedStatement preparedStatement = connection.prepareStatement(sb.toString())) {
@@ -154,6 +155,7 @@ public class LearningHistoryDao {
         StringBuffer sb = new StringBuffer();
         sb.append(" update LEARNING_HISTORY");
         sb.append(" set");
+        sb.append("     SKIP_FLG = 0,");
         sb.append("     END_FLG = 1,");
         sb.append("     UNIT_TEST_POINT = ?");
         sb.append(" where LEARNING_HISTORY_ID = ?");
