@@ -44,8 +44,6 @@ public class TestStopServlet extends HttpServlet {
             userNo = user.getUserNo();
         }
 
-        userNo = 1;
-
         try(Connection connection = DataSourceManager.getConnection()) {
 
             UnitDto unitDto = new UnitDto();
