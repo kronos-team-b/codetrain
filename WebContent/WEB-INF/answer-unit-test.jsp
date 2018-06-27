@@ -58,7 +58,7 @@
           </c:if>
           <c:if test="${ unitFlg eq 0 and unitTestAmount ne unitInfo.unitId }">
             <div class="mt-5 mb-5">
-              <a href="view-unit?unitId=${ unitInfo.unitId + 1 }">次のテキストへ</a>
+              <a href="view-unit?unit-id=${ unitInfo.unitId + 1 }">次のテキストへ</a>
             </div>
           </c:if>
       </div>

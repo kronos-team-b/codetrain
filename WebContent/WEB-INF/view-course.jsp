@@ -43,8 +43,10 @@
               <form action="view-unit" method="post" id="unit-test"></form>
               <form action="form-course-test" method="get" id="completion-test"></form>
               <div>
+                <input type="hidden" form="unit-test" name="unit-flg" value="0">
                 <button type="submit" form="unit-test" name="unit-id" value="1" class="btn btn-primary col-5 mr-4">最初から</button>
                 <c:if test="${ not empty next.unitId }">
+                  <input type="hidden" name="unit-flg" value="0">
                   <button type="submit" form="unit-test" name="unit-id" value="${ next.unitId }" class="btn btn-primary col-5">続きから</button>
                 </c:if>
                 <c:if test="${ empty next.unitId }">
@@ -74,7 +76,7 @@
         <tbody>
           <c:forEach items="${ units }" var="unit" varStatus="status">
             <tr>
-              <td><a href="view-unit?unit-id=${ unit.unitId }">${ unit.unitTitle }</a></td>
+              <td><a href="view-unit?unit-id=${ unit.unitId }&unit-flg=1">${ unit.unitTitle }</a></td>
             </tr>
           </c:forEach>
         </tbody>

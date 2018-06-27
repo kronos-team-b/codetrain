@@ -120,8 +120,8 @@ public class FormUnitTestServlet extends HttpServlet {
                     userUnitTestAnswerDao.insert(tempUserNo, tempAnswer, tempUnitId, tempTestId);
                 }
 
-                request.getRequestDispatcher("ans-unit-test").forward(request, response);;
             }
+            request.getRequestDispatcher("ans-unit-test").forward(request, response);;
 
         } catch (SQLException | NamingException e) {
 

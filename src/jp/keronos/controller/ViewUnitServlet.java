@@ -58,6 +58,19 @@ public class ViewUnitServlet extends HttpServlet {
 
         HttpSession session = request.getSession(false);
 
+        int unitFlg = 0;
+
+        if (request.getParameter("unit-flg") != null) {
+
+            unitFlg = Integer.parseInt(request.getParameter("unit-flg"));
+            session.setAttribute("unitFlg", unitFlg);
+        }
+
+        if (session.getAttribute("unitFlg") != null) {
+
+            unitFlg = (int)session.getAttribute("unitFlg");
+        }
+
         UserDto user = (UserDto)session.getAttribute("user");
 
         int userNo = 0;
