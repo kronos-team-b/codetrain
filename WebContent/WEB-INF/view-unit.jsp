@@ -29,10 +29,12 @@
              </p>
           <div class="form-group row">
           <div class="mx-auto">
-          <form action="form-unit-test" method="post" >
-            <button type="submit" class="btn btn-primary">テスト開始</button>
-            <button type="submit" formaction="test-stop?unit-id=${ unitDto.unitId }" class="btn btn-danger">中断</button>
-          </form>
+          <form action="form-unit-test" method="get" id="form-unit-test"></form>
+          <form action="test-stop" method="get" id="test-stop"></form>
+          <input type="hidden" form="form-unit-test" name="unit-id" value="${ unitDto.unitId }">
+          <input type="hidden" form="test-stop" name="unit-id" value="${ unitDto.unitId }">
+          <button type="submit" form="form-unit-test" class="btn btn-primary">テスト開始</button>
+          <button type="submit" form="test-stop" class="btn btn-danger">中断</button>
           </div>
         </div>
         </div>

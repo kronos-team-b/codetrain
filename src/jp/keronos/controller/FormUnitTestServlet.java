@@ -38,7 +38,7 @@ public class FormUnitTestServlet extends HttpServlet {
 
         HttpSession session = request.getSession(false);
 
-        int unitId = Integer.parseInt(request.getParameter("unitId"));
+        int unitId = Integer.parseInt(request.getParameter("unit-id"));
 
         try(Connection connection = DataSourceManager.getConnection()) {
 
@@ -120,8 +120,8 @@ public class FormUnitTestServlet extends HttpServlet {
                     userUnitTestAnswerDao.insert(tempUserNo, tempAnswer, tempUnitId, tempTestId);
                 }
 
-                request.getRequestDispatcher("ans-unit-test").forward(request, response);;
             }
+            request.getRequestDispatcher("ans-unit-test").forward(request, response);;
 
         } catch (SQLException | NamingException e) {
 
