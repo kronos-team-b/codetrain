@@ -18,6 +18,7 @@
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             <a class="dropdown-item" href="list-user">利用者一覧</a>
             <a class="dropdown-item" href="list-bill">請求一覧</a>
+            <a class="dropdown-item" href="form-change-admin-password">パスワード変更</a>
           </div>
         </div>
 

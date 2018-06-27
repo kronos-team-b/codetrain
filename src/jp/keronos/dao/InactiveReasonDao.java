@@ -78,3 +78,4 @@ public class InactiveReasonDao {
         return 1;
     }
 }
+

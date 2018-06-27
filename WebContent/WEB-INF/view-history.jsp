@@ -42,8 +42,6 @@
       <c:if test="${ category.categoryId eq course.categoryId}">
       <div>
         <span class="border border-warning rounded mt-2 ml-3 pt-1 pb-1 pl-3 pr-3">${ category.categoryName }</span>
-
-
         <c:out value="${ course.courseName }"/>
          <div class="col-7">
           <table class="table mt-2 col-7 table-condensed">

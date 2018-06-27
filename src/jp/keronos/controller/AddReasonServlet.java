@@ -63,8 +63,19 @@ public class AddReasonServlet extends HttpServlet  {
 
         // コネクションを取得する
         try (Connection conn = DataSourceManager.getConnection()) {
-            //　休止ユーザのNOをゲットする
-            // ログインユーザ情報を取得する
+            // フォームのデータを習得する
+            request.setCharacterEncoding("UTF-8");
+            String reason = request.getParameter("reason");
+
+            // 入力チェック
+            if("".equals(reason)) {
+                request.setAttribute("errorMessage", "休止理由を入力してください");
+                request.setAttribute("reason", reason);
+                request.getRequestDispatcher("form-reason").forward(request, response);
+                return;
+            }
+
+            // 休止ユーザのNOをゲットし、ユーザ情報を取得する
             UserDao userDao = new UserDao(conn);
             UserDto userDto = new UserDto();
             int userNo = Integer.parseInt(request.getParameter("userNo"));
@@ -74,7 +85,7 @@ public class AddReasonServlet extends HttpServlet  {
             // フォームのデータを取得する
             InactiveReasonDto inactiveReasonDto = new InactiveReasonDto();
 
-            inactiveReasonDto.setReason(request.getParameter("reason"));
+            inactiveReasonDto.setReason(reason);
             inactiveReasonDto.setUserNo(userDto.getUserNo());
             inactiveReasonDto.setActiveAt(userDto.getUpdateAt());
 
