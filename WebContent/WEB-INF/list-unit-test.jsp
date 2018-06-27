@@ -20,7 +20,7 @@
            <div class="mb-4">
               <p class="font-weight-bold">問<c:out value="${unitTestStatus.count}" /> <c:out value="${ unitTest.testTitle }" /></p>
               <c:if test="${ unitTest.answerTypeFlg eq 0 }">
-                <input type="text" name="answer[${ unitTestStatus.index }]" class="form-control ml-2 col-10" required>
+                <input type="text" name="answer[${ unitTestStatus.index }]" class="form-control ml-2 col-10" maxlength="30" required>
               </c:if>
               <c:if test="${ unitTest.answerTypeFlg eq 1 }">
                 <c:forEach items="${ choicesList }" var="choice" varStatus="choiceStatus">
