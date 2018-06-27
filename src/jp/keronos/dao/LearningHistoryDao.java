@@ -41,11 +41,11 @@ public class LearningHistoryDao {
     public UnitDto selectMinUnitIdByEndFlg(int userNo, int courseId) throws SQLException {
 
         StringBuffer sb = new StringBuffer();
-        sb.append(" select min(UNIT_ID) as MIN_UNIT_ID");
+        sb.append(" select UNIT_ID");
         sb.append("   from LEARNING_HISTORY");
         sb.append("  where USER_NO = ?");
         sb.append("    and COURSE_ID = ?");
-        sb.append("    and END_FLG = false");
+        sb.append("    and SKIP_FLG = true");
 
         UnitDto unit = null;
 
@@ -57,7 +57,7 @@ public class LearningHistoryDao {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 unit = new UnitDto();
-                unit.setUnitId(resultSet.getInt("MIN_UNIT_ID"));
+                unit.setUnitId(resultSet.getInt("UNIT_ID"));
             }
         }
 
