@@ -11,27 +11,27 @@ import jp.keronos.dto.BillDto;
 
 public class BillDao {
 
-    /** ƒRƒlƒNƒVƒ‡ƒ“ */
+    /** ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ */
     protected Connection conn;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
-     * ƒRƒlƒNƒVƒ‡ƒ“‚ğƒtƒB[ƒ‹ƒh‚Éİ’è‚·‚é
-     * @param conn ƒRƒlƒNƒVƒ‡ƒ“
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ã‚’ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«è¨­å®šã™ã‚‹
+     * @param conn ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³
      */
     public BillDao(Connection conn) {
         this.conn = conn;
     }
 
     /**
-     * ‰ïĞNO‚ÉŠY“–‚·‚é¿‹î•ñ‚ğæ“¾‚µAŒ‹‡‚É‚æ‚Á‚Ä’P‰¿‚ÆÅ—¦î•ñ‚àæ“¾‚·‚é
+     * ä¼šç¤¾NOã«è©²å½“ã™ã‚‹è«‹æ±‚æƒ…å ±ã‚’å–å¾—ã—ã€çµåˆã«ã‚ˆã£ã¦å˜ä¾¡ã¨ç¨ç‡æƒ…å ±ã‚‚å–å¾—ã™ã‚‹
      * @param dto
-     * @return ¿‹ˆê——î•ñ
+     * @return è«‹æ±‚ä¸€è¦§æƒ…å ±
      * @throws SQLException
      */
     public List<BillDto> selectByCorporateNo(int corporateNo) throws SQLException {
 
-        // SQL•¶‚ğì¬‚·‚é
+        // SQLæ–‡ã‚’ä½œæˆã™ã‚‹
         StringBuffer sb = new StringBuffer();
         sb.append("  select");
         sb.append("         BILLING_ID");
@@ -48,12 +48,12 @@ public class BillDao {
         sb.append("  where CORPORATE_NO = ?");
         sb.append(" order by BILLING_DATE DESC");
 
-        // ƒXƒe[ƒgƒƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é
+        // ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã™ã‚‹
         try (PreparedStatement ps = conn.prepareStatement(sb.toString())) {
-            // ƒvƒŒ[ƒXƒzƒ‹ƒ_[‚É’l‚ğƒZƒbƒg‚·‚é
+            // ãƒ—ãƒ¬ãƒ¼ã‚¹ãƒ›ãƒ«ãƒ€ãƒ¼ã«å€¤ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
             ps.setInt(1, corporateNo);
 
-         // SQL•¶‚ğÀs‚·‚é
+         // SQLæ–‡ã‚’å®Ÿè¡Œã™ã‚‹
             ResultSet rs = ps.executeQuery();
             List<BillDto> List = new ArrayList<>();
             while (rs.next()) {
@@ -78,14 +78,14 @@ public class BillDao {
     }
 
     /**
-     * ¿‹ID‚ÉŠY“–‚·‚é¿‹î•ñ‚ğæ“¾‚µAŒ‹‡‚É‚æ‚Á‚Ä’P‰¿‚ÆÅ—¦î•ñ‚àæ“¾‚·‚é
+     * è«‹æ±‚IDã«è©²å½“ã™ã‚‹è«‹æ±‚æƒ…å ±ã‚’å–å¾—ã—ã€çµåˆã«ã‚ˆã£ã¦å˜ä¾¡ã¨ç¨ç‡æƒ…å ±ã‚‚å–å¾—ã™ã‚‹
      * @param dto
-     * @return@¿‹î•ñA’P‰¿î•ñ
+     * @returnã€€è«‹æ±‚æƒ…å ±ã€å˜ä¾¡æƒ…å ±
      * @throws SQLException
      */
     public BillDto selectByBillingId(BillDto dto) throws SQLException {
 
-        // SQL•¶‚ğì¬‚·‚é
+        // SQLæ–‡ã‚’ä½œæˆã™ã‚‹
         StringBuffer sb = new StringBuffer();
         sb.append("  select");
         sb.append("         BILLING_ID");
@@ -101,12 +101,12 @@ public class BillDao {
         sb.append("     on BILL.PRICE_ID = PRICE.PRICE_ID");
         sb.append("  where BILLING_ID = ?");
 
-     // ƒXƒe[ƒgƒƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é
+     // ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã™ã‚‹
         try (PreparedStatement ps = conn.prepareStatement(sb.toString())) {
-            // ƒvƒŒ[ƒXƒzƒ‹ƒ_[‚É’l‚ğƒZƒbƒg‚·‚é
+            // ãƒ—ãƒ¬ãƒ¼ã‚¹ãƒ›ãƒ«ãƒ€ãƒ¼ã«å€¤ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
             ps.setInt(1, dto.getBillingId());
 
-            // SQL•¶‚ğÀs‚·‚é
+            // SQLæ–‡ã‚’å®Ÿè¡Œã™ã‚‹
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 dto.setBillingId(rs.getInt("BILLING_ID"));
