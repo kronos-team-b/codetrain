@@ -72,7 +72,6 @@ public class ChangeManagePasswordServlet extends HttpServlet {
             SystemManageDao loginDao = new SystemManageDao(conn);
             SystemManageDto manageDto = loginDao.findByIdAndPassword(manage_id, existpass);
 
-            session.setAttribute("manage", manageDto);
             session.removeAttribute("errorMessage");
 
             // パスワードがおかしいとき
@@ -103,7 +102,7 @@ public class ChangeManagePasswordServlet extends HttpServlet {
         // エラーメッセージがある場合に実行
         if (request.getAttribute("errorMessage") != null) {
 
-            request.getRequestDispatcher("WEB-INF/change-manage-password.jsp").forward(request, response);
+            request.getRequestDispatcher("form-change-manage-password").forward(request, response);
             return;
         }
 

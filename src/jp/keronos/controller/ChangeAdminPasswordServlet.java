@@ -71,7 +71,6 @@ public class ChangeAdminPasswordServlet extends HttpServlet {
             CorporateDao loginDao = new CorporateDao(conn);
             CorporateDto adminDto = loginDao.findByIdAndPassword(admin_id, existpass);
 
-            session.setAttribute("admin", adminDto);
             session.removeAttribute("errorMessage");
 
             // パスワードがおかしいとき
@@ -102,7 +101,7 @@ public class ChangeAdminPasswordServlet extends HttpServlet {
         // エラーメッセージがある場合に実行
         if (request.getAttribute("errorMessage") != null) {
 
-            request.getRequestDispatcher("WEB-INF/change-admin-password.jsp").forward(request, response);
+            request.getRequestDispatcher("form-change-admin-password").forward(request, response);
             return;
         }
 

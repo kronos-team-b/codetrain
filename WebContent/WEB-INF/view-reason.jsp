@@ -18,7 +18,7 @@
   <%@ include file="admin-navbar.jsp"%>
   <div class="container">
     <div class="row">
-      <div class="mx-auto text-primary">&nbsp;<c:out value="${ errorMessage }" /></div>
+      <div class="mx-auto text-danger">&nbsp;<c:out value="${ errorMessage }" /></div>
       <div class="mx-auto text-primary">&nbsp;<c:out value="${ message }" /></div>
     </div>
         <div class="row">
@@ -27,8 +27,8 @@
         <div class="col-sm-8 offset-sm-2">
           <form action="add-reason" method="post">
             <div class="form-group row">
-              <label class="col-form-label" for="confirm-password">理由</label>
-              <input type="text" id="reason" class="form-control" name="reason" maxlength="50" required value="" />
+              <label class="col-form-label" for="confirm-password">理由（必須）</label>
+              <input type="text" id="reason" class="form-control" name="reason" maxlength="50" value="${ reason }"/>
               <input type="hidden" id="userNo" name="userNo" value="${ user.userNo }">
               <input type="hidden" id="userLastName" name="userLastName" value="${ user.lastName }">
               <input type="hidden" id="userFirstName" name="userFirstName" value="${ user.firstName }">

@@ -71,7 +71,6 @@ public class ChangeUserPasswordServlet extends HttpServlet {
             UserDao loginDao = new UserDao(conn);
             UserDto userDto = loginDao.findByIdAndPassword(user_id, existpass);
 
-            request.setAttribute("user", userDto);
             request.removeAttribute("errorMessage");
 
             // パスワードがおかしいとき
@@ -127,4 +126,5 @@ public class ChangeUserPasswordServlet extends HttpServlet {
         }
     }
 }
+
 

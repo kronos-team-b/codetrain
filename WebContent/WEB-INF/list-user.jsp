@@ -48,7 +48,7 @@
           <table class="table table-striped">
             <thead>
               <tr>
-                <th>ID</th>
+                <th>ID(英数字4～8文字)</th>
                 <th>姓</th>
                 <th>名</th>
                 <th>状態</th>
@@ -59,7 +59,7 @@
             </thead>
             <tbody>
               <tr>
-                <td><input type="text" form="add" name="userId" class="form-control" placeholder="例) code1" value="${ userId }" required ></td>
+                <td><input type="text" form="add" name="userId" maxlength="8" pattern="^([a-zA-Z0-9]{4,})$" class="form-control" placeholder="例) code1" value="${ userId }" required ></td>
                 <td><input type="text" form="add" name="userLastName" class="form-control" placeholder="新幹線" value="${ userLastName }" required></td>
                 <td><input type="text" form="add" name="userFirstName" class="form-control" placeholder="のぞみ" value="${ userFirstName }" required></td>
                 <td></td>

@@ -73,10 +73,10 @@ public class ListUserServlet extends HttpServlet {
             request.getRequestDispatcher("system-error-admin.jsp").forward(request, response);
         }
     }
-    
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	
-    	doGet(request, response);
+
+        doGet(request, response);
     }
 
 }
