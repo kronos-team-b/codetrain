@@ -8,6 +8,14 @@
     <script type="text/javascript">
     </script>
     <%@ include file="header.jsp"%>
+    <style type="text/css">
+    .maxlength {
+      max-width: 300px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    </style>
   </head>
   <body>
     <%@ include file="user-navbar.jsp"%>
@@ -37,7 +45,7 @@
             <tbody>
               <c:forEach items="${ list }" var="dto" varStatus="status">
                 <tr>
-                  <td><c:out value="${ dto.contactDetail }" /></td>
+                  <td class="maxlength"><c:out value="${ dto.contactDetail }" /></td>
                   <td><c:out value="${ dto.firstAt }" /></td>
                   <td><c:out value="${ dto.lastAt }" /></td>
                   <c:if test="${ dto.requestOrResponseFlg eq 1}">
