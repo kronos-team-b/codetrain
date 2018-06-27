@@ -9,27 +9,27 @@ import jp.keronos.dto.PriceDto;
 
 public class PriceDao {
 
-    /** ƒRƒlƒNƒVƒ‡ƒ“ */
+    /** ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ */
     protected Connection conn;
 
     /**
-     * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
-     * ƒRƒlƒNƒVƒ‡ƒ“‚ğƒtƒB[ƒ‹ƒh‚Éİ’è‚·‚é
-     * @param conn ƒRƒlƒNƒVƒ‡ƒ“
+     * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³ã‚’ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã«è¨­å®šã™ã‚‹
+     * @param conn ã‚³ãƒã‚¯ã‚·ãƒ§ãƒ³
      */
     public PriceDao(Connection conn) {
         this.conn = conn;
     }
 
     /**
-     * ’P‰¿ID‚ÉŠY“–‚·‚é’P‰¿î•ñ‚ğæ“¾‚·‚é
+     * å˜ä¾¡IDã«è©²å½“ã™ã‚‹å˜ä¾¡æƒ…å ±ã‚’å–å¾—ã™ã‚‹
      * @param dto
-     * @return@’P‰¿î•ñ
+     * @returnã€€å˜ä¾¡æƒ…å ±
      * @throws SQLException
      */
     public PriceDto selectByPriceId(PriceDto dto) throws SQLException {
 
-        // SQL•¶‚ğì¬‚·‚é
+        // SQLæ–‡ã‚’ä½œæˆã™ã‚‹
         StringBuffer sb = new StringBuffer();
         sb.append("  select");
         sb.append("        PRICE_ID");
@@ -39,12 +39,12 @@ public class PriceDao {
         sb.append("        PRICE");
         sb.append("   where PRICE_ID = ?");
 
-        // ƒXƒe[ƒgƒƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğì¬‚·‚é
+        // ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œæˆã™ã‚‹
         try (PreparedStatement ps = conn.prepareStatement(sb.toString())) {
-            // ƒvƒŒ[ƒXƒzƒ‹ƒ_[‚É’l‚ğƒZƒbƒg‚·‚é
+            // ãƒ—ãƒ¬ãƒ¼ã‚¹ãƒ›ãƒ«ãƒ€ãƒ¼ã«å€¤ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
             ps.setInt(1, dto.getPriceId());
 
-            // SQL•¶‚ğÀs‚·‚é
+            // SQLæ–‡ã‚’å®Ÿè¡Œã™ã‚‹
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 dto = new PriceDto();

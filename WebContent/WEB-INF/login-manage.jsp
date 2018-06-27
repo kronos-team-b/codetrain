@@ -10,10 +10,14 @@
 <body>
   <%@ include file="plain-navbar.jsp"%>
   <div class="container">
-    <div class="row">
-      <div class="mx-auto text-primary">&nbsp;<c:out value="${ errorMessage }" /></div>
-      <div class="mx-auto text-primary">&nbsp;<c:out value="${ message }" /></div>
-    </div>
+      <div class="row">
+        <c:if test="${ not empty errorMessage }">
+          <div class="mx-auto text-danger">&nbsp;<c:out value="${ errorMessage }" /></div>
+        </c:if>
+        <c:if test="${ not empty message }">
+          <div class="mx-auto text-primary">&nbsp;<c:out value="${ message }" /></div>
+        </c:if>
+      </div>
       <div class="row">
         <div class="col-12">
           <p class="h4 mt-3 mb-5 p-3 text-info border-bottom">運営担当者ログイン</p>

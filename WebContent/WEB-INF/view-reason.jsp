@@ -18,10 +18,14 @@
   <%@ include file="admin-navbar.jsp"%>
   <div class="container">
     <div class="row">
-      <div class="mx-auto text-danger">&nbsp;<c:out value="${ errorMessage }" /></div>
-      <div class="mx-auto text-primary">&nbsp;<c:out value="${ message }" /></div>
+        <c:if test="${ not empty errorMessage }">
+          <div class="mx-auto text-danger">&nbsp;<c:out value="${ errorMessage }" /></div>
+        </c:if>
+        <c:if test="${ not empty message }">
+          <div class="mx-auto text-primary">&nbsp;<c:out value="${ message }" /></div>
+        </c:if>
     </div>
-        <div class="row">
+    <div class="row">
       <div class="col-12">
         <p class="h4 mt-3 mb-3 p-3 text-info border-bottom">利用者休止</p>
         <div class="col-sm-8 offset-sm-2">
