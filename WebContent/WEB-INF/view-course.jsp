@@ -44,7 +44,7 @@
               <form action="form-course-test" method="get" id="completion-test"></form>
               <div>
                 <input type="hidden" form="unit-test" name="unit-flg" value="0">
-                <button type="submit" form="unit-test" name="unit-id" value="1" class="btn btn-primary col-5 mr-4">最初から</button>
+                <button type="submit" form="unit-test" name="unit-id" value="${ units[0].unitId }" class="btn btn-primary col-5 mr-4">最初から</button>
                 <c:if test="${ not empty next.unitId }">
                   <input type="hidden" name="unit-flg" value="0">
                   <button type="submit" form="unit-test" name="unit-id" value="${ next.unitId }" class="btn btn-primary col-5">続きから</button>

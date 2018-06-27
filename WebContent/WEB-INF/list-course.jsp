@@ -62,7 +62,7 @@
                   <td><span class="text-warning">Premium</span></td>
                 </c:if>
                 <c:if test="${ not empty user }">
-                  <td><span class="text-primary">${ list.get(i)[1] }</span></td>
+                  <td><span class="text-primary">${ list.get(i)[1] }%</span></td>
                   <c:if test="${ list.get(i)[2][0]['passFlg'] eq 0 }">
                     <td><span class="text-white bg-danger success-or-failure">不合格</span></td>
                   </c:if>

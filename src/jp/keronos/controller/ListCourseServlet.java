@@ -112,7 +112,7 @@ public class ListCourseServlet extends HttpServlet {
 
         try {
             countUnit = unitDao.count(courseId);
-            countLearningHistory = learningHistoryDao.count(userNo);
+            countLearningHistory = learningHistoryDao.count(userNo, courseId);
 
         } catch (SQLException e) {
 
@@ -124,7 +124,7 @@ public class ListCourseServlet extends HttpServlet {
             return 0;
         }
 
-        return countLearningHistory / countUnit;
+        return (int)((double)countLearningHistory / countUnit * 100);
     }
 
     private ArrayList<LearningCourseDto> judgePassingStatus(Connection connection, int userNo, int courseId) {

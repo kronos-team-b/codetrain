@@ -17,19 +17,23 @@ public class LearningHistoryDao {
         this.connection = connection;
     }
 
-    public int count(int userNo) throws SQLException {
+    public int count(int userNo, int courseId) throws SQLException {
 
         StringBuffer sb = new StringBuffer();
         sb.append("select");
         sb.append("       COUNT(*) AS RECORD_COUNT");
         sb.append("  from LEARNING_HISTORY");
         sb.append(" where USER_NO = ?");
+        sb.append(" and COURSE_ID = ?");
+        sb.append(" and END_FLG = true");
 
         int count = 0;
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sb.toString())) {
 
             preparedStatement.setInt(1, userNo);
+            preparedStatement.setInt(2, courseId);
+
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 count = resultSet.getInt("RECORD_COUNT");
