@@ -90,7 +90,7 @@
                 <c:if test="${ point eq 100 }"><td><span class="text-white bg-primary point-label">${ point }点</span></td></c:if>
                 <c:if test="${ point >= 85 and point < 100 }"><td><span class="text-white bg-success point-label">${ point }点</span></td></c:if>
                 <c:if test="${ point > 50 and point < 85 }"><td><span class="text-white bg-warning point-label">${ point }点</span></td></c:if>
-                <c:if test="${ point =< 50 }"><td><span class="text-white bg-danger point-label">${ point }点</span></td></c:if>
+                <c:if test="${ point <= 50 }"><td><span class="text-white bg-danger point-label">${ point }点</span></td></c:if>
               </c:if>
             </tr>
           </c:forEach>
