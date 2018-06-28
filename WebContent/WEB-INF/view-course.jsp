@@ -12,6 +12,11 @@
     bottom: 60;
     right: 0;
   }
+  .point-label {
+    border-radius: 10px;
+    padding: 3px 9px;
+    font-size: 15px;
+  }
   </style>
 </head>
 <body>
@@ -69,19 +74,24 @@
     </div>
 
     <div>
-      <h5>このコースのカリキュラム</h5>
-      <div class="dropdown">
-        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">選択してください</button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <a class="dropdown-item" href="#">カリキュラム</a>
-          <a class="dropdown-item" href="#">間違えたもの</a>
-        </div>
-      </div>
       <table class="table mt-4">
+        <thead>
+          <tr>
+            <th>カリキュラム</th>
+            <th>テスト結果</th>
+          </tr>
+        </thead>
         <tbody>
           <c:forEach items="${ units }" var="unit" varStatus="status">
             <tr>
               <td><a href="view-unit?unit-id=${ unit.unitId }&unit-flg=1">${ unit.unitTitle }</a></td>
+              <c:if test="${ learnedInfo.get(status.index) != null }">
+                <c:set value="${ learnedInfo.get(status.index).unitTestPoint }" var="point" />
+                <c:if test="${ point eq 100 }"><td><span class="text-white bg-primary point-label">${ point }点</span></td></c:if>
+                <c:if test="${ point >= 85 and point < 100 }"><td><span class="text-white bg-success point-label">${ point }点</span></td></c:if>
+                <c:if test="${ point > 50 and point < 85 }"><td><span class="text-white bg-warning point-label">${ point }点</span></td></c:if>
+                <c:if test="${ point =< 50 }"><td><span class="text-white bg-danger point-label">${ point }点</span></td></c:if>
+              </c:if>
             </tr>
           </c:forEach>
         </tbody>

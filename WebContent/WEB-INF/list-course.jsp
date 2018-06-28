@@ -31,7 +31,7 @@
         <table class="table table-striped mt-5">
           <thead>
             <tr>
-              <th scope="col">カテゴリ</th>
+              <th>カテゴリ</th>
               <th>コース名</th>
               <th>概要</th>
               <th>目安時間</th>

@@ -18,9 +18,9 @@ import jp.keronos.dao.CategoryDao;
 import jp.keronos.dao.CourseDao;
 import jp.keronos.dao.LearningHistoryDao;
 import jp.keronos.dao.UnitDao;
-import jp.keronos.dao.UserCourseTestAnswerDao;
 import jp.keronos.dto.CategoryDto;
 import jp.keronos.dto.CourseDto;
+import jp.keronos.dto.LearningHistoryDto;
 import jp.keronos.dto.UnitDto;
 import jp.keronos.dto.UserDto;
 
@@ -70,13 +70,21 @@ public class ViewCourseServlet extends HttpServlet {
             request.setAttribute("units", unitInfo);
 
             if (userNo != 0) {
-                // 不正解情報をsessionに保存
-                UserCourseTestAnswerDao userCourseTestAnswerDao = new UserCourseTestAnswerDao(connection);
-                ArrayList<UnitDto> unitAnswerInfo = userCourseTestAnswerDao.selectTestResultsDecisionListByUserNoAndCourseId(userNo, courseId);
-                request.setAttribute("unitAnswerInfo", unitAnswerInfo);
+                LearningHistoryDto learningHistoryDto = new LearningHistoryDto();
+                learningHistoryDto.setUserNo(userNo);
+                learningHistoryDto.setCourseId(courseId);
+
+                LearningHistoryDao learningHistoryDao = new LearningHistoryDao(connection);
+
+                boolean existsLearningHistory = learningHistoryDao.existsByUserNoAndCourseID(learningHistoryDto);
+
+                if (existsLearningHistory == true) {
+
+                    ArrayList<LearningHistoryDto> learnedInfo = learningHistoryDao.selectLearned(userNo, courseId);
+                    request.setAttribute("learnedInfo", learnedInfo);
+                }
 
                 // 続きから判定
-                LearningHistoryDao learningHistoryDao = new LearningHistoryDao(connection);
                 UnitDto next = learningHistoryDao.selectMinUnitIdByEndFlg(userNo, courseId);
                 request.setAttribute("next", next);
             }
@@ -84,6 +92,7 @@ public class ViewCourseServlet extends HttpServlet {
             request.getRequestDispatcher("WEB-INF/view-course.jsp").forward(request, response);;
 
         } catch (SQLException | NamingException e) {
+
             e.printStackTrace();
             request.getRequestDispatcher("system-error.jsp").forward(request, response);
         }

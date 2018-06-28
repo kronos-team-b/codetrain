@@ -228,6 +228,31 @@ public class LearningHistoryDao {
         return exists;
     }
 
+    public boolean existsByUserNoAndCourseID(LearningHistoryDto dto) throws SQLException {
+
+        String sql = ""
+                + "select LEARNING_HISTORY_ID "
+                + "from LEARNING_HISTORY "
+                + "where USER_NO = ? "
+                + "and COURSE_ID = ? ";
+
+        boolean exists = false;
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setInt(1, dto.getUserNo());
+            preparedStatement.setInt(2, dto.getCourseId());
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                exists = true;
+            }
+        }
+
+        return exists;
+    }
+
     public void updateSkipFlg(LearningHistoryDto dto) throws SQLException {
 
         String sql = ""
@@ -246,6 +271,36 @@ public class LearningHistoryDao {
 
             preparedStatement.executeUpdate();
         }
+    }
+
+    public ArrayList<LearningHistoryDto> selectLearned(int userNo, int courseId) throws SQLException {
+
+        String sql = ""
+                + "select UNIT_ID, UNIT_TEST_POINT "
+                + "from LEARNING_HISTORY "
+                + "where USER_NO = ? "
+                + "and COURSE_ID = ? ";
+
+        LearningHistoryDto dto;
+        ArrayList<LearningHistoryDto> list = new ArrayList<>();
+
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setInt(1, userNo);
+            preparedStatement.setInt(2, courseId);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while(resultSet.next()) {
+                dto = new LearningHistoryDto();
+                dto.setUnitId(resultSet.getInt("UNIT_ID"));
+                dto.setUnitTestPoint(resultSet.getInt("UNIT_TEST_POINT"));
+
+                list.add(dto);
+            }
+        }
+
+        return list;
     }
 }
 
