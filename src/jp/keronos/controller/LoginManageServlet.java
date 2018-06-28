@@ -92,7 +92,7 @@ public class LoginManageServlet extends HttpServlet {
             }
 
             // 初回ログイン時
-            if (("password").equals(managePassword) && manageDto != null) {
+            if (adminDto.getUpdateNumber() == 0) {
                 request.getRequestDispatcher("WEB-INF/change-manage-password.jsp").forward(request, response);
                 return;
             }
